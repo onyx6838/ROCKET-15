@@ -18,3 +18,20 @@ create table Trainee(
 -- alter table Trainee
 ALTER TABLE Trainee
 ADD COLUMN VTI_Account VARCHAR(50) NOT NULL UNIQUE
+
+-- ex2
+create table Exercise2(
+	ID MEDIUMINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+	`Name` VARCHAR(50),
+	`Code` VARCHAR(5),
+	ModifiedDate DATETIME
+);
+
+-- ex3
+create table Exercise3(
+	ID MEDIUMINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+	`Name` VARCHAR(50),
+	BirthDate DATETIME,
+	Gender INT CHECK(Gender in(0,1)),
+	IsDeletedFlag BOOLEAN
+);
