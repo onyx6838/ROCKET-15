@@ -1,3 +1,3 @@
-# ROCKET-15
-SQL Assignment
+# ROCKET-15 class
+SQL Assignment by
 Doan Minh Giang
