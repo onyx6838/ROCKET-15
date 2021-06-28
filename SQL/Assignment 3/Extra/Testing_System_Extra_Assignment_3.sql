@@ -1,6 +1,8 @@
-use testingsystem_assignment_extra_1_2;
-Drop table  if EXISTS trainee;
+drop DATABASE if EXISTS testingsystem_assignment_extra_3;
+create DATABASE testingsystem_assignment_extra_3;
+use testingsystem_assignment_extra_3;
 
+Drop table  if EXISTS trainee;
 create table Trainee(
 	TraineeID  TINYINT AUTO_INCREMENT	PRIMARY KEY,
 	Full_Name  VARCHAR(50) not null,
@@ -33,7 +35,13 @@ select MONTH(Birth_Date), count(*) , GROUP_CONCAT(Full_Name) as list from traine
 
 -- Ques3: 
 select Full_Name,2021 - YEAR(Birth_Date),CHAR_LENGTH(Full_Name) from trainee ORDER BY CHAR_LENGTH(Full_Name) DESC LIMIT 1
-select Full_Name,2021 - YEAR(Birth_Date),CHAR_LENGTH(Full_Name) from trainee WHERE CHAR_LENGTH(Full_Name) = 18
+-- 
+select Full_Name,2021 - YEAR(Birth_Date),CHAR_LENGTH(Full_Name) 
+from trainee WHERE CHAR_LENGTH(Full_Name) 
+= (
+	SELECT MAX(CHAR_LENGTH(Full_Name)) from trainee
+)
+
 
 -- loc trung ban ghi	?
 
