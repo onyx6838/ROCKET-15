@@ -4,7 +4,7 @@ use testingsystem_assignment_3;
 
 -- Ques2
 select * from department
-
+SELECT * from `account`
 -- Ques3
 select DepartmentID from department WHERE DepartmentName = N'Sale'
 
