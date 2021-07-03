@@ -1,6 +1,6 @@
-drop DATABASE if EXISTS testingsystem_assignment_3;
-create DATABASE if not EXISTS testingsystem_assignment_3;
-use testingsystem_assignment_3;
+drop DATABASE if EXISTS testingsystem_assignment_5;
+create DATABASE if not EXISTS testingsystem_assignment_5;
+use testingsystem_assignment_5;
 
 drop table if EXISTS Department;
 create table Department(

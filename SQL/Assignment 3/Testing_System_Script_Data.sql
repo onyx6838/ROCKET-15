@@ -1,4 +1,4 @@
-use testingsystem_assignment_3;
+use testingsystem_assignment_5;
 
 -- insert deparment table
 INSERT INTO department(DepartmentID,DepartmentName) VALUES
@@ -11,13 +11,13 @@ INSERT INTO department(DepartmentID,DepartmentName) VALUES
 (7,N'Phó giám đốc'),
 (8,N'Giám đốc'),
 (9,N'Thư kí'),
-(10,N'Bán hàng')
+(10,N'Bán hàng');
 
 -- insert position table
 INSERT into `position`(POSITIONID,PositionName) VALUES
 (1,N'Dev'),
 (2,N'Test'),
-(3,N'Scrum Master')
+(3,N'Scrum Master');
 
 -- insert account table
 INSERT INTO account(`AccountID`, `Email`, `Username`, `Fullname`, `DepartmentID`, `PositionID`, `CreateDate`) VALUES
@@ -31,7 +31,7 @@ INSERT INTO account(`AccountID`, `Email`, `Username`, `Fullname`, `DepartmentID`
 (8, 'sontungmtp@gmail.com', 'tungnui',  'Nguyen Thanh', 8, 1,  '2020-04-07 00:00:00'),
 (9, 'duongghuu@gmail.com', 'duongghuu', 'Duong Van', 9, 2,  '2020-04-07 00:00:00'),
 (10, 'vtiaccademy@gmail.com', 'vtiaccademy',  'Vi Ti', 10, 1,  '2020-04-09 00:00:00'),
-(11, 'NguyenVanA@gmail.com', 'NguyenVanA', 'Nguyen Van', NULL, NULL, '2021-06-20 23:01:18')
+(11, 'NguyenVanA@gmail.com', 'NguyenVanA', 'Nguyen Van', NULL, NULL, '2021-06-20 23:01:18');
 
 -- insert group table
 INSERT INTO `group`(`GroupID`, `GroupName`, `CreatorID`, `CreateDate`) VALUES 
