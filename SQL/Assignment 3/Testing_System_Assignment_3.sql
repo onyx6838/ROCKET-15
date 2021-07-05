@@ -6,30 +6,45 @@ use testingsystem_assignment_3;
 select * from department
 SELECT * from `account`
 -- Ques3
-select DepartmentID from department WHERE DepartmentName = N'Sale'
-
+SELECT departmentid
+FROM   department
+WHERE  departmentname = N'Sale' 
 -- Ques4
-SELECT *,CHAR_LENGTH(Fullname) from account ORDER BY CHAR_LENGTH(Fullname) DESC LIMIT 1
-
+SELECT *,
+       Char_length(fullname)
+FROM   account
+ORDER  BY Char_length(fullname) DESC
+LIMIT  1 
 -- sub query for multiple max length name ??
-SELECT *,CHAR_LENGTH(Fullname) from account WHERE CHAR_LENGTH(Fullname) = 
-(
-	SELECT MAX(CHAR_LENGTH(Fullname)) from account
-)
+SELECT *,
+       Char_length(fullname)
+FROM   account
+WHERE  Char_length(fullname) = (SELECT Max(Char_length(fullname))
+                                FROM   account) 
 
 -- Ques5
-SELECT *,CHAR_LENGTH(Fullname) from account WHERE DepartmentID = 3 ORDER BY CHAR_LENGTH(Fullname) DESC LIMIT 1
- 
+SELECT *,
+       Char_length(fullname)
+FROM   account
+WHERE  departmentid = 3
+ORDER  BY Char_length(fullname) DESC
+LIMIT  1  
  -- sub query for multiple max length name ??
-SELECT *,CHAR_LENGTH(Fullname) from account WHERE DepartmentID = 3 AND CHAR_LENGTH(Fullname) = 
-(
-	SELECT MAX(CHAR_LENGTH(Fullname)) from account
-)
+SELECT *,
+       Char_length(fullname)
+FROM   account
+WHERE  departmentid = 3
+       AND Char_length(fullname) = (SELECT Max(Char_length(fullname))
+                                    FROM   account) 
  -- Ques6
 select * from `group` WHERE CreateDate < '2019-12-20'
 
 -- Ques7
-select QuestionID, COUNT(QuestionID) as TotalAnswer from answer GROUP BY QuestionID HAVING COUNT(QuestionID) >= 4
+SELECT QuestionID,
+       Count(QuestionID) AS TotalAnswer
+FROM   answer
+GROUP  BY QuestionID
+HAVING Count(QuestionID) >= 4 
 
 -- Ques8
 SELECT * 
@@ -48,7 +63,9 @@ select COUNT(*) from account WHERE DepartmentID = 2
 -- Ques11
 -- substring using SEPARATOR
 -- count get from 1 to count sub string with LIKE Operator
-select * from account WHERE SUBSTRING_INDEX(Fullname,' ', -1) like N'D%o'
+SELECT *
+FROM   account
+WHERE  Substring_index(fullname, ' ', -1) LIKE N'D%o' 
 
 -- Ques12
 DELETE FROM Exam WHERE CreateDate < '2019-12-20';

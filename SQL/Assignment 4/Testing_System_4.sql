@@ -1,35 +1,71 @@
 use testingsystem_assignment_4;
 -- Ques1 
 -- nhan vien k co phong ban -> LEFT JOIN
-select a.Username,a.Fullname,d.DepartmentName from `account` a LEFT JOIN department d ON a.DepartmentID = d.DepartmentID;
-
+SELECT a.username,
+       a.fullname,
+       d.departmentname
+FROM   `account` a
+       LEFT JOIN department d ON a.departmentid = d.departmentid; 
 -- Ques2
-SELECT a.Username,a.Fullname,d.DepartmentName,p.PositionName from `account` a 
-LEFT JOIN department d ON a.DepartmentID = d.DepartmentID
-LEFT JOIN `position` p ON a.PositionID = p.PositionID
-WHERE a.CreateDate > '2020-12-20';
+SELECT a.username,
+       a.fullname,
+       d.departmentname,
+       p.positionname
+FROM   `account` a
+       LEFT JOIN department d ON a.departmentid = d.departmentid
+       LEFT JOIN `position` p ON a.positionid = p.positionid
+WHERE  a.createdate > '2020-12-20';
 
 -- Ques4
-SELECT d.DepartmentID,d.DepartmentName,COUNT(1) from `account` a JOIN department d ON a.DepartmentID = d.DepartmentID
-GROUP BY d.DepartmentID
-HAVING COUNT(1) > 1;
+SELECT d.departmentid,
+       d.departmentname,
+       Count(1)
+FROM   `account` a
+       JOIN department d ON a.departmentid = d.departmentid
+GROUP  BY d.departmentid
+HAVING Count(1) > 1; 
 
--- Ques5
-SELECT e.Title,COUNT(eq.QuestionID) from exam e
-JOIN examquestion eq ON e.ExamID = eq.ExamID 
-GROUP BY QuestionID
-ORDER BY COUNT(eq.QuestionID) DESC
-LIMIT 1;
+-- Ques5 Viết lệnh để lấy ra danh sách câu hỏi được sử dụng trong đề thi nhiều nhất
+SELECT e.title,
+       Count(eq.questionid)
+FROM   exam e
+       JOIN examquestion eq ON e.examid = eq.examid
+GROUP  BY questionid
+ORDER  BY Count(eq.questionid) DESC
+LIMIT  1;
+
+-- count content ??
+SELECT Q.questionid,
+       Q.content,
+       Q.categoryid,
+       Q.typeid,
+       Q.creatorid,
+       Q.createdate,
+       Count(Q.content) AS 'SO LUONG'
+FROM   question Q
+       JOIN examquestion EQ ON Q.questionid = EQ.questionid
+GROUP  BY Q.content
+HAVING Count(Q.content) = (SELECT Max(MaxQues.countques)
+                           FROM   (SELECT Count(eq.questionid) CountQues
+                                   FROM   examquestion eq
+                                          JOIN question q ON eq.questionid = q.questionid
+                                   GROUP  BY q.questionid) MaxQues) 
 
 -- Ques6
-SELECT q.QuestionID,q.Content,COUNT(QuestionID) sl from question q
-JOIN categoryquestion cq ON q.CategoryID = cq.CategoryID
-GROUP BY q.CategoryID
-ORDER BY q.QuestionID;
+SELECT cq.categoryid,
+       cq.categoryname,
+       Count(q.questionid) sl
+FROM   categoryquestion cq
+       LEFT JOIN question q ON cq.categoryid = q.categoryid
+GROUP  BY cq.categoryid
+ORDER  BY Count(q.questionid) ASC;
 
--- Ques7
-SELECT examquestion.QuestionID,COUNT(ExamID) from examquestion 
-GROUP BY QuestionID;
+-- Ques7 Thông kê mỗi Question được sử dụng trong bao nhiêu Exam
+SELECT q.content,
+       Count(eq.questionid)
+FROM   question q
+       LEFT JOIN examquestion eq ON eq.questionid = q.questionid
+GROUP  BY q.questionid;
 
 -- Ques8
 SELECT a.questionid,
@@ -42,40 +78,49 @@ HAVING Count(a.answerid) = (SELECT Count(a.answerid)
                             FROM   answer a
                             GROUP  BY a.questionid
                             ORDER  BY Count(a.answerid) DESC
-                            LIMIT  1) 
+                            LIMIT  1);
+
 -- Ques9
-SELECT *, COUNT(1) sl from groupaccount
-GROUP BY GroupID;
+SELECT g.groupid,
+       g.groupname,
+       Count(ga.accountid) sl
+FROM   groupaccount ga
+       RIGHT JOIN `group` g ON ga.groupid = g.groupid
+GROUP  BY g.groupid; 
 
 -- Ques10
-SELECT *
-FROM   position
-WHERE  positionid = (SELECT p.positionid
-                     FROM   position p
-                            LEFT JOIN account a ON p.positionid = a.positionid
-                     GROUP  BY p.positionid
-                     ORDER  BY Count(a.accountid) ASC
-                     LIMIT  1) 
+SELECT p.PositionID,
+       p.PositionName,
+       Count(a.AccountID) slnv
+FROM   account a
+       RIGHT JOIN position p ON a.PositionID = p.PositionID
+GROUP  BY p.PositionID
+HAVING Count(a.AccountID) = (SELECT Min(MinAccPos.countaccpos)
+                             FROM   (SELECT Count(a.AccountID) CountAccPos
+                                     FROM   position p
+                                            LEFT JOIN account a ON p.PositionID = a.PositionID
+                                     GROUP  BY p.PositionID) MinAccPos);
 
 -- Ques11 Thống kê mỗi phòng ban có bao nhiêu dev, test, scrum master, PM (Pivot,cross)
-SELECT a.DepartmentID,COUNT(a.AccountID),GROUP_CONCAT(DISTINCT(p.PositionName)) from account a
-JOIN position p ON a.PositionID = p.PositionID
-GROUP BY a.DepartmentID;
+SELECT a.departmentid,
+       Count(a.accountid),
+       Group_concat(DISTINCT(p.positionname))
+FROM   account a
+       JOIN position p ON a.positionid = p.positionid
+GROUP  BY a.departmentid; 
 
 -- cross
-SELECT t.departmentname,
-       t.positionname,
-       Count(t.accountid) AS employee
-FROM   (SELECT a.departmentname,
-               b.positionname,
-							 c.accountid
-        FROM   department a
-               CROSS JOIN position b
-               LEFT JOIN account c ON a.departmentid = c.departmentid AND b.positionid = c.positionid
-        ORDER  BY departmentname,
-                  positionname) t
-GROUP  BY t.departmentname,
-          t.positionname; 
+SELECT a.DepartmentName,
+       b.PositionName,
+       IFNULL(Count(c.AccountID), 0)
+FROM   department a
+       CROSS JOIN position b
+       LEFT JOIN account c ON a.DepartmentID = c.DepartmentID
+                 AND b.positionid = c.positionid
+GROUP  BY a.DepartmentID,
+          b.PositionName
+ORDER  BY a.DepartmentName,
+          b.PositionName
 
 -- Ques12
 /*Lấy thông tin chi tiết của câu hỏi bao gồm: thông tin cơ bản của
@@ -92,21 +137,29 @@ FROM   question q
        JOIN account acc ON q.creatorid = acc.accountid; 
 
 -- Ques13 Lấy ra số lượng câu hỏi của mỗi loại tự luận hay trắc nghiệm
-SELECT q.TypeID,tq.TypeName,COUNT(1) from question q
-JOIN typequestion tq ON q.TypeID = tq.TypeID
-GROUP BY tq.TypeID;
+SELECT q.typeid,
+       tq.typename,
+       Count(1)
+FROM   question q
+       JOIN typequestion tq ON q.typeid = tq.typeid
+GROUP  BY tq.typeid; 
 
 -- Ques14 Lấy ra group không có account nào
-SELECT g.GroupID,g.GroupName,COUNT(gc.AccountID) from `group` g
-LEFT JOIN groupaccount gc ON g.GroupID = gc.GroupID
-GROUP BY g.GroupID
-HAVING COUNT(gc.AccountID) = 0;
+SELECT g.groupid,
+       g.groupname,
+       Count(gc.accountid)
+FROM   `group` g
+       LEFT JOIN groupaccount gc ON g.groupid = gc.groupid
+GROUP  BY g.groupid
+HAVING Count(gc.accountid) = 0; 
 
 -- Ques 15
-SELECT *,COUNT(a.AnswerID) from question q
-LEFT JOIN answer a ON q.QuestionID = a.QuestionID
-GROUP BY q.QuestionID
-HAVING COUNT(a.AnswerID) = 0;
+SELECT *,
+       Count(a.answerid)
+FROM   question q
+       LEFT JOIN answer a ON q.questionid = a.questionid
+GROUP  BY q.questionid
+HAVING Count(a.answerid) = 0; 
 
 -- Ques17
 SELECT * from groupaccount g WHERE GroupID = 1
@@ -114,8 +167,16 @@ UNION
 SELECT * from groupaccount g WHERE GroupID = 2;
 
 -- Ques18
-SELECT g.GroupID, COUNT(1) sl from groupaccount g GROUP BY g.GroupID 
-HAVING COUNT(1) < 2
+SELECT g.groupid,
+       Count(1) sl
+FROM   groupaccount g
+GROUP  BY g.groupid
+HAVING Count(1) < 2
+
 UNION
-SELECT g.GroupID, COUNT(1) sl from groupaccount g GROUP BY g.GroupID 
-HAVING COUNT(1) >= 2;
+
+SELECT g.groupid,
+       Count(1) sl
+FROM   groupaccount g
+GROUP  BY g.groupid
+HAVING Count(1) >= 2; 

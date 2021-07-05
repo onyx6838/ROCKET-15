@@ -31,25 +31,36 @@ VALUES
 -- Ques 2 Viết lệnh để lấy ra tất cả các thực tập sinh đã vượt qua bài test đầu vào,
 -- nhóm chúng thành các tháng sinh khác nhau
 
-select MONTH(Birth_Date), count(*) , GROUP_CONCAT(Full_Name) as list from trainee GROUP BY MONTH(Birth_Date)
+SELECT Month(birth_date),
+       Count(*),
+       Group_concat(full_name) AS list
+FROM   trainee
+GROUP  BY Month(birth_date) 
 
 -- Ques3: 
 select Full_Name,2021 - YEAR(Birth_Date),CHAR_LENGTH(Full_Name) from trainee ORDER BY CHAR_LENGTH(Full_Name) DESC LIMIT 1
 -- 
-select Full_Name,2021 - YEAR(Birth_Date),CHAR_LENGTH(Full_Name) 
-from trainee WHERE CHAR_LENGTH(Full_Name) 
-= (
-	SELECT MAX(CHAR_LENGTH(Full_Name)) from trainee
-)
-
+SELECT full_name,
+       2021 - Year(birth_date),
+       Char_length(full_name)
+FROM   trainee
+WHERE  Char_length(full_name) = (SELECT Max(Char_length(full_name))
+                                 FROM   trainee) 
 
 -- loc trung ban ghi	?
 
 -- Ques4
-select * from trainee WHERE (ET_IQ + ET_Gmath>=20) AND (ET_IQ>=8) AND ET_Gmath>=8 AND ET_English>=18
-
+SELECT *
+FROM   trainee
+WHERE  ( et_iq + et_gmath >= 20 )
+       AND ( et_iq >= 8 )
+       AND et_gmath >= 8
+       AND et_english >= 18 
 -- Ques5
-delete from trainee WHERE TraineeID = 3
+delete from trainee 
+WHERE TraineeID = 3
 
 -- Ques6
-update trainee set Training_Class = 2 WHERE TraineeID = 5
+UPDATE trainee
+SET    training_class = 2
+WHERE  traineeid = 5 
