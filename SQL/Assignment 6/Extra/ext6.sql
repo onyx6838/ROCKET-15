@@ -4,10 +4,63 @@ project đã hoàn thành sau 3 tháng kể từ ngày hiện. In số lượng 
 DELIMITER$$
 CREATE PROCEDURE Ques2()
 BEGIN
-   SELECT *
-	 from projects p WHERE p.ProjectCompletedOn < date_sub('2021-12-06 00:00:00', interval 2 month);
+	 -- tao ra 3 bien de luu so luong ban ghi se xoa o moi bang
+   DECLARE del_project int;
+	 DECLARE del_project_modules int;
+	 DECLARE del_work_done int;
 	 
-	 SELECT @@ROWCOUNT AS DELETED; 
+	 -- lay ra so luong ban ghi thuoc bang Project
+	 SELECT COUNT(*)
+	 INTO   del_project
+	 FROM   projects
+	 WHERE  ProjectCompletedOn < NOW() - INTERVAL 3 MONTH;
+	 -- tinh so luong ban ghi se bi xoa khoi bang project_modules
+	 SELECT Count(*)
+	 INTO   del_project_modules
+	 FROM   project_modules
+	 WHERE  ProjectID IN
+	 (
+		SELECT ProjectID
+		FROM   projects
+		WHERE  ProjectCompletedOn < NOW() - INTERVAL 3 MONTH);
+	 -- tinh so luong ban ghi xoa khoi  bang work_done
+		SELECT Count(*)
+		INTO   del_work_done
+		FROM   work_done
+		WHERE  ModuleID IN
+       (
+				SELECT ModuleID
+				FROM   project_modules
+				WHERE  ProjectID IN
+					 (
+						SELECT ProjectID
+						FROM   projects
+						WHERE  ProjectCompletedOn < NOW() - INTERVAL 3 MONTH));
+	 -- xoa work_done
+	 DELETE FROM work_done
+   WHERE  ModuleID IN (SELECT ModuleID
+									from   project_modules
+									WHERE  ProjectID IN (SELECT ProjectID
+																			 FROM   projects
+																			 WHERE  ProjectCompletedOn < NOW() -
+																							INTERVAL 3 MONTH)); 
+		
+		-- xoa project modules
+	 DELETE FROm project_modules
+   WHERE  ProjectID in (SELECT ProjectID
+                     FROM   projects
+                     WHERE  ProjectCompletedOn < NOW() - INTERVAL 3 MONTH); 
+	 
+	 DELETE FROm projects
+   WHERE  ProjectCompletedOn < NOW() - INTERVAL 3 MONTH; 
+	 
+	 -- thong ke so ban ghi da xoa
+	 SELECT 
+	 CONCAT("so ban ghi da xoa trong projects",' ',del_project),
+	 CONCAT("so ban ghi da xoa trong projects_mo",' ',del_project_modules),
+	 CONCAT("so ban ghi da xoa trong wd",' ',del_work_done);
+-- 	 SELECT CONCAT("so ban ghi da xoa trong projects_mo",' ',del_project);
+-- 	 SELECT CONCAT("so ban ghi da xoa trong wd",' ',del_project);
 END $$
 DELIMITER;
 
