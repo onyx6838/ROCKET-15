@@ -1,4 +1,4 @@
-package com.vti;
+package com.vti.entity;
 
 public class Position {
 	public int id;
