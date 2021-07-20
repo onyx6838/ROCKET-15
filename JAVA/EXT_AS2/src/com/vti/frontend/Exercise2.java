@@ -8,7 +8,8 @@ public class Exercise2 {
     public static void main(String[] args) {
         //Ques123();
         //Ques5_1();
-        Ques11();
+        //Ques11();
+        Ques13(new double[]{3, 4, 1, 2});
     }
 
     // Ques 1, 2, 3
@@ -129,12 +130,66 @@ public class Exercise2 {
         int n1 = arr1.length;
         int arr2[] = {4, 5, 7};
         int n2 = arr2.length;
-        int[] arr3 = new int[n1+n2];
+        int[] arr3 = new int[n1 + n2];
 
         MathUtils.mergeArrays(arr1, arr2, n1, n2, arr3);
 
         System.out.println("Array after merging");
-        for (int i=0; i < n1+n2; i++)
+        for (int i = 0; i < n1 + n2; i++)
             System.out.print(arr3[i] + " ");
+    }
+
+    private static void Ques13(double[] arr) {
+        int[] pos = new int[arr.length];
+        for (int i = 0; i < arr.length; i++) {
+            pos[i] = i;
+        }
+        for (int i = 0; i < arr.length; i++) {
+            for (int j = 0; j < arr.length; j++) {
+                if (arr[pos[i]] < arr[pos[j]]) {
+                    double temp = arr[pos[i]];
+                    arr[pos[i]] = arr[pos[j]];
+                    arr[pos[j]] = temp;
+                }
+            }
+        }
+        for (int i = 0; i < arr.length; i++) {
+            System.out.print(arr[pos[i]] + " ");
+        }
+    }
+
+    private static void Ques14() {
+
+    }
+
+    private static void Ques15() {
+
+    }
+
+    private static void Ques16(int n) {
+        int countUS = 0, count = 0;
+        for (int i = 0; i < n; i++) {
+            if (n % i == 0) {
+                System.out.print(" " + i);
+                countUS++;
+            } else if (n % i == 0 && MathUtils.isPrime(i)) {
+                System.out.print("-" + i);
+                count++;
+            }
+        }
+        System.out.println("So Uoc = " + countUS);
+        System.out.println("So Uoc NT = " + count);
+    }
+
+    private static void Ques17() {
+        for (int i = 1000000; i <= 9999999; i++) {
+            if (MathUtils.isPrime(i) && MathUtils.checkRevNum(i) && MathUtils.checkRevNum(MathUtils.sumOfDigits(i))) {
+                System.out.println("Num = " + i);
+            }
+        }
+    }
+
+    private static void Ques18() {
+
     }
 }
