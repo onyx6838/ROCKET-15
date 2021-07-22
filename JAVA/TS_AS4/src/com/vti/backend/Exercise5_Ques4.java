@@ -1,6 +1,5 @@
 package com.vti.backend;
 
-import com.vti.entity.inheritance.ques2.*;
 import com.vti.entity.inheritance.ques4.Article;
 import com.vti.entity.inheritance.ques4.Book;
 import com.vti.entity.inheritance.ques4.Document;
@@ -9,8 +8,6 @@ import com.vti.entity.inheritance.ques4.Magazine;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class Exercise5_Ques4 {
     public static int ID = 0;
