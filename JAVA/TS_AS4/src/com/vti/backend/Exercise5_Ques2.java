@@ -127,15 +127,15 @@ public class Exercise5_Ques2 {
         scanner.nextLine();
         System.out.println("Nhập địa chỉ " + message + ": ");
         String address = scanner.nextLine();
-        if (c == Employee.class) {
+        if (c.equals(Employee.class)) {
             System.out.println("Nhập vào nhiệm vụ Employee: ");
             String job = scanner.nextLine();
             obj = new Employee(age, name, gender, address, job);
-        } else if (c == Engineer.class) {
+        } else if (c.equals(Engineer.class)) {
             System.out.println("Nhập chuyên môn Engineer: ");
             String specialized = scanner.nextLine();
             obj = new Engineer(age, name, gender, address, specialized);
-        } else if (c == Worker.class) {
+        } else if (c.equals(Worker.class)) {
             System.out.println("Nhập bậc Worker: ");
             int rank = scanner.nextInt();
             obj = new Worker(age, name, gender, address, rank);
