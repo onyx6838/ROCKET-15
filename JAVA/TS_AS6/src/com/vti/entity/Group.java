@@ -1,33 +1,24 @@
 package com.vti.entity;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public class Group {
     public int id;
     public String name;
     public Account creator;
     public LocalDate createDate;
-    public Account[] accounts;
+    public List<Account> accounts;
 
     public Group() {
 
     }
 
-    public Group(String name, Account creator, LocalDate createDate, Account[] accounts) {
+    public Group(int id, String name, Account creator, LocalDate createDate, List<Account> accounts) {
+        this.id = id;
         this.name = name;
         this.creator = creator;
         this.createDate = createDate;
-        this.accounts = accounts;
-    }
-
-    public Group(String name, Account creator, LocalDate createDate, String[] usernames) {
-        this.name = name;
-        this.creator = creator;
-        this.createDate = createDate;
-        Account[] accounts = new Account[usernames.length];
-        for (int i = 0; i < usernames.length; i++) {
-            accounts[i] = new Account(usernames[i]);
-        }
         this.accounts = accounts;
     }
 
@@ -63,11 +54,21 @@ public class Group {
         this.createDate = createDate;
     }
 
-    public Account[] getAccounts() {
+    public List<Account> getAccounts() {
         return accounts;
     }
 
-    public void setAccounts(Account[] accounts) {
+    public void setAccounts(List<Account> accounts) {
         this.accounts = accounts;
+    }
+
+    @Override
+    public String toString() {
+        return "Group{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", creator=" + creator +
+                ", createDate=" + createDate +
+                '}';
     }
 }
