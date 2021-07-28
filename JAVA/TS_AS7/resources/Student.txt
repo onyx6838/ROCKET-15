@@ -1,0 +1,9 @@
+Student: 1
+		Id: 1
+		Họ và tên :Nguyễn Văn A
+Student: 2
+		Id: 2
+		Họ và tên :Nguyễn Văn B
+Student: 3
+		Id: 3
+		Họ và tên :Nguyễn Văn C

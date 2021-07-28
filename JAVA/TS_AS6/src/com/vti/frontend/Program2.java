@@ -5,7 +5,7 @@ public class Program2 {
         try {
             float result = divide(7, 0);
             System.out.println(result);
-        } catch (Exception e) {
+        } catch (ArithmeticException e) {
             System.out.println("Cannot divide 0");
         } finally {
             System.out.println("divide completed");
