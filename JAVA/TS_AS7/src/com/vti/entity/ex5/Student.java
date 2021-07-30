@@ -3,12 +3,15 @@ package com.vti.entity.ex5;
 import com.vti.utils.ScannerUtils;
 
 public class Student {
+    private ScannerUtils scannerUtils;
+
     private int id;
     private String name;
 
     public Student() {
+        scannerUtils = ScannerUtils.getInstance();
         System.out.println("Input id ??");
-        this.id = (int) ScannerUtils.inputPreventPositive("Incorrect Input",Integer.class);
+        this.id = (int) ScannerUtils.inputPreventPositive("Incorrect Input", Integer.class);
         System.out.println("Input name ??");
         this.name = ScannerUtils.inputString("not empty");
     }

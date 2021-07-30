@@ -5,7 +5,18 @@ import java.time.LocalDate;
 import java.util.Scanner;
 
 public class ScannerUtils {
-    private static Scanner scanner = new Scanner(System.in);
+    private static ScannerUtils instance = null;
+    private static Scanner scanner;
+
+    private ScannerUtils() {
+        scanner = new Scanner(System.in);
+    }
+
+    // singleton pattern
+    public static ScannerUtils getInstance() {
+        if (instance == null) instance = new ScannerUtils();
+        return instance;
+    }
 
     public static <T> Object inputPreventPositive(String errorMessage, Class<T> c) {
         while (true) {
