@@ -79,25 +79,59 @@ public class Exercise1 {
         }
     }
 
-    public void Ques2(){
+    public void Ques2() {
         Stack<Student> studentStack = new Stack<>();
         studentStack.add(new Student("Nguyễn Văn Nam"));
         studentStack.add(new Student("Nguyễn Văn Huyên"));
         studentStack.add(new Student("Trần Văn Nam"));
         studentStack.add(new Student("Nguyễn Văn A"));
         // a
-        for (Student stu:
-             studentStack) {
-            System.out.println(studentStack.peek());
+        Iterator<Student> value = studentStack.iterator();
+
+        System.out.println("The iterator values are: ");
+        while (value.hasNext()) {
+            System.out.println(value.next());
         }
         // b
-
+        Queue<Student> queue = new LinkedList<>();
+        copyFromStack(studentStack, queue);
+        for (Student student : queue) {
+            System.out.println(student);
+        }
     }
 
-    public void copyFromStack (Stack stack, Queue queue) {
-        Iterator it = stack.iterator ();
+    public void copyFromStack(Stack stack, Queue queue) {
+        Iterator it = stack.iterator();
         while (it.hasNext()) {
             queue.add(it.next());
         }
+    }
+
+    public void Ques3() {
+        Set<Student> set = new HashSet<>();
+        set.add(new Student("Nguyễn Văn Nam"));
+        set.add(new Student("Nguyễn Văn Huyên"));
+        set.add(new Student("Trần Văn Nam"));
+        set.add(new Student("Nguyễn Văn A"));
+    }
+
+    public void Ques67() {
+        Map<Integer, String> students = new HashMap<>();
+        students.put(1, "D");
+        students.put(3, "B");
+        students.put(4, "C");
+        // print key
+        for (Integer s : students.keySet()) {
+            System.out.println("id " + s);
+        }
+        // print value
+        for (String s : students.values()) {
+            System.out.println("value " + s);
+        }
+
+        // 8
+        students.entrySet().stream()
+                .sorted(Map.Entry.comparingByValue())
+                .forEach(System.out::println);
     }
 }

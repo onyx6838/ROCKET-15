@@ -4,7 +4,7 @@ import com.vti.backend.*;
 
 public class Program1 {
     public static void main(String[] args) {
-        Exercise3 ex1 = new Exercise3();
-        ex1.Ques5();
+        Exercise1 ex1 = new Exercise1();
+        ex1.Ques67();
     }
 }
