@@ -11,6 +11,7 @@ import java.util.List;
 
 import com.vti.entity.Account;
 import com.vti.utils.JdbcUtils;
+import com.vti.utils.SqlUtils;
 import com.vti.utils.properties.MessageProperties;
 
 /**
@@ -80,7 +81,9 @@ public class AccountRepository implements IAccountRepository {
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
 
         // set parameter
-        preparedStatement.setInt(1, id);
+        //preparedStatement.setInt(1, id);
+
+        SqlUtils.addParams(preparedStatement, id);
 
         // Step 4: execute query
         ResultSet resultSet = preparedStatement.executeQuery();
@@ -184,9 +187,11 @@ public class AccountRepository implements IAccountRepository {
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
 
         // set parameter
-        preparedStatement.setString(1, email);
-        preparedStatement.setString(2, username);
-        preparedStatement.setString(3, fullName);
+//        preparedStatement.setString(1, email);
+//        preparedStatement.setString(2, username);
+//        preparedStatement.setString(3, fullName);
+
+        SqlUtils.addParams(preparedStatement, email, username, fullName);
 
         // Step 4: execute query
         int check = preparedStatement.executeUpdate();
