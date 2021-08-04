@@ -11,7 +11,7 @@ public class JdbcUtils {
 
     private Connection connection;
 
-    private static JdbcUtils instance;  // singleton pattern
+    private static JdbcUtils instance;  // singleton
 
     private JdbcUtils() throws IOException, SQLException {
         try {

@@ -14,16 +14,6 @@ import com.vti.utils.JdbcUtils;
 import com.vti.utils.SqlUtils;
 import com.vti.utils.properties.MessageProperties;
 
-/**
- * This class is account repository.
- *
- * @Description: .
- * @author: NNDuy
- * @create_date: May 28, 2020
- * @version: 1.0
- * @modifer: NNDuy
- * @modifer_date: May 28, 2020
- */
 public class AccountRepository implements IAccountRepository {
 
     private MessageProperties messageProperties;
@@ -32,9 +22,6 @@ public class AccountRepository implements IAccountRepository {
         messageProperties = new MessageProperties();
     }
 
-    /*
-     * @see com.vti.backend.datalayer.IAccountRepository#getListAccounts()
-     */
     @Override
     public List<Account> getListAccounts() throws SQLException, IOException, ClassNotFoundException {
 
@@ -67,9 +54,6 @@ public class AccountRepository implements IAccountRepository {
 
     }
 
-    /*
-     * @see com.vti.backend.datalayer.IAccountRepository#getUserByID(int)
-     */
     @Override
     public Account getAccountByID(int id) throws Exception {
 
@@ -107,9 +91,7 @@ public class AccountRepository implements IAccountRepository {
         }
     }
 
-    /*
-     * @see com.vti.backend.datalayer.IAccountRepository#isAccountExists(java.lang.String)
-     */
+
     @Override
     public boolean isAccountExists(String username) throws ClassNotFoundException, SQLException, IOException {
 
@@ -139,9 +121,7 @@ public class AccountRepository implements IAccountRepository {
         }
     }
 
-    /*
-     * @see com.vti.backend.datalayer.IAccountRepository#isAccountExists(int)
-     */
+
     @Override
     public boolean isAccountExists(int id) throws ClassNotFoundException, SQLException, IOException {
 
@@ -171,9 +151,7 @@ public class AccountRepository implements IAccountRepository {
         }
     }
 
-    /*
-     * @see com.vti.backend.datalayer.IAccountRepository#createUser(java.lang.String, java.lang.String, java.lang.String)
-     */
+
     @Override
     public void createAccount(String email, String username, String fullName) throws Exception {
 
@@ -206,9 +184,6 @@ public class AccountRepository implements IAccountRepository {
         JdbcUtils.getInstance().disconnect();
     }
 
-    /*
-     * @see com.vti.backend.datalayer.IAccountRepository#updateAccountByID(int, java.lang.String)
-     */
     @Override
     public void updateAccountByID(int id, String newFullName) throws Exception {
 
@@ -236,9 +211,6 @@ public class AccountRepository implements IAccountRepository {
         JdbcUtils.getInstance().disconnect();
     }
 
-    /*
-     * @see com.vti.backend.datalayer.IAccountRepository#deleteAccount(int)
-     */
     @Override
     public void deleteAccount(int id) throws Exception {
 

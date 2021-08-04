@@ -151,7 +151,8 @@ public class Exercise4 {
     }
 
     public static boolean Ques13(String check) {
-        return null == check ? false : (check.matches(".*\\d.*") ? true : false);
+        //return null == check ? false : (check.matches(".*\\d.*") ? true : false);
+        return null != check && (check.matches(".*\\d.*"));
     }
 
     public static void Ques14(String input) {   // regex ??
