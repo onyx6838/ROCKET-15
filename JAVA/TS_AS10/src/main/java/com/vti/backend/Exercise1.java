@@ -34,7 +34,7 @@ public class Exercise1 {
         Connection connection = JdbcUtils.getInstance().connect();
         String sql = "INSERT INTO `java_ts_as10`.`position`(`PositionName`) " +
                 "VALUES (?)";
-        String name = ScannerUtils.inputString("Incorrect Input");
+        String name = ScannerUtils.getInstance().inputString("Incorrect Input");
 
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
 
@@ -48,7 +48,7 @@ public class Exercise1 {
     public void Ques4() throws SQLException, IOException {
         Connection connection = JdbcUtils.getInstance().connect();
         String sql = "UPDATE Postion SET PositionName = ? WHERE PostionID = ?";
-        String name = ScannerUtils.inputString("Incorrect Input");
+        String name = ScannerUtils.getInstance().inputString("Incorrect Input");
 
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
 
@@ -62,7 +62,7 @@ public class Exercise1 {
     public void Ques5() throws SQLException, IOException {
         Connection connection = JdbcUtils.getInstance().connect();
         String sql = "DELETE FROM Postion WHERE PostionID = ?";
-        int idDelete = (int) ScannerUtils.inputPreventPositive("Incorrect Input", Integer.class);
+        int idDelete = (int) ScannerUtils.getInstance().inputPreventPositive("Incorrect Input", Integer.class);
 
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
 

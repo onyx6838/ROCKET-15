@@ -18,7 +18,7 @@ public class ScannerUtils {
         return instance;
     }
 
-    public static <T> Object inputPreventPositive(String errorMessage, Class<T> c) {
+    public <T> Object inputPreventPositive(String errorMessage, Class<T> c) {
         while (true) {
             try {
                 String input = scanner.nextLine().trim();
@@ -41,7 +41,7 @@ public class ScannerUtils {
         }
     }
 
-    public static <T> Object input(String errorMessage, Class<T> c) {
+    public <T> Object input(String errorMessage, Class<T> c) {
         while (true) {
             try {
                 String input = scanner.nextLine().trim();
@@ -59,7 +59,7 @@ public class ScannerUtils {
         }
     }
 
-    public static int inputInt(String errorMessage) {
+    public int inputInt(String errorMessage) {
         while (true) {
             try {
                 return Integer.parseInt(scanner.nextLine().trim());
@@ -69,7 +69,7 @@ public class ScannerUtils {
         }
     }
 
-//    public static int inputInt(String errorMessage) {
+//    public int inputInt(String errorMessage) {
 //        while (true) {
 //            try {
 //                if (Integer.parseInt(scanner.nextLine().trim()) < 0)
@@ -81,7 +81,7 @@ public class ScannerUtils {
 //        }
 //    }
 
-    public static float inputFloat(String errorMessage) {
+    public float inputFloat(String errorMessage) {
         while (true) {
             try {
                 if (Float.parseFloat(scanner.nextLine().trim()) < 0)
@@ -93,7 +93,7 @@ public class ScannerUtils {
         }
     }
 
-    public static double inputDouble(String errorMessage) {
+    public double inputDouble(String errorMessage) {
         while (true) {
             try {
                 if (Double.parseDouble(scanner.nextLine().trim()) < 0)
@@ -105,7 +105,7 @@ public class ScannerUtils {
         }
     }
 
-    public static String inputString(String errorMessage) {
+    public String inputString(String errorMessage) {
         while (true) {
             String string = scanner.nextLine().trim();
             if (!string.isEmpty()) {
@@ -116,7 +116,7 @@ public class ScannerUtils {
         }
     }
 
-    public static LocalDate inputLocalDate(String errorMessage) {
+    public LocalDate inputLocalDate(String errorMessage) {
         System.out.println("Nhập theo định dạng yyyy-MM-dd");
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         while (true) {
