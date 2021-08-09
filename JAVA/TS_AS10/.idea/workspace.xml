@@ -5,55 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a3e0a087-d6b0-4568-8a33-637dbeaac016" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/../JavaDemoProject11/.idea/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../JavaDemoProject11/.idea/compiler.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../JavaDemoProject11/.idea/jarRepositories.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../JavaDemoProject11/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../JavaDemoProject11/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../JavaDemoProject11/JavaDemoProject11.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../JavaDemoProject11/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../JavaDemoProject11/src/main/java/com/vti/Program.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../JavaDemoProject11/src/main/java/com/vti/backend/datalayer/UserRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../JavaDemoProject11/src/main/java/com/vti/entity/Account.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../JavaDemoProject11/src/main/java/com/vti/frontend/Program.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../JavaDemoProject11/src/main/java/com/vti/utils/JdbcUtils.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../JavaDemoProject11/src/main/java/com/vti/utils/ScannerUtils.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../JavaDemoProject11/src/main/java/com/vti/utils/SqlUtils.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../JavaDemoProject11/src/main/java/com/vti/utils/properties/DatabaseProperties.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../JavaDemoProject11/src/main/resources/database.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../JavaDemoProject11/src/main/resources/procedure_exe3.sql" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../JavaDemoProject11/src/main/resources/sql db.sql" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../TS_AS11/.idea/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../TS_AS11/.idea/compiler.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../TS_AS11/.idea/jarRepositories.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../TS_AS11/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../TS_AS11/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../TS_AS11/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../TS_AS11/TS_AS11.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../TS_AS11/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../TS_AS11/src/main/java/com/vti/backend/datalayer/AccountRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../TS_AS11/src/main/java/com/vti/entity/Account.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../TS_AS11/src/main/java/com/vti/entity/Answer.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../TS_AS11/src/main/java/com/vti/entity/CategoryQuestion.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../TS_AS11/src/main/java/com/vti/entity/Department.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../TS_AS11/src/main/java/com/vti/entity/Exam.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../TS_AS11/src/main/java/com/vti/entity/ExamQuestion.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../TS_AS11/src/main/java/com/vti/entity/Group.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../TS_AS11/src/main/java/com/vti/entity/GroupAccount.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../TS_AS11/src/main/java/com/vti/entity/Position.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../TS_AS11/src/main/java/com/vti/entity/PositionName.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../TS_AS11/src/main/java/com/vti/entity/Question.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../TS_AS11/src/main/java/com/vti/entity/TypeName.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../TS_AS11/src/main/java/com/vti/entity/TypeQuestion.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../TS_AS11/src/main/java/com/vti/frontend/Program.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../TS_AS11/src/main/java/com/vti/utils/JdbcUtils.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../TS_AS11/src/main/java/com/vti/utils/ScannerUtils.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../TS_AS11/src/main/java/com/vti/utils/SqlUtils.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../TS_AS11/src/main/java/com/vti/utils/properties/DatabaseProperties.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../TS_AS11/src/main/resources/database.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../TS_AS11/src/main/resources/sql db.sql" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/vti/dao/AccountDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/vti/dao/AccountDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TS_AS11/src/main/java/com/vti/entity/Account.java" beforeDir="false" afterPath="$PROJECT_DIR$/../TS_AS11/src/main/java/com/vti/entity/Account.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TS_AS11/src/main/java/com/vti/frontend/Program.java" beforeDir="false" afterPath="$PROJECT_DIR$/../TS_AS11/src/main/java/com/vti/frontend/Program.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TS_AS11/target/classes/com/vti/backend/datalayer/AccountRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/../TS_AS11/target/classes/com/vti/backend/datalayer/AccountRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TS_AS11/target/classes/com/vti/entity/Account.class" beforeDir="false" afterPath="$PROJECT_DIR$/../TS_AS11/target/classes/com/vti/entity/Account.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TS_AS11/target/classes/com/vti/frontend/Program.class" beforeDir="false" afterPath="$PROJECT_DIR$/../TS_AS11/target/classes/com/vti/frontend/Program.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -116,6 +73,17 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
+      <option name="arquillianRunConfiguration">
+        <value>
+          <option name="containerStateName" value="" />
+        </value>
+      </option>
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <recent_temporary>
       <list>
         <item itemvalue="Application.Program" />
@@ -134,6 +102,7 @@
       <workItem from="1628345296755" duration="3343000" />
       <workItem from="1628513757471" duration="1708000" />
       <workItem from="1628516546801" duration="363000" />
+      <workItem from="1628519968830" duration="24000" />
     </task>
     <servers />
   </component>

@@ -11,7 +11,7 @@ import java.util.List;
 public class AccountService implements IAccountService {
     private IAccountRepository accountRepository;
 
-    public AccountService() {
+    public AccountService() throws IOException {
         this.accountRepository = new AccountRepository();
     }
 

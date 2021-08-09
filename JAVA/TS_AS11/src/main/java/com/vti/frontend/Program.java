@@ -1,8 +1,7 @@
 package com.vti.frontend;
 
 import com.vti.backend.presentationlayer.AccountController;
-import com.vti.entity.Account;
-import com.vti.entity.Department;
+import com.vti.entity.*;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -19,13 +18,15 @@ public class Program {
 //        );
 //        accountController.createAccount(account);
         // R
-//        List<Account> accounts = accountController.getListAccounts();
-//        accounts.forEach(System.out::println);
+        List<Account> accounts = accountController.getListAccounts();
+        accounts.forEach(System.out::println);
         // U
-        Account accountUpdate = new Account(
-                "account5@gmail.com", "Account5", "Nguyen Van A", new Department(5),
-                LocalDate.parse("2020-03-05")
-        );
-        accountController.updateAccountById(13, accountUpdate);
+//        Account accountUpdate = new Account(
+//                "account5@gmail.com", "Account5", "Nguyen Van A", new Department(5),
+//                LocalDate.parse("2020-03-05")
+//        );
+//        accountController.updateAccountById(13, accountUpdate);
+        // D
+//        accountController.deleteAccount(13);
     }
 }

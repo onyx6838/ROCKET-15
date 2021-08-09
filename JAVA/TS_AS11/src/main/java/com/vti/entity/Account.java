@@ -1,7 +1,6 @@
 package com.vti.entity;
 
 import java.time.LocalDate;
-import java.util.Arrays;
 
 public class Account {
     private int id;
@@ -121,11 +120,11 @@ public class Account {
 
     @Override
     public String toString() {
-        return "id=" + id +
-                " | email='" + email + '\'' +
-                " | userName='" + userName + '\'' +
-                " | fullName='" + fullName + '\'' +
+        return "id = " + id +
+                " | email = " + email +
+                " | userName = " + userName +
+                " | fullName = " + fullName +
                 " | departmentName = " + department.getName() +
-                " | createDate=" + createDate;
+                " | createDate = " + createDate;
     }
 }

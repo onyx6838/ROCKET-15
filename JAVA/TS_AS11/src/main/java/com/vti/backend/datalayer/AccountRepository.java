@@ -4,6 +4,7 @@ import com.vti.entity.*;
 
 import com.vti.utils.JdbcUtils;
 import com.vti.utils.SqlUtils;
+import com.vti.utils.properties.MessageProperties;
 
 import java.io.IOException;
 import java.sql.*;
@@ -13,6 +14,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AccountRepository implements IAccountRepository {
+    private MessageProperties messageProperties;
+
+    public AccountRepository() throws IOException {
+        this.messageProperties = new MessageProperties();
+    }
+
     @Override
     public List<Account> getListAccounts() throws SQLException, IOException {
         List<Account> accounts = new ArrayList<>();
@@ -58,7 +65,9 @@ public class AccountRepository implements IAccountRepository {
         );
 
         int affected = preparedStatement.executeUpdate();
-        System.out.println(affected > 0 ? "Insert Account com" : "Failure Account insert");
+        System.out.println(affected > 0 ?
+                messageProperties.getProperty("account.insert.complete")
+                : messageProperties.getProperty("account.insert.false"));
         JdbcUtils.getInstance().disconnect();
     }
 
@@ -88,8 +97,7 @@ public class AccountRepository implements IAccountRepository {
             return account;
         } else {
             JdbcUtils.getInstance().disconnect();
-            System.out.println("Cannot find account which has id = " + id);
-            throw new SQLException("Cannot find account with id");
+            throw new SQLException(messageProperties.getProperty("account.getAccountByID.cannotFindAccountById") + id);
         }
     }
 
@@ -144,7 +152,8 @@ public class AccountRepository implements IAccountRepository {
         );
 
         int affected = preparedStatement.executeUpdate();
-        System.out.println(affected > 0 ? "Update Account com" : "Failure Update account");
+        System.out.println(affected > 0 ? messageProperties.getProperty("account.update.complete")
+                : messageProperties.getProperty("account.update.false"));
         JdbcUtils.getInstance().disconnect();
     }
 
@@ -156,7 +165,8 @@ public class AccountRepository implements IAccountRepository {
         preparedStatement.setInt(1, id);
 
         int affected = preparedStatement.executeUpdate();
-        System.out.println(affected > 0 ? "Delete Account com" : "Failure Account Delete");
+        System.out.println(affected > 0 ? messageProperties.getProperty("account.delete.complete")
+                : messageProperties.getProperty("account.delete.false"));
         JdbcUtils.getInstance().disconnect();
     }
 }

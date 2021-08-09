@@ -11,7 +11,7 @@ import java.util.List;
 public class AccountController {
     private IAccountService accountService;
 
-    public AccountController() {
+    public AccountController() throws IOException {
         this.accountService = new AccountService();
     }
 
