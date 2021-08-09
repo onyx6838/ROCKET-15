@@ -1,23 +1,25 @@
-package com.vti.dao;
+package com.vti.backend.datalayer;
 
-import com.vti.entity.Account;
-import com.vti.entity.Department;
+import com.vti.entity.*;
+
 import com.vti.utils.JdbcUtils;
 import com.vti.utils.SqlUtils;
 
 import java.io.IOException;
 import java.sql.*;
+import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AccountDao {
-    public List<Account> getAccounts() throws SQLException, IOException {
+public class AccountRepository implements IAccountRepository {
+    @Override
+    public List<Account> getListAccounts() throws SQLException, IOException {
         List<Account> accounts = new ArrayList<>();
         Connection connection = JdbcUtils.getInstance().connect();
 
         String sql = "SELECT a.AccountID,a.Email,a.Username,a.Fullname,a.CreateDate,d.* " +
-                     "FROM account a JOIN department d ON a.DepartmentID = d.DepartmentID ";
+                "FROM account a JOIN department d ON a.DepartmentID = d.DepartmentID ";
         Statement statement = connection.createStatement();
 
         ResultSet resultSet = statement.executeQuery(sql);
@@ -32,7 +34,7 @@ public class AccountDao {
                             resultSet.getInt("d.DepartmentID"),
                             resultSet.getString("d.DepartmentName")
                     ),
-                    resultSet.getDate("a.CreateDate").toInstant().atZone(ZoneId.systemDefault()).toLocalDate()
+                    LocalDate.parse(resultSet.getString("a.CreateDate"))
             );
             accounts.add(account);
         }
@@ -40,6 +42,27 @@ public class AccountDao {
         return accounts;
     }
 
+    @Override
+    public void createAccount(Account account) throws SQLException, IOException {
+        Connection connection = JdbcUtils.getInstance().connect();
+        String sql = "INSERT INTO `account`(`AccountID`, `Email`, `Username`, `Fullname`, `DepartmentID`, `CreateDate`)  " +
+                "VALUES (?, ?, ?, ?, ?, ?)";
+        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        SqlUtils.addParams(preparedStatement,
+                account.getId(),
+                account.getEmail(),
+                account.getUserName(),
+                account.getFullName(),
+                account.getDepartment().getId(),
+                Date.from(account.getCreateDate().atStartOfDay(ZoneId.systemDefault()).toInstant())
+        );
+
+        int affected = preparedStatement.executeUpdate();
+        System.out.println(affected > 0 ? "Insert Account com" : "Failure Account insert");
+        JdbcUtils.getInstance().disconnect();
+    }
+
+    @Override
     public Account getAccountById(int id) throws SQLException, IOException {
         Connection connection = JdbcUtils.getInstance().connect();
         String sql = "SELECT a.AccountID,a.Email,a.Username,a.Fullname,a.CreateDate,d.* From account a JOIN department d" +
@@ -59,7 +82,7 @@ public class AccountDao {
                             resultSet.getInt("d.DepartmentID"),
                             resultSet.getString("d.DepartmentName")
                     ),
-                    resultSet.getDate("a.CreateDate").toInstant().atZone(ZoneId.systemDefault()).toLocalDate()
+                    LocalDate.parse(resultSet.getString("a.CreateDate"))
             );
             JdbcUtils.getInstance().disconnect();
             return account;
@@ -70,12 +93,13 @@ public class AccountDao {
         }
     }
 
-    public boolean isUserNameExists(String userName) throws SQLException, IOException {
+    @Override
+    public boolean isAccountExists(String username) throws SQLException, IOException {
         Connection connection = JdbcUtils.getInstance().connect();
         String sql = "SELECT 1 FROM account WHERE Username = ?";
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
 
-        preparedStatement.setString(1, userName);
+        preparedStatement.setString(1, username);
         ResultSet resultSet = preparedStatement.executeQuery();
         if (resultSet.next()) {
             JdbcUtils.getInstance().disconnect();
@@ -86,27 +110,45 @@ public class AccountDao {
         }
     }
 
-    public void createAccount(Account account) throws SQLException, IOException {
+    @Override
+    public boolean isAccountExists(int id) throws SQLException, IOException {
         Connection connection = JdbcUtils.getInstance().connect();
-        String sql = "INSERT INTO `account`(`AccountID`, `Email`, `Username`, `Fullname`, `DepartmentID`, `CreateDate`)  " +
-                "VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "SELECT 1 FROM account WHERE AccountID = ?";
+        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+
+        preparedStatement.setInt(1, id);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        if (resultSet.next()) {
+            JdbcUtils.getInstance().disconnect();
+            return true;
+        } else {
+            JdbcUtils.getInstance().disconnect();
+            return false;
+        }
+    }
+
+    @Override
+    public void updateAccountById(int id, Account accountUpdate) throws SQLException, IOException {
+        Connection connection = JdbcUtils.getInstance().connect();
+        String sql = "UPDATE `account` SET " +
+                "`Email` = ?, `Username` = ?, `Fullname` = ?, `DepartmentID` = ?, `CreateDate` = ? WHERE `AccountID` = ?";
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
         SqlUtils.addParams(preparedStatement,
-                account.getId(),
-                account.getEmail(),
-                account.getUserName(),
-                account.getFullName(),
-                account.getDepartment().getId(),
-                Date.from(account.getCreateDate().atStartOfDay(ZoneId.systemDefault()).toInstant())
+                accountUpdate.getId(),
+                accountUpdate.getEmail(),
+                accountUpdate.getUserName(),
+                accountUpdate.getFullName(),
+                accountUpdate.getDepartment().getId(),
+                Date.from(accountUpdate.getCreateDate().atStartOfDay(ZoneId.systemDefault()).toInstant()),
+                id
         );
 
         int affected = preparedStatement.executeUpdate();
-        System.out.println(affected > 0 ? "Insert Account com" : "Failure Account depart");
+        System.out.println(affected > 0 ? "Update Account com" : "Failure Update account");
         JdbcUtils.getInstance().disconnect();
     }
 
-    // UPDATE - TODO
-
+    @Override
     public void deleteAccount(int id) throws SQLException, IOException {
         Connection connection = JdbcUtils.getInstance().connect();
         String sql = "DELETE FROM `account` WHERE `AccountID` = ?";
@@ -114,18 +156,7 @@ public class AccountDao {
         preparedStatement.setInt(1, id);
 
         int affected = preparedStatement.executeUpdate();
-        System.out.println(affected > 0 ? "Delete Account com" : "Failure Account depart");
-        JdbcUtils.getInstance().disconnect();
-    }
-
-    public void deleteAccountByDepartmentId(int id) throws SQLException, IOException {
-        Connection connection = JdbcUtils.getInstance().connect();
-        String sql = "DELETE FROM `account` WHERE `DepartmentID` = ?";
-        PreparedStatement preparedStatement = connection.prepareStatement(sql);
-        preparedStatement.setInt(1, id);
-
-        int affected = preparedStatement.executeUpdate();
-        System.out.println(affected > 0 ? "Delete Account com" : "Failure Account depart");
+        System.out.println(affected > 0 ? "Delete Account com" : "Failure Account Delete");
         JdbcUtils.getInstance().disconnect();
     }
 }
