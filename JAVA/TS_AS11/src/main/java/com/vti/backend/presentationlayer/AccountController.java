@@ -11,35 +11,35 @@ import java.util.List;
 public class AccountController {
     private IAccountService accountService;
 
-    public AccountController() throws IOException {
+    public AccountController() throws IOException, SQLException {
         this.accountService = new AccountService();
     }
 
-    public List<Account> getListAccounts() throws SQLException, IOException {
+    public List<Account> getListAccounts() throws SQLException {
         return accountService.getListAccounts();
     }
 
-    public void createAccount(Account account) throws SQLException, IOException {
+    public void createAccount(Account account) throws SQLException {
         accountService.createAccount(account);
     }
 
-    public Account getAccountById(int id) throws SQLException, IOException {
+    public Account getAccountById(int id) throws SQLException {
         return accountService.getAccountById(id);
     }
 
-    public boolean isAccountExists(String username) throws SQLException, IOException {
+    public boolean isAccountExists(String username) throws SQLException {
         return accountService.isAccountExists(username);
     }
 
-    public boolean isAccountExists(int id) throws SQLException, IOException {
+    public boolean isAccountExists(int id) throws SQLException {
         return accountService.isAccountExists(id);
     }
 
-    public void updateAccountById(int id, Account accountUpdate) throws SQLException, IOException {
+    public void updateAccountById(int id, Account accountUpdate) throws SQLException {
         accountService.updateAccountById(id, accountUpdate);
     }
 
-    public void deleteAccount(int id) throws SQLException, IOException {
+    public void deleteAccount(int id) throws SQLException {
         accountService.deleteAccount(id);
     }
 }

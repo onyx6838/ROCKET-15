@@ -11,42 +11,42 @@ import java.util.List;
 public class AccountService implements IAccountService {
     private IAccountRepository accountRepository;
 
-    public AccountService() throws IOException {
+    public AccountService() throws IOException, SQLException {
         this.accountRepository = new AccountRepository();
     }
 
     @Override
-    public List<Account> getListAccounts() throws SQLException, IOException {
+    public List<Account> getListAccounts() throws SQLException {
         return accountRepository.getListAccounts();
     }
 
     @Override
-    public void createAccount(Account account) throws SQLException, IOException {
+    public void createAccount(Account account) throws SQLException {
         accountRepository.createAccount(account);
     }
 
     @Override
-    public Account getAccountById(int id) throws SQLException, IOException {
+    public Account getAccountById(int id) throws SQLException {
         return accountRepository.getAccountById(id);
     }
 
     @Override
-    public boolean isAccountExists(String username) throws SQLException, IOException {
+    public boolean isAccountExists(String username) throws SQLException {
         return accountRepository.isAccountExists(username);
     }
 
     @Override
-    public boolean isAccountExists(int id) throws SQLException, IOException {
+    public boolean isAccountExists(int id) throws SQLException {
         return accountRepository.isAccountExists(id);
     }
 
     @Override
-    public void updateAccountById(int id, Account accountUpdate) throws SQLException, IOException {
+    public void updateAccountById(int id, Account accountUpdate) throws SQLException {
         accountRepository.updateAccountById(id, accountUpdate);
     }
 
     @Override
-    public void deleteAccount(int id) throws SQLException, IOException {
+    public void deleteAccount(int id) throws SQLException {
         accountRepository.deleteAccount(id);
     }
 }

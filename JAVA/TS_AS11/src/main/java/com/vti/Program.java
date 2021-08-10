@@ -43,7 +43,7 @@ public class Program {
     public static String inputPhoneNumber(String errorMessage) {
         while (true) {
             String fullName = ScannerUtils.getInstance().inputString("Not Empty");
-            if (!fullName.matches("(84|0[3|5|7|8|9])+([0-9]{8})\\b")) {
+            if (!fullName.matches("(84|0[3|5|7|8|9])+([0-9]{9})\\b")) {
                 System.out.println(errorMessage);
                 System.out.println("Input phoneNumber");
             } else return fullName;

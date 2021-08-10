@@ -11,7 +11,7 @@ public class Exercise4 {
     private DepartmentDao departmentDao;
     private AccountDao accountDao;
 
-    public Exercise4() {
+    public Exercise4() throws SQLException, IOException {
         departmentDao = new DepartmentDao();
         accountDao = new AccountDao();
     }

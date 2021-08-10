@@ -6,9 +6,21 @@
   <component name="ChangeListManager">
     <list default="true" id="a3e0a087-d6b0-4568-8a33-637dbeaac016" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../TS_AS11/src/main/java/com/vti/entity/Account.java" beforeDir="false" afterPath="$PROJECT_DIR$/../TS_AS11/src/main/java/com/vti/entity/Account.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../TS_AS11/src/main/java/com/vti/frontend/Program.java" beforeDir="false" afterPath="$PROJECT_DIR$/../TS_AS11/src/main/java/com/vti/frontend/Program.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/vti/backend/Exercise2.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/vti/backend/Exercise2.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/vti/backend/Exercise2_Account.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/vti/backend/Exercise2_Account.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/vti/backend/Exercise4.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/vti/backend/Exercise4.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/vti/dao/AccountDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/vti/dao/AccountDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TS_AS11/src/main/java/com/vti/Program.java" beforeDir="false" afterPath="$PROJECT_DIR$/../TS_AS11/src/main/java/com/vti/Program.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TS_AS11/src/main/java/com/vti/backend/businesslayer/AccountService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../TS_AS11/src/main/java/com/vti/backend/businesslayer/AccountService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TS_AS11/src/main/java/com/vti/backend/businesslayer/IAccountService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../TS_AS11/src/main/java/com/vti/backend/businesslayer/IAccountService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TS_AS11/src/main/java/com/vti/backend/datalayer/AccountRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/../TS_AS11/src/main/java/com/vti/backend/datalayer/AccountRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TS_AS11/src/main/java/com/vti/backend/datalayer/IAccountRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/../TS_AS11/src/main/java/com/vti/backend/datalayer/IAccountRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TS_AS11/src/main/java/com/vti/backend/presentationlayer/AccountController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../TS_AS11/src/main/java/com/vti/backend/presentationlayer/AccountController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TS_AS11/target/classes/com/vti/backend/businesslayer/AccountService.class" beforeDir="false" afterPath="$PROJECT_DIR$/../TS_AS11/target/classes/com/vti/backend/businesslayer/AccountService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TS_AS11/target/classes/com/vti/backend/businesslayer/IAccountService.class" beforeDir="false" afterPath="$PROJECT_DIR$/../TS_AS11/target/classes/com/vti/backend/businesslayer/IAccountService.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../TS_AS11/target/classes/com/vti/backend/datalayer/AccountRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/../TS_AS11/target/classes/com/vti/backend/datalayer/AccountRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TS_AS11/target/classes/com/vti/backend/datalayer/IAccountRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/../TS_AS11/target/classes/com/vti/backend/datalayer/IAccountRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TS_AS11/target/classes/com/vti/backend/presentationlayer/AccountController.class" beforeDir="false" afterPath="$PROJECT_DIR$/../TS_AS11/target/classes/com/vti/backend/presentationlayer/AccountController.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../TS_AS11/target/classes/com/vti/entity/Account.class" beforeDir="false" afterPath="$PROJECT_DIR$/../TS_AS11/target/classes/com/vti/entity/Account.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../TS_AS11/target/classes/com/vti/frontend/Program.class" beforeDir="false" afterPath="$PROJECT_DIR$/../TS_AS11/target/classes/com/vti/frontend/Program.class" afterDir="false" />
     </list>
@@ -73,13 +85,15 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
+    <configuration default="true" type="ArquillianTestNG" factoryName="" nameIsGenerated="true">
       <option name="arquillianRunConfiguration">
         <value>
           <option name="containerStateName" value="" />
         </value>
       </option>
-      <option name="TEST_OBJECT" value="class" />
+      <option name="TEST_OBJECT" value="CLASS" />
+      <properties />
+      <listeners />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -103,6 +117,7 @@
       <workItem from="1628513757471" duration="1708000" />
       <workItem from="1628516546801" duration="363000" />
       <workItem from="1628519968830" duration="24000" />
+      <workItem from="1628574507196" duration="378000" />
     </task>
     <servers />
   </component>

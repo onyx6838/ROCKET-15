@@ -10,9 +10,11 @@ import java.util.List;
 
 public class Exercise2 {
     private DepartmentDao dao;
+    private ScannerUtils scannerUtils;
 
     public Exercise2() {
         dao = new DepartmentDao();
+        scannerUtils = ScannerUtils.getInstance();
     }
 
     public void Ques1() throws SQLException, IOException {
@@ -32,12 +34,12 @@ public class Exercise2 {
     }
 
     public void Ques4() throws SQLException, IOException {
-        String name = ScannerUtils.getInstance().inputString("Not empty");
+        String name = scannerUtils.inputString("Not empty");
         System.out.println(dao.isDepartmentNameExists(name) ? "Exist" : "Not Exist");
     }
 
     public void Ques5() throws SQLException, IOException {
-        String name = ScannerUtils.getInstance().inputString("Not empty");
+        String name = scannerUtils.inputString("Not empty");
         if (dao.isDepartmentNameExists(name))
             throw new SQLException("Depart name is exist");
         else
@@ -45,20 +47,20 @@ public class Exercise2 {
     }
 
     public void Ques6() throws SQLException, IOException {
-        String name = ScannerUtils.getInstance().inputString("Not empty");
-        int idUpdate = (int) ScannerUtils.getInstance().inputPreventPositive("Int and > 0", Integer.class);
+        String nameDe = scannerUtils.inputString("Not empty");
+        int idUpdate = (int) scannerUtils.inputPreventPositive("Int and > 0", Integer.class);
         if (dao.getDepartmentById(idUpdate) == null)
             throw new SQLException("Cannot find department which has id = " + idUpdate);
         else {
-            if (dao.isDepartmentNameExists(name))
+            if (dao.isDepartmentNameExists(nameDe))
                 throw new SQLException("Depart name is exist");
             else
-                dao.updateDepartmentName(idUpdate, name);
+                dao.updateDepartmentName(idUpdate, nameDe);
         }
     }
 
     public void Ques7() throws SQLException, IOException {
-        int idDel = (int) ScannerUtils.getInstance().inputPreventPositive("Int and > 0", Integer.class);
+        int idDel = (int) scannerUtils.inputPreventPositive("Int and > 0", Integer.class);
         if (dao.getDepartmentById(idDel) == null)
             throw new SQLException("Cannot find department which has id = " + idDel);
         else {
