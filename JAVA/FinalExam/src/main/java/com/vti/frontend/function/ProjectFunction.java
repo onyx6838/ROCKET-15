@@ -2,7 +2,6 @@ package com.vti.frontend.function;
 
 import com.vti.backend.presentationlayer.ProjectController;
 import com.vti.entity.Project;
-import com.vti.entity.User;
 import com.vti.utils.ScannerUtils;
 
 import java.io.IOException;
@@ -24,11 +23,9 @@ public class ProjectFunction {
         System.out.format("+-----------+--------------------+----------+----------+%n");
         System.out.format("| ProjectId | fullName           | Role     |   idEmp  |%n");
         System.out.format("+-----------+--------------------+----------+----------+%n");
-        for (int i = 0; i < proj.getParticipants().size(); i++) {
-            User us = proj.getParticipants().get(i);
-            System.out.format(leftAlignFormat, proj.getProjectId(), us.getFullName()
-                    , us.getRole().toString(), us.getId());
-        }
+        proj.getParticipants().forEach(x ->
+                System.out.format(leftAlignFormat, proj.getProjectId(), x.getFullName()
+                        , x.getRole().toString(), x.getId()));
         System.out.format("+-----------+--------------------+----------+----------+%n");
     }
 }

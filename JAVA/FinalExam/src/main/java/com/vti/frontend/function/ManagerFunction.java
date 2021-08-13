@@ -22,11 +22,10 @@ public class ManagerFunction {
         System.out.format("+-----------+--------------------+---------+----------+-----------+%n");
         System.out.format("| ProjectId | fullName           | Role    |   idEmp  | expInYear |%n");
         System.out.format("+-----------+--------------------+---------+----------+-----------+%n");
-        for (int i = 0; i < managerList.size(); i++) {
-            Manager mn = managerList.get(i);
-            System.out.format(leftAlignFormat, mn.getProjectManageId(),
-                    mn.getFullName(), mn.getRole().toString(), mn.getId(), mn.getExpInYear());
-        }
+        managerList.forEach(x ->
+                System.out.format(leftAlignFormat, x.getProjectManageId(),
+                        x.getFullName(), x.getRole().toString(), x.getId(), x.getExpInYear())
+        );
         System.out.format("+-----------+--------------------+---------+----------+-----------+%n");
     }
 }
