@@ -58,6 +58,7 @@ public class ProjectRepository implements IProjectRepository {
             project.setTeamSize(users.size());
             return project;
         } else {
+            jdbcUtils.disconnect();
             throw new SQLException(messageProperties.getProperty("project.getAccountByID.cannotFindAccountById") + id);
         }
     }

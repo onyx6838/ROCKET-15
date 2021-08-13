@@ -39,6 +39,7 @@ public class UserRepository implements IUserRepository {
             User user = new User(userId, fullName, email, passWord);
             return user;
         } else {
+            jdbcUtils.disconnect();
             throw new SQLException(messageProperties.getProperty("user.login.cannotLogin"));
         }
     }

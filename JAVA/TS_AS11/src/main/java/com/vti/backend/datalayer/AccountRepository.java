@@ -1,7 +1,7 @@
 package com.vti.backend.datalayer;
 
-import com.vti.entity.*;
-
+import com.vti.entity.Account;
+import com.vti.entity.Department;
 import com.vti.utils.JdbcUtils;
 import com.vti.utils.SqlUtils;
 import com.vti.utils.properties.MessageProperties;
@@ -24,31 +24,30 @@ public class AccountRepository implements IAccountRepository {
 
     @Override
     public List<Account> getListAccounts() throws SQLException {
-        t
-            List<Account> accounts = new ArrayList<>();
-            Connection connection = jdbcUtils.connect();
+        List<Account> accounts = new ArrayList<>();
+        Connection connection = jdbcUtils.connect();
 
-            String sql = "SELECT a.AccountID,a.Email,a.Username,a.Fullname,a.CreateDate,d.* " +
-                    "FROM account a JOIN department d ON a.DepartmentID = d.DepartmentID ";
-            Statement statement = connection.createStatement();
+        String sql = "SELECT a.AccountID,a.Email,a.Username,a.Fullname,a.CreateDate,d.* " +
+                "FROM account a JOIN department d ON a.DepartmentID = d.DepartmentID ";
+        Statement statement = connection.createStatement();
 
-            ResultSet resultSet = statement.executeQuery(sql);
+        ResultSet resultSet = statement.executeQuery(sql);
 
-            while (resultSet.next()) {
-                Account account = new Account(
-                        resultSet.getInt("a.AccountID"),
-                        resultSet.getString("a.Email"),
-                        resultSet.getString("a.Username"),
-                        resultSet.getString("a.Fullname"),
-                        new Department(
-                                resultSet.getInt("d.DepartmentID"),
-                                resultSet.getString("d.DepartmentName")
-                        ),
-                        LocalDate.parse(resultSet.getString("a.CreateDate"))
-                );
-                accounts.add(account);
-            }
-            return accounts;
+        while (resultSet.next()) {
+            Account account = new Account(
+                    resultSet.getInt("a.AccountID"),
+                    resultSet.getString("a.Email"),
+                    resultSet.getString("a.Username"),
+                    resultSet.getString("a.Fullname"),
+                    new Department(
+                            resultSet.getInt("d.DepartmentID"),
+                            resultSet.getString("d.DepartmentName")
+                    ),
+                    LocalDate.parse(resultSet.getString("a.CreateDate"))
+            );
+            accounts.add(account);
+        }
+        return accounts;
 
     }
 
@@ -79,34 +78,32 @@ public class AccountRepository implements IAccountRepository {
 
     @Override
     public Account getAccountById(int id) throws SQLException {
-        try {
-            Connection connection = jdbcUtils.connect();
-            String sql = "SELECT a.AccountID,a.Email,a.Username,a.Fullname,a.CreateDate,d.* From account a JOIN department d" +
-                    " ON a.DepartmentID = d.DepartmentID " +
-                    " WHERE a.AccountID = ?";
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
 
-            preparedStatement.setInt(1, id);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            if (resultSet.next()) {
-                Account account = new Account(
-                        resultSet.getInt("a.AccountID"),
-                        resultSet.getString("a.Email"),
-                        resultSet.getString("a.Username"),
-                        resultSet.getString("a.Fullname"),
-                        new Department(
-                                resultSet.getInt("d.DepartmentID"),
-                                resultSet.getString("d.DepartmentName")
-                        ),
-                        LocalDate.parse(resultSet.getString("a.CreateDate"))
-                );
-                return account;
-            } else {
-                throw new SQLException(messageProperties.getProperty("account.getAccountByID.cannotFindAccountById") + id);
-            }
-        } finally {
-            jdbcUtils.disconnect();
+        Connection connection = jdbcUtils.connect();
+        String sql = "SELECT a.AccountID,a.Email,a.Username,a.Fullname,a.CreateDate,d.* From account a JOIN department d" +
+                " ON a.DepartmentID = d.DepartmentID " +
+                " WHERE a.AccountID = ?";
+        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+
+        preparedStatement.setInt(1, id);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        if (resultSet.next()) {
+            Account account = new Account(
+                    resultSet.getInt("a.AccountID"),
+                    resultSet.getString("a.Email"),
+                    resultSet.getString("a.Username"),
+                    resultSet.getString("a.Fullname"),
+                    new Department(
+                            resultSet.getInt("d.DepartmentID"),
+                            resultSet.getString("d.DepartmentName")
+                    ),
+                    LocalDate.parse(resultSet.getString("a.CreateDate"))
+            );
+            return account;
+        } else {
+            throw new SQLException(messageProperties.getProperty("account.getAccountByID.cannotFindAccountById") + id);
         }
+
     }
 
     @Override

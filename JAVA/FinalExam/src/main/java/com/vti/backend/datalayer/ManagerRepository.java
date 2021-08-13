@@ -49,6 +49,7 @@ public class ManagerRepository implements IManagerRepository {
 
             return managers;
         } else {
+            jdbcUtils.disconnect();
             throw new SQLException(messageProperties.getProperty("manager.getListManagerOfProject.cannotGetListManagerWithRole") + role);
         }
     }

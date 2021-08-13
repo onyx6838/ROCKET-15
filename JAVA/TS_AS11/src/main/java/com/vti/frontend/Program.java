@@ -1,11 +1,10 @@
 package com.vti.frontend;
 
 import com.vti.backend.presentationlayer.AccountController;
-import com.vti.entity.*;
+import com.vti.entity.Account;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.util.List;
 
 public class Program {
