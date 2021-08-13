@@ -24,7 +24,7 @@ public class AccountRepository implements IAccountRepository {
 
     @Override
     public List<Account> getListAccounts() throws SQLException {
-        try {
+        t
             List<Account> accounts = new ArrayList<>();
             Connection connection = jdbcUtils.connect();
 
@@ -49,9 +49,7 @@ public class AccountRepository implements IAccountRepository {
                 accounts.add(account);
             }
             return accounts;
-        } finally {
-            jdbcUtils.disconnect();
-        }
+
     }
 
     @Override

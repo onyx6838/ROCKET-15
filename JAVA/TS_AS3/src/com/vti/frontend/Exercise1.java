@@ -3,9 +3,11 @@ package com.vti.frontend;
 import com.vti.entity.*;
 
 import java.time.LocalDate;
+import java.util.Collections;
 import java.util.Random;
 
 public class Exercise1 {
+
     public static void main(String[] args) {
         //Ques1();
         //Ques2(1000, 5);
@@ -16,8 +18,10 @@ public class Exercise1 {
         salaryA = 5240.5f;
         salaryB = 10970.055f;
 
+
         Account account1 = new Account();
         account1.salary = salaryA;
+
 
         Account account2 = new Account();
         account2.salary = salaryB;

@@ -3,6 +3,9 @@ package com.vti;
 import com.vti.utils.ScannerUtils;
 
 public class Program {
+    public Program(Program b) {
+
+    }
 
     public static void main(String[] args) {
         System.out.println("Email ???????????");
