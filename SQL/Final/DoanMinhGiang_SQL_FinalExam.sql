@@ -91,8 +91,7 @@ Khi thay đổi data của cột ID của table Subject, thì giá trị tương
 theo*/
 DROP TRIGGER IF EXISTS SubjectUpdateID;
 DELIMITER$$
-CREATE TRIGGER SubjectUpdateID INSTEAD OF
-UPDATE ON `subject`
+CREATE TRIGGER SubjectUpdateID AFTER UPDATE ON `subject`
 FOR EACH ROW
 BEGIN
 	IF NEW.ID <> OLD.ID THEN	
@@ -110,12 +109,9 @@ DELIMITER$$
 CREATE TRIGGER StudentDeleteID BEFORE DELETE ON student
 FOR EACH ROW
 BEGIN
-	DECLARE old_id_student int;
-	SET old_id_student = (SELECT OLD.ID from OLD);
-	
-	DELETE From studentsubject so WHERE so.StudentID = old_id_student;
+	DELETE From studentsubject so WHERE so.StudentID = OLD.ID;
 END $$
-DELIMITER ;
+DELIMITER;
 /*Ques5 Viết 1 store procedure (có 2 parameters: student name) sẽ xóa tất cả các
 thông tin liên quan tới học sinh có cùng tên như parameter
 Trong trường hợp nhập vào student name = "*" thì procedure sẽ xóa tất cả

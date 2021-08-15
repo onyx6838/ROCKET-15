@@ -17,7 +17,7 @@ public class ManagerFunction {
 
     public void getListManagerOfProject() throws SQLException {
         List<Manager> managerList = controller.getListManagerOfProject(Role.MANAGER.toString());
-        System.out.println("Manager List With Role " + Role.MANAGER.toString());
+        System.out.println("Manager List With Role " + Role.MANAGER);
         String leftAlignFormat = "| %-9d | %-18s | %-7s | %-8d | %-9d |%n";
         System.out.format("+-----------+--------------------+---------+----------+-----------+%n");
         System.out.format("| ProjectId | fullName           | Role    |   idEmp  | expInYear |%n");

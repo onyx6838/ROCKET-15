@@ -59,7 +59,7 @@ public class ProjectRepository implements IProjectRepository {
             return project;
         } else {
             jdbcUtils.disconnect();
-            throw new SQLException(messageProperties.getProperty("project.getAccountByID.cannotFindAccountById") + id);
+            throw new SQLException(messageProperties.getProperty("project.getProjectByID.cannotFindProjectById") + id);
         }
     }
 
