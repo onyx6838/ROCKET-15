@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #table1 td,
+        #table1 tr,
+        #table1 th {
+            border: 1px double;
+        }
+
+        #table2 td,
+        #table2 tr,
+        #table2 th {
+            border: 1px double;
+        }
+
+        #table3 td,
+        #table3 tr,
+        #table3 th {
+            border: 1px double;
+        }
+
+        #table4 td,
+        #table4 tr,
+        #table4 th {
+            border: 1px double;
+        }
+    </style>
+</head>
+
+<body>
+    <h1 style="color: blue;">This is heading</h1>
+    <h3 style="color: red;">This is a paragraph</h3>
+    <br>
+    <p style="background-color: tomato;">Tomato</p>
+    <p style="background-color: orange;">Orange</p>
+    <p style="background-color: dodgerblue;">DodgerBlue</p>
+    <p style="background-color: mediumseagreen;">MediumSeaGreen</p>
+    <p style="background-color: gray;">Gray</p>
+    <p style="background-color: slateblue;">SlateBlue</p>
+    <p style="background-color: violet;">Violet</p>
+    <p style="background-color: lightgray;">LightGray</p>
+    <br>
+    <p style="border-style: solid;border-color: red;">Hello World</p>
+    <p style="border-style: solid;border-color: blue;">Hello World</p>
+    <p style="border-style: solid;border-color: violet;">Hello World</p>
+    <br>
+    <table id="table1">
+        <thead>
+            <tr>
+                <th>Ho Ten</th>
+                <th>Ngay Sinh</th>
+                <th>Gioi Tinh</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Tran Anh Duc</td>
+                <td>03/08/1993</td>
+                <td>Nam</td>
+            </tr>
+            <tr>
+                <td>Kieu Thi Thu Hang</td>
+                <td>03/08/1993</td>
+                <td>Nu</td>
+            </tr>
+            <tr>
+                <td>Vuong Thi Le Na</td>
+                <td>03/08/1993</td>
+                <td>Nu</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <br>
+
+    <table id="table2">
+        <thead>
+            <tr>
+                <td rowspan="2">STT</td>
+                <td rowspan="2">Ho Ten</td>
+                <td colspan="2">Gioi Tinh</td>
+                <td rowspan="2">Chuc Vu</td>
+            </tr>
+            <tr>
+                <td>Nam</td>
+                <td>Nu</td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td>Tran Duc Anh</td>
+                <td>X</td>
+                <td></td>
+                <td>Lop Truong</td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>Kieu Thi Thu Hang</td>
+                <td></td>
+                <td>X</td>
+                <td>Lop Pho</td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>Vuong Thi Le Na</td>
+                <td></td>
+                <td>X</td>
+                <td>To Vien</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <br>
+
+    <table id="table3">
+        <thead>
+            <tr>
+                <td>STT</td>
+                <td>Ho Ten</td>
+                <td>GVHD</td>
+                <td>Lich gap GVHD</td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td>Ng Thi Thu Trang</td>
+                <td rowspan="3">Th.S Ho Sy Tuy Duc</td>
+                <td rowspan="3">08/03/2018</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>Ng Thi Thu Trang</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>Ng Thi Thu Trang</td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>Ng Thi Kim Sa</td>
+                <td rowspan="2">Th.S Pham Thi Huyen Quyen</td>
+                <td rowspan="2">08/03/2018</td>
+            </tr>
+            <tr>
+                <td>5</td>
+                <td>Le Thi Trang</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <br>
+    <table id="table4">
+        <thead>
+            <tr>
+                <td colspan="2">Bang diem Lop 9B</td>
+                <td rowspan="2">Toan</td>
+                <td rowspan="2">Ly</td>
+                <td rowspan="2">Hoa</td>
+            </tr>
+            <tr>
+                <td>STT</td>
+                <td>Ho Ten</td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td>Tran Duc Anh</td>
+                <td>8.5</td>
+                <td>3.0</td>
+                <td>7.75</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>Tran Duc Anh</td>
+                <td>8.5</td>
+                <td>3.0</td>
+                <td>7.75</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>Tran Duc Anh</td>
+                <td>8.5</td>
+                <td>3.0</td>
+                <td>7.75</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td colspan="4">Diem Trung Binh ca Lop</td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+
+</html>
