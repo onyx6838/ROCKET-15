@@ -17,36 +17,41 @@ body {
     height: 110px;
 }
 
-.nav{
+.nav {
     height: 40px;
     background-color: green;
 }
 
 .container {
+    height: 400px;
     display: flex;
 }
 
-.left-content{
-    
+.left-content {
+    flex: 3;
 }
 
-/* .left-content {
-    border: 1px solid black;
-    background-color: red;
-    padding: 10px;
-    height: 400px;
+.right-content {
     flex: 1;
 }
 
-.main-content {
-    border: 1px solid black;
+.section {
     background-color: blue;
-    padding: 10px;
-    flex: 3;
-} */
+    height: 200px;
+}
+
+.article {
+    background-color: lightsalmon;
+    height: 200px;
+}
+
+.aside {
+    height: 400px;
+    background-color: gray;
+}
 
 .footer {
-    background-color: #f1f1f1;
+    background-color: olive;
     padding: 10px;
     text-align: center;
 }
