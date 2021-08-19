@@ -1,0 +1,55 @@
+.main-content {
+    text-align: center;
+    color: green;
+}
+
+.content {
+    text-align: center;
+}
+
+.content-background-p {
+    background-color: pink;
+}
+
+#table-menu-food table {
+    border-collapse: collapse;
+}
+
+#table-menu-food table td {
+    border: 1px solid purple;
+}
+
+#table-menu-food table tr:nth-child(even) {
+    background-color: #edbba0;
+}
+
+#table-menu-food table thead tr:first-child {
+    background-color: orange;
+}
+
+#table-subject table {
+    border-collapse: collapse;
+}
+
+#table-subject table td {
+    border: 1px solid purple;
+}
+
+#table-subject thead {
+    background-color: red;
+    color: white;
+}
+
+#table-discount table {
+    border-collapse: collapse;
+    background-color: lightgreen;
+}
+
+#table-discount table td {
+    padding: 8px;
+    border: 1px solid black;
+}
+
+.div-discount {
+    margin: 0 auto;
+}
