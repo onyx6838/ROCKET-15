@@ -1,3 +1,6 @@
+/**
+ * variables
+ */
 var employees = [];
 var counter = 0;
 
@@ -16,29 +19,6 @@ function Employee(name, department, phone) {
 }
 
 /**
- * 
- */
- function openAddModal() {
-    //resetForm();
-    openModal();
-}
-
-
-/**
- * 
- */
-function openModal() {
-    $('#myModal').modal('show');
-}
-
-/**
- * 
- */
- function hideModal() {
-    $('#myModal').modal('hide');
-}
-
-/**
  * init fake data for table 
  */
 
@@ -47,8 +27,8 @@ function initEmployees() {
         employees.push(new Employee("John Doe", "Administration", "(171) 555-2222"));
         employees.push(new Employee("Peter Parker", "Customer Service", "(313) 555-5735"));
         employees.push(new Employee("Fran Wilson", "Human Resources", "(503) 555-9931"));
-        employees.push(new Employee("Fran Wilson", "Human Resources", "(503) 555-9931"));
-        employees.push(new Employee("Fran Wilson", "Human Resources", "(503) 555-9931"));
+        employees.push(new Employee("Jack Wilson", "Human Resources", "(503) 555-9931"));
+        employees.push(new Employee("Tom Wilson", "Human Resources", "(503) 555-9931"));
     }
 }
 
@@ -76,17 +56,101 @@ function buildTable() {
     };
     setTimeout(appendToTable, 500);
 }
+/**
+ * add employee
+ */
+function addEmployee() {
+    var name = $('#name').val('');
+    var department = $('#department').val();
+    var phone = $('#phone').val('');
 
-function openConfirmDelete(id) {
-    var id = employees.findIndex(x => x.id == id);
-    var name = employees[id].name;
-    var result = confirm("Want to delete " + name + " ?");
-    if (result) {
-        deleteEmployee(id);
+    // TODO validate
+    // then fail validate ==> return;
+
+    employees.push(new Employee(name, department, phone));
+
+    hideModal();
+    showSuccessAlert();
+    buildTable();
+}
+
+function openUpdateModal(id) {
+    // get index from employee's id
+    var index = employees.findIndex(x => x.id == id);
+
+    // fill data
+    $('#id').val(employees[index].id)
+    $('#name').val(employees[index].name)
+    $('#department').val(employees[index].department)
+    $('#phone').val(employees[index].phone)
+
+    openModal();
+}
+/**
+ * save or update modal
+ */
+function save() {
+    var id = $('#id').val();
+
+    if (id == null || id == "") {
+        addEmployee();
+    } else {
+        updateEmployee();
     }
 }
 
+/**
+ * update employee
+ */
+function updateEmployee() {
+    var id = $('#id').val();
+    var name = $('#name').val();
+    var department = $('#department').val();
+    var phone = $('#phone').val();
 
-function deleteEmployee() {
-    employees.splice(employees.findIndex(x => x.id === id), 1)
+    // TODO validate
+    // then fail validate ==> return;
+
+    // get index from employee's id
+    var index = employees.findIndex(x => x.id == id);
+
+    // update employee
+    employees[index].name = name;
+    employees[index].department = department;
+    employees[index].phone = phone;
+
+    hideModal();
+    showSuccessAlert();
+    buildTable();
+}
+
+
+/**
+ * confirm delete with id selected
+ * @param {*} id 
+ */
+function openConfirmDelete(id) {
+    var index = employees.findIndex(x => x.id == id);
+    var name = employees[index].name;
+    var result = confirm("Want to delete " + name + " ?");
+    if (result) {
+        deleteEmployee(index);
+    }
+}
+
+/**
+ * delete employee
+ */
+function deleteEmployee(index) {
+    employees.splice(index, 1);
+    buildTable();
+}
+
+/**
+ * fade alert success
+ */
+function showSuccessAlert() {
+    $("#success-alert").fadeTo(2000, 500).slideUp(500, function () {
+        $("#success-alert").slideUp(500);
+    });
 }
