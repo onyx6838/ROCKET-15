@@ -1,5 +1,5 @@
 /**
- * load container
+ * load container - document ready - DOM ready
  */
 $(function () {
     $(".header").load("header.html");
@@ -19,7 +19,7 @@ function loadHomePage() {
  */
 function loadListPage() {
     $(".main").load("table-employee.html");
-    buildTable();
+    initEmployees();
 }
 
 /**

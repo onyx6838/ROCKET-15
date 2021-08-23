@@ -1,47 +1,37 @@
 /**
- * variables
- */
-var employees = [];
-var counter = 0;
-
-/**
- * create Employee object
+ * Employee constructor
+ * @param {*} id 
  * @param {*} name 
  * @param {*} department 
- * @param {*} phone 
+ * @param {*} phonenumber 
  */
-
-function Employee(name, department, phone) {
-    this.id = ++counter; // auto-increment
+function Employee(id, name, department, phonenumber) {
+    this.id = id;
     this.name = name;
     this.department = department;
-    this.phone = phone;
+    this.phonenumber = phonenumber;
 }
 
 /**
- * init fake data for table 
+ * init data
  */
-
 function initEmployees() {
-    if (employees == null || employees.length == 0) {
-        employees.push(new Employee("John Doe", "Administration", "(171) 555-2222"));
-        employees.push(new Employee("Peter Parker", "Customer Service", "(313) 555-5735"));
-        employees.push(new Employee("Fran Wilson", "Human Resources", "(503) 555-9931"));
-        employees.push(new Employee("Jack Wilson", "Human Resources", "(503) 555-9931"));
-        employees.push(new Employee("Tom Wilson", "Human Resources", "(503) 555-9931"));
-    }
+    $.ajax({
+        type: "GET",
+        url: "https://6123b178124d8800175683d7.mockapi.io/employees",
+        success: function (data) {
+            buildTable(data);
+        }
+    });
 }
 
 /**
  * build table
  */
-
-function buildTable() {
-    function appendToTable() {
+function buildTable(data) {
+    setTimeout(function appendToTable() {
         $('tbody').empty();
-        initEmployees();
-
-        employees.forEach(function (item) {
+        data.forEach(function (item) {
             $('tbody').append(
                 '<tr>' +
                 '<td>' + item.name + '</td>' +
@@ -53,39 +43,58 @@ function buildTable() {
                 '</td>' +
                 '</tr>')
         });
-    };
-    setTimeout(appendToTable, 500);
+    }, 500);
 }
+
 /**
  * add employee
  */
 function addEmployee() {
-    var name = $('#name').val('');
+    var name = $('#name').val();
     var department = $('#department').val();
-    var phone = $('#phone').val('');
+    var phone = $('#phone').val();
 
     // TODO validate
     // then fail validate ==> return;
 
-    employees.push(new Employee(name, department, phone));
-
-    hideModal();
-    showSuccessAlert();
-    buildTable();
+    $.ajax({
+        type: "POST",
+        url: "https://6123b178124d8800175683d7.mockapi.io/employees",
+        dataType: "json",
+        data: {
+            name: name,
+            department: department,
+            phone: phone
+        },
+        success: function (response) {
+            hideModal();
+            showSuccessAlert();
+            initEmployees();
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.log(textStatus, errorThrown);
+        }
+    });
 }
 
 function openUpdateModal(id) {
-    // get index from employee's id
-    var index = employees.findIndex(x => x.id == id);
-
-    // fill data
-    $('#id').val(employees[index].id)
-    $('#name').val(employees[index].name)
-    $('#department').val(employees[index].department)
-    $('#phone').val(employees[index].phone)
-
-    openModal();
+    $.ajax({
+        type: "GET",
+        url: "https://6123b178124d8800175683d7.mockapi.io/employees/" + id,
+        dataType: "json",
+        success: function (response) {
+            $('#id').val(response.id)
+            $('#name').val(response.name)
+            $('#department').val(response.department)
+            $('#phone').val(response.phone)
+            openModal();
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.log(textStatus, errorThrown);
+        }
+    });
 }
+
 /**
  * save or update modal
  */
@@ -111,17 +120,24 @@ function updateEmployee() {
     // TODO validate
     // then fail validate ==> return;
 
-    // get index from employee's id
-    var index = employees.findIndex(x => x.id == id);
-
-    // update employee
-    employees[index].name = name;
-    employees[index].department = department;
-    employees[index].phone = phone;
-
-    hideModal();
-    showSuccessAlert();
-    buildTable();
+    $.ajax({
+        type: "PUT",
+        url: "https://6123b178124d8800175683d7.mockapi.io/employees/" + id,
+        dataType: "json",
+        data: {
+            name: name,
+            department: department,
+            phone: phone
+        },
+        success: function (response) {
+            hideModal();
+            showSuccessAlert();
+            initEmployees();
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.log(textStatus, errorThrown);
+        }
+    });
 }
 
 
@@ -130,20 +146,21 @@ function updateEmployee() {
  * @param {*} id 
  */
 function openConfirmDelete(id) {
-    var index = employees.findIndex(x => x.id == id);
-    var name = employees[index].name;
-    var result = confirm("Want to delete " + name + " ?");
+    var result = confirm("Want to delete ?");
     if (result) {
-        deleteEmployee(index);
+        $.ajax({
+            type: "DELETE",
+            url: "https://6123b178124d8800175683d7.mockapi.io/employees/" + id,
+            dataType: "json",
+            success: function (response) {
+                showSuccessAlert();
+                initEmployees();
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.log(textStatus, errorThrown);
+            }
+        });
     }
-}
-
-/**
- * delete employee
- */
-function deleteEmployee(index) {
-    employees.splice(index, 1);
-    buildTable();
 }
 
 /**
