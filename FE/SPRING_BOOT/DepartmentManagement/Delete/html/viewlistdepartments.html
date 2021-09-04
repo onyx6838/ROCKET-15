@@ -2,17 +2,23 @@
     <div class="table-wrapper">
         <div class="table-title">
             <div class="row">
-                <div class="col-sm-8">
+                <div class="col-sm-6">
                     <h2>Department <b>View List</b></h2>
                 </div>
-                <div class="col-sm-4">
-                    <button type="button" class="btn btn-info add-new" data-toggle="modal" onclick="openAddModal()"><i class="fa fa-plus"></i> Add New</button>
+                <div class="col-sm-6">
+                    <button type="button" class="btn btn-info add-new" data-toggle="modal" onclick="openAddModal()"><i
+                            class="fa fa-plus"></i> Add New</button>
+                    <button type="button" class="btn btn-info add-new" data-toggle="modal"
+                        onclick="deleteAllDepartment()"><i class="fa fa-plus"></i> Delete All</button>
                 </div>
             </div>
         </div>
         <table class="table table-bordered">
             <thead>
                 <tr>
+                    <th>
+                        <input type="checkbox" name="checkbox-deleteAll" id="checkall">
+                    </th>
                     <th>Name</th>
                     <th>Author</th>
                     <th>Create Date</th>
@@ -20,36 +26,6 @@
                 </tr>
             </thead>
             <tbody>
-                <!-- <tr>
-                    <td>John Doe</td>
-                    <td>Administration</td>
-                    <td>(171) 555-2222</td>
-                    <td>
-                        <a class="add" title="Add" data-toggle="tooltip"><i class="material-icons">&#xE03B;</i></a>
-                        <a class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
-                        <a class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Peter Parker</td>
-                    <td>Customer Service</td>
-                    <td>(313) 555-5735</td>
-                    <td>
-                        <a class="add" title="Add" data-toggle="tooltip"><i class="material-icons">&#xE03B;</i></a>
-                        <a class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
-                        <a class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Fran Wilson</td>
-                    <td>Human Resources</td>
-                    <td>(503) 555-9931</td>
-                    <td>
-                        <a class="add" title="Add" data-toggle="tooltip"><i class="material-icons">&#xE03B;</i></a>
-                        <a class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
-                        <a class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
-                    </td>
-                </tr> -->
             </tbody>
         </table>
     </div>
@@ -73,7 +49,7 @@
 
                         <label for="name"><b>Name</b></label>
                         <input type="text" placeholder="Enter Name" name="name" id="name" required>
-                        
+
                         <label for="author" id="authorLabel"><b>Author</b></label>
                         <input type="text" name="author" id="author" disabled>
 
@@ -97,3 +73,7 @@
         <strong>Success! </strong>
     </div>
 </div>
+
+<script>
+    
+</script>

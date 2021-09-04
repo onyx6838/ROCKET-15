@@ -2,6 +2,23 @@ $(function () {
     $(".header").load("header.html");
     $(".main").load("home.html");
     $(".footer").load("footer.html");
+    $('#checkall').change(function () {
+        $('.row-cb').prop('checked',this.checked);
+    });
+});
+
+$(document).ready(function () {
+    $('#checkall').change(function () {
+        $('.row-cb').prop('checked',this.checked);
+    });
+
+    // $('.row-cb').click(function () {
+    //     if ($('.row-cb:checked').length == $('.row-cb').length) {
+    //         $('#checkParent').prop('checked', true);
+    //     } else {
+    //         $('#checkParent').prop('checked', false);
+    //     }
+    // });
 });
 
 function clickNavHome() {
@@ -37,9 +54,10 @@ function getListDepartments() {
 }
 
 function fillDepartmentToTable() {
-    departments.forEach(function (item) {
+    departments.forEach(function (item, index) {
         $('tbody').append(
             '<tr>' +
+            '<td><input class="row-cb" type="checkbox" id="' + index + '"></td>' +
             '<td>' + item.name + '</td>' +
             '<td>' + item.author.fullName + '</td>' +
             '<td>' + item.createDate + '</td>' +
@@ -218,6 +236,39 @@ function deleteDepartment(id) {
         }
     });
 }
+
+
+
+function deleteAllDepartment() {
+    // get checked
+    var ids = [];
+    var names = [];
+
+    $("input:checkbox.row-cb").filter(":checked").map(function () {
+        ids.push(departments[$(this).attr("id")].id);
+        names.push(departments[$(this).attr("id")].name);
+    });
+    console.log(ids);
+    var result = confirm("want to delete " + names.join() + " ?");
+    if (result) {
+        $.ajax({
+            url: 'http://localhost:8080/api/v1/departments?ids=' + ids,
+            type: 'DELETE',
+            success: function (result) {
+                // error
+                if (result == undefined || result == null) {
+                    alert("Error when loading data");
+                    return;
+                }
+
+                // success
+                showSuccessAlert();
+                buildTable();
+            }
+        });
+    }
+}
+
 
 function showSuccessAlert() {
     $("#success-alert").fadeTo(2000, 500).slideUp(500, function () {

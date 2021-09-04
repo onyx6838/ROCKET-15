@@ -137,10 +137,10 @@ function openUpdateModal(id) {
         resetFormUpdate();
 
         // fill data
-        document.getElementById("id").value = data.id;
-        document.getElementById("name").value = data.name;
-        document.getElementById("author").value = data.author.fullName;
-        document.getElementById("createdDate").value = data.createDate;
+        $('#id').val(data.id);
+        $('#name').val(data.name);
+        $('#author').val(data.author.fullName);
+        $('#createdDate').val(data.createDate);
     });
 }
 
