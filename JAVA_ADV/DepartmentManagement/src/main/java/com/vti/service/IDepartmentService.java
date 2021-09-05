@@ -5,10 +5,12 @@ import java.util.List;
 import com.vti.entity.Department;
 import com.vti.form.DepartmentFormForCreating;
 import com.vti.form.DepartmentFormForUpdating;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 public interface IDepartmentService {
 
-	public List<Department> getAllDepartments();
+	public Page<Department> getAllDepartments(Pageable pageable);
 
 	public Department getDepartmentByID(short id);
 

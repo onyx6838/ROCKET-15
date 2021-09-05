@@ -46,7 +46,7 @@ public class Account implements Serializable {
 	@Column(name = "FirstName", length = 50, nullable = false)
 	private String firstName;
 
-	@Column(name = "LastName", length = 50, nullable = false)
+	@Column(name = "LastName", length = 50, nullable = 	false)
 	private String lastName;
 
 	@Formula(" concat(FirstName, ' ', LastName) ")
