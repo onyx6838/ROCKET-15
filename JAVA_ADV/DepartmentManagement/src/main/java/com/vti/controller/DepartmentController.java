@@ -1,8 +1,9 @@
 package com.vti.controller;
 
 import java.util.List;
+import java.util.function.Function;
 
-import org.modelmapper.ModelMapper;
+import com.vti.form.DepartmentFilterForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -21,12 +22,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.vti.dto.AccountDto;
 import com.vti.dto.DepartmentDto;
-import com.vti.dto.DetailDepartmentDto;
 import com.vti.entity.Department;
 import com.vti.form.DepartmentFormForCreating;
 import com.vti.form.DepartmentFormForUpdating;
 import com.vti.service.IDepartmentService;
-
 
 @RestController
 @RequestMapping(value = "api/v1/departments")
@@ -36,28 +35,32 @@ public class DepartmentController {
     @Autowired
     private IDepartmentService service;
 
-    @Autowired
-    private ModelMapper modelMapper;
-
     @GetMapping()
-    public ResponseEntity<?> getAllDepartments(Pageable pageable) {
-        Page<Department> entitiesPage = service.getAllDepartments(pageable);
+    public ResponseEntity<?> getAllDepartments(Pageable pageable, @RequestParam(required = false) String search
+            , DepartmentFilterForm filter) {
+        Page<Department> entitiesPage = service.getAllDepartments(pageable, search, filter);
 
-        Page<DepartmentDto> dtoPage = entitiesPage.map(entity -> {
-			DepartmentDto dto = new DepartmentDto(entity.getId(), entity.getName(),
-					new AccountDto(entity.getAuthor().getId(), entity.getAuthor().getFullName()),
-					entity.getCreateDate());
-            return dto;
-        });
+        Page<DepartmentDto> dtoPage = entitiesPage.map(entity -> new DepartmentDto(entity.getId(), entity.getName(),
+                new AccountDto(entity.getAuthor().getId(), entity.getAuthor().getFullName()),
+                entity.getCreateDate()));
+
         return new ResponseEntity<>(dtoPage, HttpStatus.OK);
     }
 
     @GetMapping(value = "/{id}")
     public ResponseEntity<?> getDepartmentByID(@PathVariable(name = "id") short id) {
+
         Department entity = service.getDepartmentByID(id);
-        DetailDepartmentDto dto = new DetailDepartmentDto(entity.getId(), entity.getName(),
+
+        DepartmentDto dto = new DepartmentDto(entity.getId(), entity.getName(),
                 new AccountDto(entity.getAuthor().getId(), entity.getAuthor().getFullName()), entity.getCreateDate());
+
         return new ResponseEntity<>(dto, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/name/{name}/exists")
+    public ResponseEntity<?> existsByName(@PathVariable(name = "name") String name) {
+        return new ResponseEntity<>(service.isDepartmentExistsByName(name), HttpStatus.OK);
     }
 
     @PostMapping()
@@ -84,4 +87,5 @@ public class DepartmentController {
         service.deleteDepartments(ids);
         return new ResponseEntity<String>("Delete successfully!", HttpStatus.OK);
     }
+
 }
