@@ -30,38 +30,44 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class Account implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	@Column(name = "AccountID")
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private short id;
+    @Column(name = "AccountID")
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private short id;
 
-	@Column(name = "Email", length = 50, nullable = false, unique = true, updatable = false)
-	private String email;
+    @Column(name = "Email", length = 50, nullable = false, unique = true, updatable = false)
+    private String email;
 
-	@Column(name = "Username", length = 50, nullable = false, unique = true, updatable = false)
-	private String username;
+    @Column(name = "Username", length = 50, nullable = false, unique = true, updatable = false)
+    private String username;
 
-	@Column(name = "FirstName", length = 50, nullable = false)
-	private String firstName;
+    @Column(name = "password", length = 800, nullable = false)
+    private String password;
 
-	@Column(name = "LastName", length = 50, nullable = 	false)
-	private String lastName;
+    @Column(name = "FirstName", length = 50, nullable = false)
+    private String firstName;
 
-	@Formula(" concat(FirstName, ' ', LastName) ")
-	private String fullName;
+    @Column(name = "LastName", length = 50, nullable = false)
+    private String lastName;
 
-	@ManyToOne
-	@JoinColumn(name = "DepartmentID")
-	private Department department;
+    @Formula(" concat(FirstName, ' ', LastName) ")
+    private String fullName;
 
-	@OneToMany(mappedBy = "author")
-	private List<Department> createdDepartment;
+    @Column(name = "Role", nullable = false)
+    private String role;
 
-	@Column(name = "CreateDate")
-	@Temporal(TemporalType.TIMESTAMP)
-	@CreationTimestamp
-	private Date createDate;
+    @ManyToOne
+    @JoinColumn(name = "DepartmentID")
+    private Department department;
+
+    @OneToMany(mappedBy = "author")
+    private List<Department> createdDepartment;
+
+    @Column(name = "CreateDate")
+    @Temporal(TemporalType.TIMESTAMP)
+    @CreationTimestamp
+    private Date createDate;
 
 }

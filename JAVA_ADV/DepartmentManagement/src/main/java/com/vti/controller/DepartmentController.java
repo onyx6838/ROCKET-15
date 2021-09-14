@@ -1,7 +1,6 @@
 package com.vti.controller;
 
 import java.util.List;
-import java.util.function.Function;
 
 import com.vti.form.DepartmentFilterForm;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,26 +65,26 @@ public class DepartmentController {
     @PostMapping()
     public ResponseEntity<?> createDepartment(@RequestBody DepartmentFormForCreating form) {
         service.createDepartment(form);
-        return new ResponseEntity<String>("Create successfully!", HttpStatus.CREATED);
+        return new ResponseEntity<>("Create successfully!", HttpStatus.CREATED);
     }
 
     @PutMapping(value = "/{id}")
     public ResponseEntity<?> updateDepartment(@PathVariable(name = "id") short id,
                                               @RequestBody DepartmentFormForUpdating form) {
         service.updateDepartment(id, form);
-        return new ResponseEntity<String>("Update successfully!", HttpStatus.OK);
+        return new ResponseEntity<>("Update successfully!", HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<?> deleteDepartment(@PathVariable(name = "id") short id) {
         service.deleteDepartment(id);
-        return new ResponseEntity<String>("Delete successfully!", HttpStatus.OK);
+        return new ResponseEntity<>("Delete successfully!", HttpStatus.OK);
     }
 
     @DeleteMapping
     public ResponseEntity<?> deleteDepartments(@RequestParam(name = "ids") List<Short> ids) {
         service.deleteDepartments(ids);
-        return new ResponseEntity<String>("Delete successfully!", HttpStatus.OK);
+        return new ResponseEntity<>("Delete successfully!", HttpStatus.OK);
     }
 
 }
