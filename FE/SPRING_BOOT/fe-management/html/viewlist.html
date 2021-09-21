@@ -1,0 +1,62 @@
+<div>
+    <h2>View List</h2>
+    <div class="col-sm-7">
+        <button type="button" class="btn btn-info add-new" data-toggle="modal" onclick="openAddModal()"><i
+                class="fa fa-plus"></i> Add New</button>
+    </div>
+    <div class="col-sm-5">
+        <input type="text" class="form-control" placeholder="Search ... ">
+        <span class="input-group-btn">
+            <button class="btn btn-default" type="button">
+                <span class="glyphicon glyphicon-search"></span>
+            </button>
+        </span>
+    </div>
+</div>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th><b>Id</b> <i class="fa fa-fw fa-sort"></i></th>
+            <th><b>Name</b> <i class="fa fa-fw fa-sort"></i></th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+    </tbody>
+</table>
+
+<!-- Modal HTML -->
+<div id="myModal" class="modal fade" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <!-- header -->
+            <div class="modal-header">
+                <h5 class="modal-title" id="titleModal">Add Department</h5>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- body -->
+            <div class="modal-body">
+                <div class="modal-container">
+                    <input type="hidden" id="id" name="id">
+                    <label for="name"><b>Name</b></label>
+                    <input type="text" placeholder="Enter Name" name="name" id="name" required>
+                    <p style="color: red;" id="nameErrorMessage"></p>
+                </div>
+            </div>
+
+            <!-- footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="save()">Save</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- success alert -->
+<div class="alert alert-success" id="success-alert" style="display: none;">
+    <button type="button" class="close" data-dismiss="alert">x</button>
+    <strong>Success! </strong>
+</div>
+<!-- end Success Alert -->
