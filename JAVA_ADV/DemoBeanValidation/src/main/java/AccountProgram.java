@@ -1,5 +1,3 @@
-package com.vti;
-
 import java.util.Date;
 import java.util.Set;
 
@@ -13,7 +11,9 @@ import com.vti.entity.Account;
 public class AccountProgram {
 	public static void main(String[] args) {
 		Date date  = new Date(100, 12, 20);	// 1900 + years
-		Account account = new Account("account1", date);
+		Account account = new Account();
+		account.setName("aa");
+		account.setBirthDay(date);
 
 		ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
 		Validator validator = validatorFactory.getValidator();
@@ -21,7 +21,7 @@ public class AccountProgram {
 		// validate
 		Set<ConstraintViolation<Account>> violations = validator.validate(account);
 		for (ConstraintViolation<Account> violation : violations) {
-			System.out.println(violation);
+			System.out.println(violation.getMessage());
 		}
 	}
 }
