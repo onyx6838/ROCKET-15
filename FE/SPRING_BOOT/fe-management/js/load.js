@@ -16,7 +16,6 @@ function clickSideBarDepartment() {
 }
 
 function buildTable() {
-    $('tbody').empty();
     getDataToTable();
 }
 
