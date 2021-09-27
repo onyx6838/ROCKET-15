@@ -46,6 +46,13 @@
             <artifactId>hibernate-core</artifactId>
             <version>5.4.17.Final</version>
         </dependency>
+
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>r05</version>
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -61,6 +68,7 @@
                         </exclude>
                     </excludes>
                 </configuration>
+                <version>2.5.4</version>
             </plugin>
         </plugins>
     </build>

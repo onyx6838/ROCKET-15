@@ -3,17 +3,19 @@
     <div class="col-sm-7">
         <button type="button" class="btn btn-info add-new" data-toggle="modal" onclick="openAddModal()"><i
                 class="fa fa-plus"></i> Add New</button><br>
-        Min Create Date: <input type="date" id="minCreateDate" name="minCreateDate"
+        <button type="button" class="btn btn-info add-new" data-toggle="modal" onclick="deleteAllDepartment()"><i
+                class="fa fa-plus"></i> Delete</button><br>
+        Min CreateDate: <input type="date" id="minCreateDate" name="minCreateDate"
             onchange="changeMinCreateDate(event);" /></br>
-        Max Create Date: <input type="date" id="maxCreateDate" name="maxCreateDate"
+        Max CreateDate: <input type="date" id="maxCreateDate" name="maxCreateDate"
             onchange="changeMaxCreateDate(event);"></br>
         <!-- <input type="text" onkeyup="handKeyUpEventForSearching(event)" id="input-search-department"
             placeholder="Search for department name or author..." title="Type in a name"> -->
         <!-- <button type="button" onclick="handleSearch()">Search</button> -->
     </div>
     <div class="col-sm-5">
-        <input type="text" class="form-control" placeholder="Search ... " 
-        onkeyup="handKeyUpEventForSearching(event)" id="input-search-department">
+        <input type="text" class="form-control" placeholder="Search ... " onkeyup="handKeyUpEventForSearching(event)"
+            id="input-search-department">
         <span class="input-group-btn">
             <button class="btn btn-default" type="button" onclick="handleSearch()">
                 <span class="glyphicon glyphicon-search"></span>
@@ -22,11 +24,11 @@
     </div>
 </div>
 <table class="table table-striped">
-    <thead>
+    <thead> 
         <tr>
-            <th><input type="checkbox" id="checkbox-all" name="checkbox-all" onclick="onChangeCheckboxAll()"></th>
-            <th><b>Id</b> <i class="fa fa-fw fa-sort"></i></th>
-            <th><b>Name</b> <i class="fa fa-fw fa-sort"></i></th>
+            <th><input type="checkbox" id="checkbox-all" name="checkbox-all" onclick="checkAllCheckBox(this.checked);"></th>
+            <th><b>Name</b> <i id="sort-name" class="fa fa-fw fa-sort" onclick="changeSort('name')"></i></th>
+            <th><b>Total Member</b> <i id="sort-totalMember" class="fa fa-fw fa-sort" onclick="changeSort('totalMember')"></i></th>
             <th>Action</th>
         </tr>
     </thead>
@@ -41,18 +43,7 @@
     </div> -->
     <div class="col-sm-12">
         <div class="dataTables_paginate paging_simple_numbers" id="dataTables-example_paginate">
-            <ul id="pagination">
-                <!-- <li class="paginate_button previous disabled" aria-controls="dataTables-example" tabindex="0"
-                    id="dataTables-example_previous"><a href="#">Previous</a></li>
-                <li class="paginate_button active" aria-controls="dataTables-example" tabindex="0"><a href="#">1</a>
-                </li>
-                <li class="paginate_button " aria-controls="dataTables-example" tabindex="0"><a href="#">2</a></li>
-                <li class="paginate_button " aria-controls="dataTables-example" tabindex="0"><a href="#">3</a></li>
-                <li class="paginate_button " aria-controls="dataTables-example" tabindex="0"><a href="#">4</a></li>
-                <li class="paginate_button " aria-controls="dataTables-example" tabindex="0"><a href="#">5</a></li>
-                <li class="paginate_button " aria-controls="dataTables-example" tabindex="0"><a href="#">6</a></li>
-                <li class="paginate_button next" aria-controls="dataTables-example" tabindex="0"
-                    id="dataTables-example_next"><a href="#">Next</a></li> -->
+            <ul id="pagination" class="pagination">
             </ul>
         </div>
     </div>

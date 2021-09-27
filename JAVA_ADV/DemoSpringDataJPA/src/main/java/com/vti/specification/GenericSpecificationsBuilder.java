@@ -1,4 +1,4 @@
-package com.vti.testing.specification;
+package com.vti.specification;
 
 import java.util.Collections;
 import java.util.Deque;
@@ -8,19 +8,11 @@ import java.util.function.Function;
 
 import org.springframework.data.jpa.domain.Specification;
 
-import com.vti.testing.Application;
-import com.vti.testing.config.resourceproperties.searchparameter.OperatorProperty;
+import com.vti.DemoSpringDataJpaApplication;
+import com.vti.config.resourceproperties.searchparameter.OperatorProperty;
 
 /**
  * This class is generic of Specification Builder.
- * 
- * @Description: .
- * @author: NNDuy
- * @create_date: Mar 12, 2020
- * @version: 1.0
- * @modifer: NNDuy
- * @modifer_date: Mar 12, 2020
- * @param <T>
  */
 public class GenericSpecificationsBuilder<T> {
 
@@ -28,27 +20,13 @@ public class GenericSpecificationsBuilder<T> {
 
 	/**
 	 * Constructor for class GenericSpecificationsBuilder.
-	 * 
-	 * @Description: .
-	 * @author: NNDuy
-	 * @create_date: Mar 27, 2020
-	 * @version: 1.0
-	 * @modifer: NNDuy
-	 * @modifer_date: Mar 27, 2020
 	 */
 	public GenericSpecificationsBuilder() {
-		operatorProperty = Application.getBean(OperatorProperty.class);
+		operatorProperty = DemoSpringDataJpaApplication.getBean(OperatorProperty.class);
 	}
 
 	/**
 	 * This method is converted to Specification.
-	 * 
-	 * @Description: .
-	 * @author: NNDuy
-	 * @create_date: Mar 13, 2020
-	 * @version: 1.0
-	 * @modifer: NNDuy
-	 * @modifer_date: Mar 13, 2020
 	 * @param criteriaExpressionStack
 	 * @param converter
 	 * @return

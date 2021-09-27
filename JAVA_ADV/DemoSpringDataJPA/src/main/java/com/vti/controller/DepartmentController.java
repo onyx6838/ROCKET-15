@@ -51,4 +51,10 @@ public class DepartmentController {
         service.deleteDepartment(id);
         return new ResponseEntity<>("Delete successfully!", HttpStatus.OK);
     }
+
+    @DeleteMapping
+    public ResponseEntity<?> deleteDepartments(@RequestParam(name = "ids") List<Short> ids) {
+        service.deleteDepartments(ids);
+        return new ResponseEntity<>("Delete successfully!", HttpStatus.OK);
+    }
 }

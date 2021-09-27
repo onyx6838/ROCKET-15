@@ -1,18 +1,22 @@
 var departments = [];
-var currentPage = 1;
+// paging data
+var pageNumber = 1;
 var size = 3;
-var sortField = "modifiedDate";
+var maxPage = 2;
+// sort data
+var sortField = "id";
 var isAsc = false;
-
+// filter data and searching
 var search = '';
-
 var minCreateDate = "";
 var maxCreateDate = "";
-
+/**
+ * GET all call
+ */
 function getDataToTable() {
     var url = "http://localhost:8080/api/v1/departments";
 
-    url += "?page=" + currentPage + "&size=" + size;
+    url += "?page=" + pageNumber + "&size=" + size;
 
     url += "&sort=" + sortField + "," + (isAsc ? "asc" : "desc");
 
@@ -24,23 +28,24 @@ function getDataToTable() {
         }
 
         departments = data.content;
-        fillDepartmentToTable();
+        fillDataToTable();
+        checkAllCheckBox(false);
         pagingTable(data.totalPages);
-        renderSortUI();
+        sortUI();
     });
 }
 
 /**
- * init data to Table
+ * init
  */
 function fillDataToTable() {
     var tr;
     $('#dpt_body').empty();
-    displayRecords.forEach(function (item, index) {
+    departments.forEach(function (item, index) {
         tr = $('<tr/>');
-        tr.append('<td>' + '<input id="checkbox-' + index + '" type="checkbox" onClick="onChangeCheckboxItem()">' + '</td>');
-        tr.append('<td>' + item.id + '</td>');
+        tr.append('<td>' + '<input id="checkbox-' + index + '" type="checkbox" class="cb-child" data-id="' + index + '" onClick="onChangeCheckboxItem()" >' + '</td>');
         tr.append('<td>' + item.name + '</td>');
+        tr.append('<td>' + item.totalMember + '</td>');
         tr.append('<td>' + '<a class="edit" onclick="openUpdateModal(' + item.id + ')"><i class="glyphicon glyphicon-pencil"></i></a>&nbsp;' +
             '<a class="delete" onclick="openConfirmDelete(' + item.id + ')"><i class="glyphicon glyphicon-trash"></i></a>' +
             '</td>');
@@ -49,27 +54,29 @@ function fillDataToTable() {
 }
 
 /**
- * Paging function
+ * Paging
  */
-function pagingTable(pageAmount) {
-
+function pagingTable(pageCount) {
     var pagingStr = "";
 
-    if (pageAmount > 1 && currentPage > 1) {
+    var startPageIndex = Math.max(1, pageNumber - maxPage / 2);
+    var endPageIndex = Math.min(pageCount, pageNumber + maxPage / 2);
+    //console.log(startPageIndex + " -- " + endPageIndex);
+
+    if (pageNumber != 1) {
         pagingStr +=
             '<li class="page-item">' +
-            '<a class="page-link" onClick="prevPaging()">Previous</a>' +
+            '<a href="#" class="page-link" id="' + (pageNumber - 1) + '" onClick="prevPaging()">Previous</a>' +
             '</li>';
     }
 
-    for (i = 0; i < pageAmount; i++) {
+    for (i = startPageIndex; i <= endPageIndex; i++) {
         pagingStr +=
-            '<li class="page-item ' + (currentPage == i + 1 ? "active" : "") + '">' +
-            '<a class="page-link" onClick="changePage(' + (i + 1) + ')">' + (i + 1) + '</a>' +
+            '<li class="page-item ' + (pageNumber == i ? "active" : "") + '">' +
+            '<a class="page-link" onClick="changePage(' + i + ')">' + i + '</a>' +
             '</li>';
     }
-
-    if (pageAmount > 1 && currentPage < pageAmount) {
+    if (pageNumber != pageCount) {
         pagingStr +=
             '<li class="page-item">' +
             '<a class="page-link" onClick="nextPaging()">Next</a>' +
@@ -78,63 +85,52 @@ function pagingTable(pageAmount) {
 
     $('#pagination').empty();
     $('#pagination').append(pagingStr);
-
 }
 
 function resetPaging() {
-    currentPage = 1;
-    size = 3;
+    pageNumber = 1;
 }
 
 function prevPaging() {
-    changePage(currentPage - 1);
+    changePage(pageNumber - 1);
 }
 
 function nextPaging() {
-    changePage(currentPage + 1);
+    changePage(pageNumber + 1);
 }
 
 function changePage(page) {
-    if (page == currentPage) {
+    if (page == pageNumber) {
         return;
     }
-    currentPage = page;
-    buildTable();
+    pageNumber = page;
+    getDataToTable();
 }
-
 /**
- * Sort table
+ * Sorting
  */
- function renderSortUI() {
+function sortUI() {
     var sortTypeClazz = isAsc ? "fa-sort-asc" : "fa-sort-desc";
-
+    var sortDefault = 'fa-sort';
     switch (sortField) {
         case 'name':
-            changeIconSort("heading-name", sortTypeClazz);
-            changeIconSort("heading-author", "fa-sort");
-            changeIconSort("heading-createDate", "fa-sort");
+            changeIconSort("sort-name", sortTypeClazz);
+            changeIconSort("sort-totalMember", sortDefault);
             break;
-        case 'author.fullName':
-            changeIconSort("heading-author", sortTypeClazz);
-            changeIconSort("heading-name", "fa-sort");
-            changeIconSort("heading-createDate", "fa-sort");
-            break;
-        case 'createDate':
-            changeIconSort("heading-createDate", sortTypeClazz);
-            changeIconSort("heading-name", "fa-sort");
-            changeIconSort("heading-author", "fa-sort");
+        case 'totalMember':
+            changeIconSort("sort-name", sortTypeClazz);
+            changeIconSort("sort-totalMember", sortDefault);
             break;
         default:
-            changeIconSort("heading-name", "fa-sort");
-            changeIconSort("heading-author", "fa-sort");
-            changeIconSort("heading-createDate", "fa-sort");
+            changeIconSort("sort-name", sortDefault);
+            changeIconSort("sort-totalMember", sortDefault);
             break;
     }
 }
 
 function changeIconSort(id, sortTypeClazz) {
-    document.getElementById(id).classList.remove("fa-sort", "fa-sort-asc", "fa-sort-desc");
-    document.getElementById(id).classList.add(sortTypeClazz);
+    $(this.id).removeClass();
+    $(this.id).toggleClass(sortTypeClazz);
 }
 
 function changeSort(field) {
@@ -144,14 +140,16 @@ function changeSort(field) {
         sortField = field;
         isAsc = true;
     }
-    buildTable();
+    getDataToTable();
 }
 
 function resetSort() {
-    sortField = 'modifiedDate';
+    sortField = "id";
     isAsc = false;
 }
-
+/**
+ * Save or update
+ */
 function save() {
     var id = $('input#id').val();
 
@@ -161,7 +159,9 @@ function save() {
         updateDataToTable();
     }
 }
-
+/**
+ * Add data
+ */
 function addDataToTable() {
     var name = $('input#name').val();
     var department = {
@@ -183,7 +183,9 @@ function addDataToTable() {
         }
     });
 }
-
+/**
+ * Update Data
+ */
 function openUpdateModal(id) {
     $.ajax({
         url: 'http://localhost:8080/api/v1/departments/' + id,
@@ -226,6 +228,34 @@ function updateDataToTable() {
         }
     });
 }
+/**
+ * Delete Data
+ */
+function checkAllCheckBox(isChecked) {
+    $('input.cb-child:checkbox').prop('checked', isChecked);
+}
+
+function onChangeCheckboxItem() {
+    if ($('input.cb-child:checkbox:checked').length == $('input.cb-child:checkbox').length) {
+        $('#checkbox-all').prop('checked', true);
+    } else {
+        $('#checkbox-all').prop('checked', false);
+    }
+}
+
+function deleteAllDepartment() {
+    var ids = [];
+    var names = [];
+
+    $('input.cb-child:checkbox:checked').each(function () {
+        ids.push(departments[$(this).attr('data-id')].id);
+        names.push(departments[$(this).attr('data-id')].name);
+    })
+    var result = confirm("Want to delete " + names + "?");
+    if (result) {
+        deleteDepartments(ids);
+    }
+}
 
 function openConfirmDelete(id) {
     var index = records.findIndex(x => x.id == id);
@@ -233,11 +263,26 @@ function openConfirmDelete(id) {
 
     var result = confirm("Want to delete " + name + "?");
     if (result) {
-        deleteEmployee(id);
+        deleteDepartment(id);
     }
 }
 
-function deleteEmployee(id) {
+function deleteDepartments(ids) {
+    $.ajax({
+        url: 'http://localhost:8080/api/v1/departments?ids=' + ids,
+        type: 'DELETE',
+        success: function (result) {
+            buildSuccess();
+        },
+        error: function (xhr, status, error) {
+            console.log(xhr.status);
+            console.log(error);
+            return;
+        }
+    });
+}
+
+function deleteDepartment(id) {
     $.ajax({
         url: 'http://localhost:8080/api/v1/departments/' + id,
         type: 'DELETE',
@@ -253,7 +298,9 @@ function deleteEmployee(id) {
 }
 
 function buildSuccess() { // C,U,D success
+    $('#checkbox-all').prop('checked', false);
     hideModal();
     showSuccessAlert();
-    buildTable();
+    resetPaging();
+    getDataToTable();
 }

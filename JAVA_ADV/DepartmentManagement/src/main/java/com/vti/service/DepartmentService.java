@@ -23,84 +23,98 @@ import com.vti.specification.DepartmentSpecification;
 @Transactional
 public class DepartmentService implements IDepartmentService {
 
-	@Autowired
-	private IDepartmentRepository departmentRepository;
+  @Autowired
+  private IDepartmentRepository departmentRepository;
 
-	@Autowired
-	private IAccountRepository accountRepository;
+  @Autowired
+  private IAccountRepository accountRepository;
 
-	@SuppressWarnings("deprecation")
-	public Page<Department> getAllDepartments(Pageable pageable, String search, DepartmentFilterForm filter) {
+  @Override
+  @SuppressWarnings("deprecation")
+  public Page<Department> getAllDepartments(Pageable pageable, String search,
+      DepartmentFilterForm filter) {
 
-		Specification<Department> where = null;
+    Specification<Department> where = null;
 
-		if (!StringUtils.isEmpty(search)) {
-			DepartmentSpecification nameSpecification = new DepartmentSpecification("name", "LIKE", search);
-			DepartmentSpecification authorSpecification = new DepartmentSpecification("author.fullName", "LIKE",
-					search);
-			where = Specification.where(nameSpecification).or(authorSpecification);
-		}
+    if (!StringUtils.isEmpty(search)) {
+      DepartmentSpecification nameSpecification = new DepartmentSpecification("name", "LIKE",
+          search);
+      DepartmentSpecification authorSpecification = new DepartmentSpecification("author.fullName",
+          "LIKE",
+          search);
+      where = Specification.where(nameSpecification).or(authorSpecification);
+    }
 
-		if(filter != null && filter.getMinDate() != null) {
-			DepartmentSpecification minDateSpecification = new DepartmentSpecification("createDate", ">=", filter.getMinDate());
-			if(where == null) {	// chua co search chi? filter
-				where = Specification.where(minDateSpecification);
-			} else {
-				where  = where.and(minDateSpecification);
-			}
-		}
-		
-		if(filter != null && filter.getMaxDate() != null) {
-			DepartmentSpecification maxDateSpecification = new DepartmentSpecification("createDate", "<=", filter.getMaxDate());
-			if(where == null) {
-				where = Specification.where(maxDateSpecification);
-			} else {
-				where  = where.and(maxDateSpecification);
-			}
-		}
+    if (filter != null && filter.getMinDate() != null) {
+      DepartmentSpecification minDateSpecification = new DepartmentSpecification("createDate", ">=",
+          filter.getMinDate());
+      if (where == null) {  // chua co search chi? filter
+        where = Specification.where(minDateSpecification);
+      } else {
+        where = where.and(minDateSpecification);
+      }
+    }
 
-		return departmentRepository.findAll(where, pageable);
-	}
+    if (filter != null && filter.getMaxDate() != null) {
+      DepartmentSpecification maxDateSpecification = new DepartmentSpecification("createDate", "<=",
+          filter.getMaxDate());
+      if (where == null) {
+        where = Specification.where(maxDateSpecification);
+      } else {
+        where = where.and(maxDateSpecification);
+      }
+    }
 
-	public Department getDepartmentByID(short id) {
-		return departmentRepository.findById(id).get();
-	}
+    return departmentRepository.findAll(where, pageable);
+  }
 
-	public Department getDepartmentByName(String name) {
-		return departmentRepository.findByName(name);
-	}
+  @Override
+  public Department getDepartmentByID(short id) {
+    return departmentRepository.findById(id).get();
+  }
 
-	public void createDepartment(DepartmentFormForCreating form) {
-		// convert form --> entity
+  @Override
+  public Department getDepartmentByName(String name) {
+    return departmentRepository.findByName(name);
+  }
 
-		// get author
-		Account author = accountRepository.findById(form.getAuthorId()).get();
+  @Override
+  public void createDepartment(DepartmentFormForCreating form) {
+    // convert form --> entity
 
-		Department department = new Department(form.getName());
-		department.setAuthor(author);
+    // get author
+    Account author = accountRepository.findById(form.getAuthorId()).get();
 
-		departmentRepository.save(department);
-	}
+    Department department = new Department(form.getName());
+    department.setAuthor(author);
 
-	public void updateDepartment(short id, DepartmentFormForUpdating form) {
-		Department department = getDepartmentByID(id);
-		department.setName(form.getName());
-		departmentRepository.save(department);
-	}
+    departmentRepository.save(department);
+  }
 
-	public void deleteDepartment(short id) {
-		departmentRepository.deleteById(id);
-	}
+  @Override
+  public void updateDepartment(short id, DepartmentFormForUpdating form) {
+    Department department = getDepartmentByID(id);
+    department.setName(form.getName());
+    departmentRepository.save(department);
+  }
 
-	public boolean isDepartmentExistsByID(short id) {
-		return departmentRepository.existsById(id);
-	}
+  @Override
+  public void deleteDepartment(short id) {
+    departmentRepository.deleteById(id);
+  }
 
-	public boolean isDepartmentExistsByName(String name) {
-		return departmentRepository.existsByName(name);
-	}
+  @Override
+  public boolean isDepartmentExistsByID(short id) {
+    return departmentRepository.existsById(id);
+  }
 
-	public void deleteDepartments(List<Short> ids) {
-		departmentRepository.deleteByIds(ids);
-	}
+  @Override
+  public boolean isDepartmentExistsByName(String name) {
+    return departmentRepository.existsByName(name);
+  }
+
+  @Override
+  public void deleteDepartments(List<Short> ids) {
+    departmentRepository.deleteByIds(ids);
+  }
 }

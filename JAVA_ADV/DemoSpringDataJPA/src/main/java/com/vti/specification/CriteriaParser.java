@@ -1,4 +1,4 @@
-package com.vti.testing.specification;
+package com.vti.specification;
 
 import java.text.ParseException;
 import java.util.Collections;
@@ -9,19 +9,12 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.google.common.collect.ImmutableMap;
-import com.vti.testing.Application;
-import com.vti.testing.config.resourceproperties.searchparameter.GroupPatternProperty;
-import com.vti.testing.config.resourceproperties.searchparameter.OperatorProperty;
+import com.vti.DemoSpringDataJpaApplication;
+import com.vti.config.resourceproperties.searchparameter.GroupPatternProperty;
+import com.vti.config.resourceproperties.searchparameter.OperatorProperty;
 
 /**
  * This class is used for parsing criteria from search String.
- * 
- * @Description: .
- * @author: NNDuy
- * @create_date: Mar 12, 2020
- * @version: 1.0
- * @modifer: NNDuy
- * @modifer_date: Mar 12, 2020
  */
 public class CriteriaParser {
 
@@ -48,35 +41,21 @@ public class CriteriaParser {
 
 	/**
 	 * Constructor for class CriteriaParser.
-	 * 
-	 * @Description: .
-	 * @author: NNDuy
-	 * @create_date: Mar 13, 2020
-	 * @version: 1.0
-	 * @modifer: NNDuy
-	 * @modifer_date: Mar 13, 2020
 	 */
 	public CriteriaParser() {
-		groupPatternProperty = Application.getBean(GroupPatternProperty.class);
-		operatorProperty = Application.getBean(OperatorProperty.class);
+		groupPatternProperty = DemoSpringDataJpaApplication.getBean(GroupPatternProperty.class);
+		operatorProperty = DemoSpringDataJpaApplication.getBean(OperatorProperty.class);
 
 		criteriaRegex = Pattern.compile(groupPatternProperty.getCriteraRegex());
 	}
 
 	/**
 	 * This method is checked priority of operator.
-	 * 
-	 * @Description: .
-	 * @author: NNDuy
-	 * @create_date: Mar 13, 2020
-	 * @version: 1.0
-	 * @modifer: NNDuy
-	 * @modifer_date: Mar 13, 2020
 	 * @param currentOperator
 	 * @param prevOperator
 	 * @return
 	 */
-	private boolean isHigerPriorityOperator(String currentOperator, String prevOperator) {
+	private boolean isHigherPriorityOperator(String currentOperator, String prevOperator) {
 		return (OPERATORS.containsKey(prevOperator)
 				&& OPERATORS.get(prevOperator).priority >= OPERATORS.get(currentOperator).priority);
 	}
@@ -85,11 +64,6 @@ public class CriteriaParser {
 	 * This method is used for parsing criteria and operator (AND or OR).
 	 * 
 	 * @Description: split into tokens (criteria, parenthesis, AND & OR operators).
-	 * @author: NNDuy
-	 * @create_date: Mar 12, 2020
-	 * @version: 1.0
-	 * @modifer: NNDuy
-	 * @modifer_date: Mar 12, 2020
 	 * @param search
 	 * @return
 	 */
@@ -103,7 +77,7 @@ public class CriteriaParser {
 		String[] tokens = search.split("\\s+");
 		for (String token : tokens) {
 			if (OPERATORS.containsKey(token)) {
-				while (!stack.isEmpty() && isHigerPriorityOperator(token, stack.peek()))
+				while (!stack.isEmpty() && isHigherPriorityOperator(token, stack.peek()))
 					output.push(stack.pop().equalsIgnoreCase(operatorProperty.getOr()) ? operatorProperty.getOr()
 							: operatorProperty.getAnd());
 				stack.push(token.equalsIgnoreCase(operatorProperty.getOr()) ? operatorProperty.getOr()

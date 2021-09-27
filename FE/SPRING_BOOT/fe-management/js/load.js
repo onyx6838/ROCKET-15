@@ -11,12 +11,10 @@ function clickSideBarHome() {
 
 function clickSideBarDepartment() {
     $(".main").load("viewlist.html", function () {
-        buildTable();
+        resetPaging();
+        resetSort();
+        getDataToTable();
     });   
-}
-
-function buildTable() {
-    getDataToTable();
 }
 
 function openModal() {

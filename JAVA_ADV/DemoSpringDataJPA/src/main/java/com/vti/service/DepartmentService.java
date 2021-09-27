@@ -7,6 +7,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class DepartmentService implements IDepartmentService {
 	@Autowired
@@ -42,5 +44,9 @@ public class DepartmentService implements IDepartmentService {
 
 	public boolean isDepartmentExistsByName(String name) {
 		return repository.existsByName(name);
+	}
+
+	public void deleteDepartments(List<Short> ids) {
+		repository.deleteByIds(ids);
 	}
 }

@@ -1,4 +1,4 @@
-package com.vti.testing.specification;
+package com.vti.specification;
 
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -9,20 +9,13 @@ import java.util.stream.Collectors;
 
 import org.springframework.util.StringUtils;
 
-import com.vti.testing.Application;
-import com.vti.testing.config.resourceproperties.searchparameter.GroupPatternProperty;
-import com.vti.testing.config.resourceproperties.searchparameter.OtherProperty;
-import com.vti.testing.utils.MethodUtil;
+import com.vti.DemoSpringDataJpaApplication;
+import com.vti.config.resourceproperties.searchparameter.GroupPatternProperty;
+import com.vti.config.resourceproperties.searchparameter.OtherProperty;
+import com.vti.utils.MethodUtil;
 
 /**
  * This class is search criteria.
- * 
- * @Description: .
- * @author: NNDuy
- * @create_date: Mar 12, 2020
- * @version: 1.0
- * @modifer: NNDuy
- * @modifer_date: Mar 12, 2020
  */
 public class SearchCriteria {
 
@@ -53,8 +46,8 @@ public class SearchCriteria {
 	 */
 	public SearchCriteria(String key, String operation, String prefix, String value, String suffix)
 			throws ParseException {
-		otherProperty = Application.getBean(OtherProperty.class);
-		groupPatternProperty = Application.getBean(GroupPatternProperty.class);
+		otherProperty = DemoSpringDataJpaApplication.getBean(OtherProperty.class);
+		groupPatternProperty = DemoSpringDataJpaApplication.getBean(GroupPatternProperty.class);
 
 		this.operation = convertStringToSearchOperationObject(operation, prefix, suffix);
 		parseKey(key);

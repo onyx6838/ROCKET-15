@@ -1,4 +1,4 @@
-package com.vti.testing.utils;
+package com.vti.utils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

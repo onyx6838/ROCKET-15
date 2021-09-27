@@ -1,4 +1,4 @@
-package com.vti.testing.specification;
+package com.vti.specification;
 
 public enum SearchOperation {
 	EQUALITY, NEGATION, GREATER_THAN, GREATER_THAN_OR_EQUAL, LESS_THAN, LESS_THAN_OR_EQUAL, LIKE, STARTS_WITH,

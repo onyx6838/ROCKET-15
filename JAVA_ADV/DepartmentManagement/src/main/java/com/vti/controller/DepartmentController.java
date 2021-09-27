@@ -31,60 +31,63 @@ import com.vti.service.IDepartmentService;
 @CrossOrigin("*")
 public class DepartmentController {
 
-    @Autowired
-    private IDepartmentService service;
+  @Autowired
+  private IDepartmentService service;
 
-    @GetMapping()
-    public ResponseEntity<?> getAllDepartments(Pageable pageable, @RequestParam(required = false) String search
-            , DepartmentFilterForm filter) {
-        Page<Department> entitiesPage = service.getAllDepartments(pageable, search, filter);
+  @GetMapping()
+  public ResponseEntity<Page<DepartmentDto>> getAllDepartments(Pageable pageable,
+      @RequestParam(required = false) String search
+      , DepartmentFilterForm filter) {
+    Page<Department> entitiesPage = service.getAllDepartments(pageable, search, filter);
 
-        Page<DepartmentDto> dtoPage = entitiesPage.map(entity -> new DepartmentDto(entity.getId(), entity.getName(),
-                new AccountDto(entity.getAuthor().getId(), entity.getAuthor().getFullName()),
-                entity.getCreateDate()));
+    Page<DepartmentDto> dtoPage = entitiesPage
+        .map(entity -> new DepartmentDto(entity.getId(), entity.getName(),
+            new AccountDto(entity.getAuthor().getId(), entity.getAuthor().getFullName()),
+            entity.getCreateDate()));
 
-        return new ResponseEntity<>(dtoPage, HttpStatus.OK);
-    }
+    return new ResponseEntity<>(dtoPage, HttpStatus.OK);
+  }
 
-    @GetMapping(value = "/{id}")
-    public ResponseEntity<?> getDepartmentByID(@PathVariable(name = "id") short id) {
+  @GetMapping(value = "/{id}")
+  public ResponseEntity<DepartmentDto> getDepartmentByID(@PathVariable(name = "id") short id) {
 
-        Department entity = service.getDepartmentByID(id);
+    Department entity = service.getDepartmentByID(id);
 
-        DepartmentDto dto = new DepartmentDto(entity.getId(), entity.getName(),
-                new AccountDto(entity.getAuthor().getId(), entity.getAuthor().getFullName()), entity.getCreateDate());
+    DepartmentDto dto = new DepartmentDto(entity.getId(), entity.getName(),
+        new AccountDto(entity.getAuthor().getId(), entity.getAuthor().getFullName()),
+        entity.getCreateDate());
 
-        return new ResponseEntity<>(dto, HttpStatus.OK);
-    }
+    return new ResponseEntity<>(dto, HttpStatus.OK);
+  }
 
-    @GetMapping(value = "/name/{name}/exists")
-    public ResponseEntity<?> existsByName(@PathVariable(name = "name") String name) {
-        return new ResponseEntity<>(service.isDepartmentExistsByName(name), HttpStatus.OK);
-    }
+  @GetMapping(value = "/name/{name}/exists")
+  public ResponseEntity<Boolean> existsByName(@PathVariable(name = "name") String name) {
+    return new ResponseEntity<>(service.isDepartmentExistsByName(name), HttpStatus.OK);
+  }
 
-    @PostMapping()
-    public ResponseEntity<?> createDepartment(@RequestBody DepartmentFormForCreating form) {
-        service.createDepartment(form);
-        return new ResponseEntity<>("Create successfully!", HttpStatus.CREATED);
-    }
+  @PostMapping()
+  public ResponseEntity<String> createDepartment(@RequestBody DepartmentFormForCreating form) {
+    service.createDepartment(form);
+    return new ResponseEntity<>("Create successfully!", HttpStatus.CREATED);
+  }
 
-    @PutMapping(value = "/{id}")
-    public ResponseEntity<?> updateDepartment(@PathVariable(name = "id") short id,
-                                              @RequestBody DepartmentFormForUpdating form) {
-        service.updateDepartment(id, form);
-        return new ResponseEntity<>("Update successfully!", HttpStatus.OK);
-    }
+  @PutMapping(value = "/{id}")
+  public ResponseEntity<String> updateDepartment(@PathVariable(name = "id") short id,
+      @RequestBody DepartmentFormForUpdating form) {
+    service.updateDepartment(id, form);
+    return new ResponseEntity<>("Update successfully!", HttpStatus.OK);
+  }
 
-    @DeleteMapping(value = "/{id}")
-    public ResponseEntity<?> deleteDepartment(@PathVariable(name = "id") short id) {
-        service.deleteDepartment(id);
-        return new ResponseEntity<>("Delete successfully!", HttpStatus.OK);
-    }
+  @DeleteMapping(value = "/{id}")
+  public ResponseEntity<String> deleteDepartment(@PathVariable(name = "id") short id) {
+    service.deleteDepartment(id);
+    return new ResponseEntity<>("Delete successfully!", HttpStatus.OK);
+  }
 
-    @DeleteMapping
-    public ResponseEntity<?> deleteDepartments(@RequestParam(name = "ids") List<Short> ids) {
-        service.deleteDepartments(ids);
-        return new ResponseEntity<>("Delete successfully!", HttpStatus.OK);
-    }
+  @DeleteMapping
+  public ResponseEntity<String> deleteDepartments(@RequestParam(name = "ids") List<Short> ids) {
+    service.deleteDepartments(ids);
+    return new ResponseEntity<>("Delete successfully!", HttpStatus.OK);
+  }
 
 }

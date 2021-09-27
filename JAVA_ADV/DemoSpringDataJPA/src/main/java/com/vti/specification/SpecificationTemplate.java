@@ -1,4 +1,4 @@
-package com.vti.testing.specification;
+package com.vti.specification;
 
 import java.text.ParseException;
 
@@ -7,24 +7,10 @@ import org.springframework.util.StringUtils;
 
 /**
  * This class is Building Specification Template.
- * 
- * @Description: .
- * @author: NNDuy
- * @create_date: Mar 16, 2020
- * @version: 1.0
- * @modifer: NNDuy
- * @modifer_date: Mar 16, 2020
  */
 public class SpecificationTemplate {
 	/**
 	 * This method is handle Specification.
-	 * 
-	 * @Description: .
-	 * @author: NNDuy
-	 * @create_date: Mar 12, 2020
-	 * @version: 1.0
-	 * @modifer: NNDuy
-	 * @modifer_date: Mar 12, 2020
 	 * @param search
 	 * @return
 	 * @throws ParseException

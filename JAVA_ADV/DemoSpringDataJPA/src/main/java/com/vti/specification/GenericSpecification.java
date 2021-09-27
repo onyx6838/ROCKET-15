@@ -1,4 +1,4 @@
-package com.vti.testing.specification;
+package com.vti.specification;
 
 import java.util.Date;
 
@@ -12,13 +12,6 @@ import org.springframework.data.jpa.domain.Specification;
 
 /**
  * This class is Testing Category Specification.
- * 
- * @Description: .
- * @author: NNDuy
- * @create_date: Mar 12, 2020
- * @version: 1.0
- * @modifer: NNDuy
- * @modifer_date: Mar 12, 2020
  */
 @SuppressWarnings("serial")
 public class GenericSpecification<T> implements Specification<T> {
@@ -27,13 +20,6 @@ public class GenericSpecification<T> implements Specification<T> {
 
 	/**
 	 * Constructor for class TestingCategorySpecification.
-	 * 
-	 * @Description: .
-	 * @author: NNDuy
-	 * @create_date: Mar 12, 2020
-	 * @version: 1.0
-	 * @modifer: NNDuy
-	 * @modifer_date: Mar 12, 2020
 	 * @param criteria
 	 */
 	public GenericSpecification(SearchCriteria criteria) {
@@ -42,13 +28,6 @@ public class GenericSpecification<T> implements Specification<T> {
 
 	/**
 	 * This method is checked date is date or datetime.
-	 * 
-	 * @Description: .
-	 * @author: NNDuy
-	 * @create_date: Mar 14, 2020
-	 * @version: 1.0
-	 * @modifer: NNDuy
-	 * @modifer_date: Mar 14, 2020
 	 * @param date
 	 * @return
 	 */
