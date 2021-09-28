@@ -14,7 +14,7 @@ function clickSideBarDepartment() {
         resetPaging();
         resetSort();
         getDataToTable();
-    });   
+    });
 }
 
 function openModal() {
@@ -28,6 +28,7 @@ function hideModal() {
 function openAddModal() {
     resetForm();
     openModal();
+    $('input#name').attr('readonly', false);
 }
 
 function resetForm() {

@@ -1,21 +1,24 @@
 <div>
     <h2>View List</h2>
     <div class="col-sm-7">
-        <button type="button" class="btn btn-info add-new" data-toggle="modal" onclick="openAddModal()"><i
-                class="fa fa-plus"></i> Add New</button><br>
-        <button type="button" class="btn btn-info add-new" data-toggle="modal" onclick="deleteAllDepartment()"><i
-                class="fa fa-plus"></i> Delete</button><br>
+        <div style="display: inline-block;">
+            <button type="button" class="btn btn-info add-new" data-toggle="modal" onclick="openAddModal()"><i
+                    class="fa fa-plus"></i> Add New</button>
+        </div>
+        <div style="display: inline-block;">
+            <button type="button" class="btn btn-info add-new" data-toggle="modal" onclick="deleteAllDepartment()"><i
+                    class="fa fa-plus"></i> Delete</button>
+        </div>
+        <br>
+        <br>
         Min CreateDate: <input type="date" id="minCreateDate" name="minCreateDate"
             onchange="changeMinCreateDate(event);" /></br>
         Max CreateDate: <input type="date" id="maxCreateDate" name="maxCreateDate"
             onchange="changeMaxCreateDate(event);"></br>
-        <!-- <input type="text" onkeyup="handKeyUpEventForSearching(event)" id="input-search-department"
-            placeholder="Search for department name or author..." title="Type in a name"> -->
-        <!-- <button type="button" onclick="handleSearch()">Search</button> -->
     </div>
     <div class="col-sm-5">
         <input type="text" class="form-control" placeholder="Search ... " onkeyup="handKeyUpEventForSearching(event)"
-            id="input-search-department">
+            id="input-search">
         <span class="input-group-btn">
             <button class="btn btn-default" type="button" onclick="handleSearch()">
                 <span class="glyphicon glyphicon-search"></span>
@@ -24,11 +27,13 @@
     </div>
 </div>
 <table class="table table-striped">
-    <thead> 
+    <thead>
         <tr>
-            <th><input type="checkbox" id="checkbox-all" name="checkbox-all" onclick="checkAllCheckBox(this.checked);"></th>
+            <th><input type="checkbox" id="checkbox-all" name="checkbox-all" onclick="checkAllCheckBox(this.checked);">
+            </th>
             <th><b>Name</b> <i id="sort-name" class="fa fa-fw fa-sort" onclick="changeSort('name')"></i></th>
-            <th><b>Total Member</b> <i id="sort-totalMember" class="fa fa-fw fa-sort" onclick="changeSort('totalMember')"></i></th>
+            <th><b>Total Member</b> <i id="sort-totalMember" class="fa fa-fw fa-sort"
+                    onclick="changeSort('totalMember')"></i></th>
             <th>Action</th>
         </tr>
     </thead>
@@ -62,18 +67,21 @@
 
             <!-- body -->
             <div class="modal-body">
-                <div class="modal-container">
-                    <input type="hidden" id="id" name="id">
-                    <label for="name"><b>Name</b></label>
-                    <input type="text" placeholder="Enter Name" name="name" id="name" required>
-                    <p style="color: red;" id="nameErrorMessage"></p>
-                </div>
-            </div>
-
-            <!-- footer -->
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" onclick="save()">Save</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <form role="form" id="newModalForm" method="GET">
+                    <div class="modal-container">
+                        <input type="hidden" id="id" name="id">
+                        <label for="name"><b>Name</b></label>
+                        <input type="text" placeholder="Enter Name" name="name" id="name"></br>
+                        <label for="name"><b>Date</b></label>
+                        <input type="text" id="createdDate" name="createdDate"/>
+                        <!-- <p style="color: red;" id="nameErrorMessage"></p> -->
+                    </div>
+                    <!-- footer -->
+                    <div class="modal-footer">
+                        <input type="submit" class="btn btn-primary" onclick="save(event)"></input>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -84,3 +92,6 @@
     <strong>Success! </strong>
 </div>
 <!-- end Success Alert -->
+<!-- JQuery Validation -->
+<script src="/js/custom_validator.js"></script>
+<script src="/js/validator.js"></script>

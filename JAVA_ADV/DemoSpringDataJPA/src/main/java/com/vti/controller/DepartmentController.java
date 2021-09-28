@@ -57,4 +57,10 @@ public class DepartmentController {
         service.deleteDepartments(ids);
         return new ResponseEntity<>("Delete successfully!", HttpStatus.OK);
     }
+
+    @GetMapping(value = "/name/{name}/exists")
+    public ResponseEntity<Boolean> existsByName(@PathVariable(name = "name") String name) {
+        return new ResponseEntity<>(service.isDepartmentExistsByName(name), HttpStatus.OK);
+    }
+
 }

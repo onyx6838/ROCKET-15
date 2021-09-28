@@ -11,7 +11,7 @@ var search = '';
 var minCreateDate = "";
 var maxCreateDate = "";
 /**
- * GET all call
+ * GET API
  */
 function getDataToTable() {
     var url = "http://localhost:8080/api/v1/departments";
@@ -19,6 +19,12 @@ function getDataToTable() {
     url += "?page=" + pageNumber + "&size=" + size;
 
     url += "&sort=" + sortField + "," + (isAsc ? "asc" : "desc");
+
+    var search = $('#input-search').val();
+    if (search) {
+        url += "&search=" + search;
+        console.log(url);
+    }
 
     $.get(url, function (data, status) {
         departments = [];
@@ -148,26 +154,74 @@ function resetSort() {
     isAsc = false;
 }
 /**
+ * Searching
+ */
+
+function resetSearch() {
+    $('#input-search').val('');
+}
+
+function handKeyUpEventForSearching(event) { // enter key event
+    // Number 13 is the "Enter" key on the keyboard
+    if (event.keyCode === 13) {
+        event.preventDefault();
+        handleSearch();
+    }
+}
+
+function handleSearch() {
+    resetPaging();
+    resetSort();
+    resetDeleteCheckbox();
+    resetFilter();
+    getDataToTable();
+}
+
+/**
+ * filter
+ */
+function changeMinCreateDate(e) {
+    
+    minCreateDate = e.target.value;
+    console.log(minCreateDate);
+    //handleSearch(); // reset after binding value to url
+}
+
+function changeMaxCreateDate(e) {
+    maxCreateDate = e.target.value;
+    //handleSearch(); // reset after binding value to url
+}
+
+function resetFilter() {
+    minCreateDate = "";
+    maxCreateDate = "";
+    $('#minCreateDate').val('');
+    $('maxCreateDate').val('');
+}
+
+/**
  * Save or update
  */
-function save() {
+function save(event) {
     var id = $('input#id').val();
-
-    if (id == null || id == "") {
-        addDataToTable();
-    } else {
-        updateDataToTable();
+    if($('#newModalForm').valid() == true){ // check when click submit
+        if (id == null || id == "") {
+            addDataToTable(event);
+        } else {
+            updateDataToTable(event);
+        }
     }
+    else return;
 }
 /**
  * Add data
  */
-function addDataToTable() {
+function addDataToTable(event) {
     var name = $('input#name').val();
+    event.preventDefault(); // prevent refreshing
     var department = {
         name: name
     };
-
     $.ajax({
         url: 'http://localhost:8080/api/v1/departments',
         type: 'POST',
@@ -175,18 +229,22 @@ function addDataToTable() {
         data: JSON.stringify(department),
         success: function (result) {
             buildSuccess();
+            handleSearch();
         },
         error: function (xhr, status, error) {
             console.log(xhr.status);
             console.log(error);
             return;
         }
-    });
+    }); 
+    
 }
 /**
  * Update Data
  */
 function openUpdateModal(id) {
+    $('input#name').attr('readonly', true); // can't change data in name input 
+    $('input#name').rules('remove', "uniqueName");  // remove exist name rule validate
     $.ajax({
         url: 'http://localhost:8080/api/v1/departments/' + id,
         type: 'GET',
@@ -206,7 +264,7 @@ function openUpdateModal(id) {
 function updateDataToTable() {
     var id = $('input#id').val();
     var name = $('input#name').val();
-
+    event.preventDefault();
     // TODO validate
     var department = {
         name: name
@@ -243,6 +301,11 @@ function onChangeCheckboxItem() {
     }
 }
 
+function resetDeleteCheckbox() {
+    $('#checkbox-all').prop('checked', false);
+    $('input.cb-child:checkbox').prop('checked', false);
+}
+
 function deleteAllDepartment() {
     var ids = [];
     var names = [];
@@ -258,8 +321,8 @@ function deleteAllDepartment() {
 }
 
 function openConfirmDelete(id) {
-    var index = records.findIndex(x => x.id == id);
-    var name = records[index].name;
+    var index = departments.findIndex(x => x.id == id);
+    var name = departments[index].name;
 
     var result = confirm("Want to delete " + name + "?");
     if (result) {
@@ -298,9 +361,7 @@ function deleteDepartment(id) {
 }
 
 function buildSuccess() { // C,U,D success
-    $('#checkbox-all').prop('checked', false);
     hideModal();
     showSuccessAlert();
-    resetPaging();
     getDataToTable();
 }
