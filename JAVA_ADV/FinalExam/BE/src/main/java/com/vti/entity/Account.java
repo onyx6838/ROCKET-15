@@ -29,45 +29,42 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Account implements Serializable {
+    @Column(name = "AccountID")
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private short id;
 
-  private static final long serialVersionUID = 1L;
+    @Column(name = "Email", length = 50, nullable = false, unique = true, updatable = false)
+    private String email;
 
-  @Column(name = "AccountID")
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private short id;
+    @Column(name = "Username", length = 50, nullable = false, unique = true, updatable = false)
+    private String username;
 
-  @Column(name = "Email", length = 50, nullable = false, unique = true, updatable = false)
-  private String email;
+    @Column(name = "password", length = 800, nullable = false)
+    private String password;
 
-  @Column(name = "Username", length = 50, nullable = false, unique = true, updatable = false)
-  private String username;
+    @Column(name = "FirstName", length = 50, nullable = false)
+    private String firstName;
 
-  @Column(name = "password", length = 800, nullable = false)
-  private String password;
+    @Column(name = "LastName", length = 50, nullable = false)
+    private String lastName;
 
-  @Column(name = "FirstName", length = 50, nullable = false)
-  private String firstName;
+    @Formula(" concat(FirstName, ' ', LastName) ")
+    private String fullName;
 
-  @Column(name = "LastName", length = 50, nullable = false)
-  private String lastName;
+    @Column(name = "Role", length = 50, nullable = false)
+    private String role;
 
-  @Formula(" concat(FirstName, ' ', LastName) ")
-  private String fullName;
+    @ManyToOne
+    @JoinColumn(name = "GroupID")
+    private Group group;
 
-  @Column(name = "Role", nullable = false)
-  private String role;
+    @OneToMany(mappedBy = "author")
+    private List<Group> creatorGroup;
 
-  @ManyToOne
-  @JoinColumn(name = "DepartmentID")
-  private Department department;
-
-  @OneToMany(mappedBy = "author")
-  private List<Department> createdDepartment;
-
-  @Column(name = "CreateDate")
-  @Temporal(TemporalType.TIMESTAMP)
-  @CreationTimestamp
-  private Date createDate;
+    @Column(name = "CreateDate")
+    @Temporal(TemporalType.TIMESTAMP)
+    @CreationTimestamp
+    private Date createDate;
 
 }

@@ -1,0 +1,97 @@
+<div>
+    <h2>View List</h2>
+    <div class="col-sm-7">
+        <div style="display: inline-block;">
+            <button type="button" class="btn btn-info add-new" data-toggle="modal" onclick="openAddModal()"><i
+                    class="fa fa-plus"></i> Add New</button>
+        </div>
+        <div style="display: inline-block;">
+            <button type="button" class="btn btn-info add-new" data-toggle="modal" onclick="deleteAllDepartment()"><i
+                    class="fa fa-plus"></i> Delete</button>
+        </div>
+        <br>
+        <br>
+        Min CreateDate: <input type="date" id="minCreateDate" name="minCreateDate"
+            onchange="changeMinCreateDate(event);" /></br>
+        Max CreateDate: <input type="date" id="maxCreateDate" name="maxCreateDate"
+            onchange="changeMaxCreateDate(event);"></br>
+    </div>
+    <div class="col-sm-5">
+        <input type="text" class="form-control" placeholder="Search ... " onkeyup="handKeyUpEventForSearching(event)"
+            id="input-search">
+        <span class="input-group-btn">
+            <button class="btn btn-default" type="button" onclick="handleSearch()">
+                <span class="glyphicon glyphicon-search"></span>
+            </button>
+        </span>
+    </div>
+</div>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th><input type="checkbox" id="checkbox-all" name="checkbox-all" onclick="checkAllCheckBox(this.checked);">
+            </th>
+            <th><b>Name</b> <i id="sort-name" class="fa fa-fw fa-sort" onclick="changeSort('name')"></i></th>
+            <th><b>Total Member</b> <i id="sort-totalMember" class="fa fa-fw fa-sort"
+                    onclick="changeSort('totalMember')"></i></th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody id="dpt_body">
+    </tbody>
+</table>
+
+<div class="row">
+    <!-- <div class="col-sm-7">
+        <div class="dataTables_info" id="dataTables-example_info" role="status" aria-live="polite">Showing 1 to 10 of 57
+            entries</div>
+    </div> -->
+    <div class="col-sm-12">
+        <div class="dataTables_paginate paging_simple_numbers" id="dataTables-example_paginate">
+            <ul id="pagination" class="pagination">
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- Modal HTML -->
+<div id="myModal" class="modal fade" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <!-- header -->
+            <div class="modal-header">
+                <h5 class="modal-title" id="titleModal">Add Department</h5>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- body -->
+            <div class="modal-body">
+                <form role="form" id="newModalForm" method="GET">
+                    <div class="modal-container">
+                        <input type="hidden" id="id" name="id">
+                        <label for="name"><b>Name</b></label>
+                        <input type="text" placeholder="Enter Name" name="name" id="name"></br>
+                        <label for="name"><b>Date</b></label>
+                        <input type="text" id="createdDate" name="createdDate"/>
+                        <!-- <p style="color: red;" id="nameErrorMessage"></p> -->
+                    </div>
+                    <!-- footer -->
+                    <div class="modal-footer">
+                        <input type="submit" class="btn btn-primary" onclick="save(event)"></input>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- success alert -->
+<div class="alert alert-success" id="success-alert" style="display: none;">
+    <button type="button" class="close" data-dismiss="alert">x</button>
+    <strong>Success! </strong>
+</div>
+<!-- end Success Alert -->
+<!-- JQuery Validation -->
+<script src="/js/custom_validator.js"></script>
+<script src="/js/validator.js"></script>

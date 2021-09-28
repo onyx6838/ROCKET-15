@@ -21,7 +21,8 @@ CREATE TABLE `Account`(
     `password` 			VARCHAR(800) NOT NULL,
     FirstName				NVARCHAR(50) NOT NULL,
     LastName				NVARCHAR(50) NOT NULL,	
-    GroupID 				INT UNSIGNED,	
+    GroupID 				INT UNSIGNED,
+    Role                    NVARCHAR(50) NOT NULL ,
     CreateDate			DATETIME DEFAULT NOW(), 
     FOREIGN KEY(GroupID) REFERENCES `Group`(GroupID) ON DELETE SET NULL
 );

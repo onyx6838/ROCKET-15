@@ -3,29 +3,22 @@ package com.vti.service;
 import java.util.List;
 
 import com.vti.entity.Group;
-import com.vti.form.GroupFilterForm;
-import com.vti.form.GroupFormForCreating;
-import com.vti.form.GroupFormForUpdating;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 public interface IGroupService {
 
-    public Page<Group> getAllGroups(Pageable pageable, String search, GroupFilterForm filter);
+    Page<Group> getAllGroups(Pageable pageable);
 
-    public Group getGroupByID(short id);
+    Group getGroupByID(int id);
 
-    public Group getGroupByName(String name);
+    Group getGroupByName(String name);
 
-    public void createGroup(GroupFormForCreating form);
+    void deleteGroup(int id);
 
-    public void updateGroup(short id, GroupFormForUpdating form);
+    boolean isGroupExistsByID(int id);
 
-    public void deleteGroup(short id);
+    boolean isGroupExistsByName(String name);
 
-    public boolean isGroupExistsByID(short id);
-
-    public boolean isGroupExistsByName(String name);
-
-    public void deleteGroups(List<Short> ids);
+    void deleteGroups(List<Integer> ids);
 }

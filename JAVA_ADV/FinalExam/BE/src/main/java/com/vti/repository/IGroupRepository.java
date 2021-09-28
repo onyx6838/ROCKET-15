@@ -2,23 +2,23 @@ package com.vti.repository;
 
 import java.util.List;
 
+import com.vti.entity.Group;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.vti.entity.Department;
+public interface IGroupRepository extends JpaRepository<Group, Integer>, JpaSpecificationExecutor<Group> {
 
-public interface IDepartmentRepository extends JpaRepository<Department, Short>, JpaSpecificationExecutor<Department> {
-
-    Department findByName(String name);
+    Group findByName(String name);
 
     boolean existsByName(String name);
 
-    @Modifying    // custom query
-    @Transactional    // delete nhie`u can  transaction
-    @Query("DELETE FROM Department WHERE id IN(:ids)")    // hql param tren java
-    void deleteByIds(@Param("ids") List<Short> ids);
+    @Modifying
+    @Transactional
+    @Query("DELETE FROM Group WHERE id IN(:ids)")
+    void deleteByIds(@Param("ids") List<Integer> ids);
 }
