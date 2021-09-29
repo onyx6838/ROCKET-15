@@ -1,16 +1,16 @@
 var departments = [];
-// paging data
+// paging
 var pageNumber = 1;
 var size = 3;
 var maxPage = 2;
-// sort data
+// sort
 var sortField = "id";
 var isAsc = false;
-// filter data and searching
+// filter and searching
 var search = '';
 var minCreateDate = "";
 var maxCreateDate = "";
-// old name data
+// old name
 var oldName;
 /**
  * GET API
@@ -168,8 +168,8 @@ function sortUI() {
 }
 
 function changeIconSort(id, sortTypeClazz) {
-    $(this.id).removeClass();
-    $(this.id).toggleClass(sortTypeClazz);
+    $(id).removeClass();
+    $(id).toggleClass(sortTypeClazz);
 }
 
 function changeSort(field) {
@@ -200,22 +200,10 @@ function handKeyUpEventForSearching(event) { // enter key event
         handleSearch();
     }
 }
-
-/**
- * reset paging, sort, checkbox, filter, fill data
- */
-function handleSearch() {
-    resetPaging();
-    resetSort();
-    resetDeleteCheckbox();
-    resetFilter();
-    getDataToTable();
-}
-
 /**
  * filter
  */
-function changeMinCreateDate(e) {
+ function changeMinCreateDate(e) {
     minCreateDate = e.target.value;
     console.log(minCreateDate);
     //handleSearch(); // reset after binding value to url
@@ -231,6 +219,16 @@ function resetFilter() {
     maxCreateDate = "";
     $('#minCreateDate').val('');
     $('maxCreateDate').val('');
+}
+/**
+ * reset paging, sort, checkbox, filter, fill data
+ */
+function handleSearch() {
+    resetPaging();
+    resetSort();
+    resetDeleteCheckbox();
+    resetFilter();
+    getDataToTable();
 }
 
 /**
@@ -249,12 +247,11 @@ function save() {
  */
 function addDataToTable() {
     var name = $('input#name').val();
-    if (!name || name.length < 6 || name.length > 30) {
-        // show error message
-        showNameErrMsg("Group name must be from 6 to 30 characters!");
+    var valid = validate('name');
+    if (valid.validated == false) {
+        showNameErrMsg(valid.message);
         return;
     }
-    //validate(name);
 
     // promise
     $.ajax({
@@ -321,13 +318,14 @@ function openUpdateModal(id) {
 
 function updateDataToTable(id) {
     var name = $('input#name').val();
-    if (!name || name.length < 6 || name.length > 30) {
-        // show error message
-        showNameErrMsg("Group name must be from 6 to 30 characters!");
+
+    var valid = validate('name');
+    if (valid.validated == false) {
+        showNameErrMsg(valid.message);
         return;
     }
+
     if (oldName == name) {
-        // success
         buildSuccess();
         return;
     }
@@ -443,17 +441,57 @@ function deleteDepartment(id) {
         }
     });
 }
-
-function buildSuccess() { // C,U,D success
+// C,U,D success
+function buildSuccess() { 
     hideModal();
     showSuccessAlert();
     getDataToTable();
 }
-
-function validate(input) {
-    if (!input || input.length < 6 || input.length > 30) {
-        // show error message
-        showNameErrMsg("Department name must be from 6 to 30 characters!");
-        return;
+// validate
+function validate(field_name) {
+    var valid = {
+        message: '',
+        validated: true
+    };
+    var element = '#' + field_name;
+    var value = $(element).val();
+    //console.log(value);
+    switch (field_name) {
+        case 'name':
+            if (!value || value.length < 6 || value.length > 30) {
+                valid.message = 'length from 6 to 30';
+                valid.validated = false;
+            }
+            // } else {
+            //     var regexp = '\p{L}+.*\p{L}+';
+            //     var re = new XRegExp(regexp);
+            //     if (re.test(value) == false) {
+            //         valid.message = "Not contain special character";
+            //         valid.validated = false;
+            //     }
+            // }
+            break;
+        case 'createDate':
+            var toDate = new Date().toLocaleDateString('en-CA');
+            var fromDate = new Date("2000-12-31");
+            var date = new Date(value);
+            console.log("date" + date)
+            if (date <= fromDate || date >= toDate) {
+                valid.message = "between";
+                valid.validated = false;
+            }
+            break;
+        case 'member':
+            var member = Number.parseInt(Number);
+            if (member < 0) {
+                valid.message = "greater than 0";
+                valid.validated = false;
+            }
+            break;
+        default:
+            valid.message = "Invalid field name validate";
+            valid.validated = false;
+            break;
     }
+    return valid;
 }

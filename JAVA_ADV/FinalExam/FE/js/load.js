@@ -1,9 +1,9 @@
 $(function () {
     if (!storage.getItem("ID")) window.location.replace("http://127.0.0.1:5501/html/login.html");
-    $(".header").load("header.html", function () {
+    $(".header").load("header.html", () => {
         $('#name_login').html(storage.getItem('FULL_NAME'));
     });
-    $(".sidenav").load("sidebar.html", function () {
+    $(".sidenav").load("sidebar.html", () => {
         if (storage.getItem('ROLE') == 'User') $('#groupViewList').hide();
     });
     $(".main").load("home.html");

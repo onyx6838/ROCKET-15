@@ -77,7 +77,6 @@
                     
                     <label for="name"><b>Name</b></label>
                     <input type="text" placeholder="Enter Name" name="name" id="name"></br>
-                    <p style="color: red;" id="name-err-msg"></p>
 
                     <label for="creator" id="label-creator"><b>Creator</b></label>
                     <input type="text" name="creator" id="creator" disabled></br>
@@ -91,6 +90,7 @@
             </div>
             <!-- footer -->
             <div class="modal-footer">
+                <p style="color: red;float: left;" id="name-err-msg"></p>
                 <input type="submit" class="btn btn-primary" onclick="save()"></input>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
             </div>
