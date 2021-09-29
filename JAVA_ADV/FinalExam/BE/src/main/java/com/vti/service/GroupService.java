@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class GroupService implements IGroupService{
+public class GroupService implements IGroupService {
     @Autowired
     private IGroupRepository groupRepository;
 
@@ -27,6 +27,18 @@ public class GroupService implements IGroupService{
     @Override
     public Group getGroupByName(String name) {
         return groupRepository.findByName(name);
+    }
+
+    @Override
+    public void createGroup(Group group) {
+        groupRepository.save(group);
+    }
+
+    @Override
+    public void updateGroup(int id, Group group) {
+        Group groupRequest = getGroupByID(id);
+        groupRequest.setName(group.getName());
+        groupRepository.save(groupRequest);
     }
 
     @Override

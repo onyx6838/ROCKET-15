@@ -13,22 +13,23 @@ import org.springframework.stereotype.Component;
 @EnableWebSecurity
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-  @Autowired
-  private IAccountService accountService;
+    @Autowired
+    private IAccountService accountService;
 
-  @Override
-  protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-    auth.userDetailsService(accountService).passwordEncoder(new BCryptPasswordEncoder());
-  }
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(accountService).passwordEncoder(new BCryptPasswordEncoder());
+    }
 
-  @Override
-  protected void configure(HttpSecurity http) throws Exception {
-    http.cors().and().authorizeRequests()
-        .antMatchers("api/v1/departments").hasAnyAuthority("Admin", "Manager")
-        .anyRequest().authenticated()
-        .and()
-        .httpBasic()
-        .and()
-        .csrf().disable();
-  }
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http.cors().and().authorizeRequests()
+                // cors cho security (3rd app)
+                .antMatchers("/api/v1/groups", "/api/v1/groups/*").hasAnyAuthority("Admin", "Manager")
+                .anyRequest().authenticated()
+                .and()
+                .httpBasic()
+                .and()
+                .csrf().disable();
+    }
 }

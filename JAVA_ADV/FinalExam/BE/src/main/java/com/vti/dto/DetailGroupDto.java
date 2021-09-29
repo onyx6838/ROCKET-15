@@ -7,16 +7,20 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class DetailDepartmentDto {
-	private short id;
+@Setter
+public class DetailGroupDto {
+	private int id;
 
 	private String name;
 
-	private AccountDto author;
+	private AccountDto creator;
+
+	private int member;
 
 	@JsonFormat(pattern="yyyy-MM-dd")
 	private Date createDate;

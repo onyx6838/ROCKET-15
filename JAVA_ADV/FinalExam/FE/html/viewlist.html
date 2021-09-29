@@ -1,5 +1,5 @@
 <div>
-    <h2>View List</h2>
+    <h2>Manage Group</h2>
     <div class="col-sm-7">
         <div style="display: inline-block;">
             <button type="button" class="btn btn-info add-new" data-toggle="modal" onclick="openAddModal()"><i
@@ -16,7 +16,7 @@
         Max CreateDate: <input type="date" id="maxCreateDate" name="maxCreateDate"
             onchange="changeMaxCreateDate(event);"></br>
     </div>
-    <div class="col-sm-5">
+    <div class="col-sm-5 input-group">
         <input type="text" class="form-control" placeholder="Search ... " onkeyup="handKeyUpEventForSearching(event)"
             id="input-search">
         <span class="input-group-btn">
@@ -31,9 +31,14 @@
         <tr>
             <th><input type="checkbox" id="checkbox-all" name="checkbox-all" onclick="checkAllCheckBox(this.checked);">
             </th>
-            <th><b>Name</b> <i id="sort-name" class="fa fa-fw fa-sort" onclick="changeSort('name')"></i></th>
-            <th><b>Total Member</b> <i id="sort-totalMember" class="fa fa-fw fa-sort"
-                    onclick="changeSort('totalMember')"></i></th>
+            <th><b>No</b></th>
+            <th><b>Group Name</b> <i id="sort-name" class="fa fa-fw fa-sort" onclick="changeSort('name')"></i></th>
+            <th><b>Member</b> <i id="sort-member" class="fa fa-fw fa-sort" onclick="changeSort('member')"></i>
+            </th>
+            <th><b>Creator</b> <i id="sort-creator" class="fa fa-fw fa-sort"
+                    onclick="changeSort('creator.fullName')"></i></th>
+            <th><b>CreateDate</b> <i id="sort-createDate" class="fa fa-fw fa-sort"
+                    onclick="changeSort('createDate')"></i></th>
             <th>Action</th>
         </tr>
     </thead>
@@ -61,27 +66,33 @@
 
             <!-- header -->
             <div class="modal-header">
-                <h5 class="modal-title" id="titleModal">Add Department</h5>
+                <h5 class="modal-title">Add Group</h5>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
 
             <!-- body -->
             <div class="modal-body">
-                <form role="form" id="newModalForm" method="GET">
-                    <div class="modal-container">
-                        <input type="hidden" id="id" name="id">
-                        <label for="name"><b>Name</b></label>
-                        <input type="text" placeholder="Enter Name" name="name" id="name"></br>
-                        <label for="name"><b>Date</b></label>
-                        <input type="text" id="createdDate" name="createdDate"/>
-                        <!-- <p style="color: red;" id="nameErrorMessage"></p> -->
-                    </div>
-                    <!-- footer -->
-                    <div class="modal-footer">
-                        <input type="submit" class="btn btn-primary" onclick="save(event)"></input>
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                    </div>
-                </form>
+                <div class="modal-container">
+                    <input type="hidden" id="id" name="id">
+                    
+                    <label for="name"><b>Name</b></label>
+                    <input type="text" placeholder="Enter Name" name="name" id="name"></br>
+                    <p style="color: red;" id="name-err-msg"></p>
+
+                    <label for="creator" id="label-creator"><b>Creator</b></label>
+                    <input type="text" name="creator" id="creator" disabled></br>
+
+                    <label for="member" id="label-member"><b>Member</b></label>
+                    <input type="text" name="member" id="member" disabled></br>
+
+                    <label for="createDate" id="label-createDate"><b>Date</b></label>
+                    <input type="date" id="createDate" name="createDate"/>
+                </div>
+            </div>
+            <!-- footer -->
+            <div class="modal-footer">
+                <input type="submit" class="btn btn-primary" onclick="save()"></input>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
             </div>
         </div>
     </div>
@@ -89,9 +100,10 @@
 <!-- success alert -->
 <div class="alert alert-success" id="success-alert" style="display: none;">
     <button type="button" class="close" data-dismiss="alert">x</button>
-    <strong>Success! </strong>
+    <strong>Success!!!</strong>
 </div>
 <!-- end Success Alert -->
+
 <!-- JQuery Validation -->
-<script src="/js/custom_validator.js"></script>
-<script src="/js/validator.js"></script>
+<!-- <script src="/js/custom_validator.js"></script>
+<script src="/js/validator.js"></script> -->

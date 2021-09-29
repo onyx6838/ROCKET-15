@@ -10,11 +10,13 @@ var isAsc = false;
 var search = '';
 var minCreateDate = "";
 var maxCreateDate = "";
+// old name data
+var oldName;
 /**
  * GET API
  */
 function getDataToTable() {
-    var url = "http://localhost:8080/api/v1/departments";
+    var url = "http://localhost:8080/api/v1/groups";
 
     url += "?page=" + pageNumber + "&size=" + size;
 
@@ -23,21 +25,33 @@ function getDataToTable() {
     var search = $('#input-search').val();
     if (search) {
         url += "&search=" + search;
-        console.log(url);
     }
 
-    $.get(url, function (data, status) {
-        departments = [];
-        if (status == "error") {
-            alert("Error when loading data");
-            return;
+    $.ajax({
+        url: url,
+        type: 'GET',
+        contentType: "application/json",
+        dataType: 'json', // datatype return
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader("Authorization", "Basic " + btoa(storage.getItem("USERNAME") + ":" + storage.getItem("PASSWORD")));
+        },
+        success: function (data, textStatus, xhr) {
+            // reset list employees
+            departments = [];
+            departments = data.content;
+            fillDataToTable();
+            checkAllCheckBox(false);
+            pagingTable(data.totalPages);
+            //sortUI();
+        },
+        error(jqXHR, textStatus, errorThrown) {
+            console.log(jqXHR);
+            console.log(textStatus);
+            console.log(errorThrown);
+            if (jqXHR.status == 403) {
+                window.location.href = "http://127.0.0.1:5501/html/forbidden.html";
+            }
         }
-
-        departments = data.content;
-        fillDataToTable();
-        checkAllCheckBox(false);
-        pagingTable(data.totalPages);
-        sortUI();
     });
 }
 
@@ -50,8 +64,11 @@ function fillDataToTable() {
     departments.forEach(function (item, index) {
         tr = $('<tr/>');
         tr.append('<td>' + '<input id="checkbox-' + index + '" type="checkbox" class="cb-child" data-id="' + index + '" onClick="onChangeCheckboxItem()" >' + '</td>');
+        tr.append('<td>' + index + '</td>');
         tr.append('<td>' + item.name + '</td>');
-        tr.append('<td>' + item.totalMember + '</td>');
+        tr.append('<td>' + item.member + '</td>');
+        tr.append('<td>' + item.creator.fullName + '</td>');
+        tr.append('<td>' + item.createDate + '</td>');
         tr.append('<td>' + '<a class="edit" onclick="openUpdateModal(' + item.id + ')"><i class="glyphicon glyphicon-pencil"></i></a>&nbsp;' +
             '<a class="delete" onclick="openConfirmDelete(' + item.id + ')"><i class="glyphicon glyphicon-trash"></i></a>' +
             '</td>');
@@ -121,15 +138,31 @@ function sortUI() {
     switch (sortField) {
         case 'name':
             changeIconSort("sort-name", sortTypeClazz);
-            changeIconSort("sort-totalMember", sortDefault);
+            changeIconSort("sort-member", sortDefault);
             break;
-        case 'totalMember':
-            changeIconSort("sort-name", sortTypeClazz);
-            changeIconSort("sort-totalMember", sortDefault);
+        case 'member':
+            changeIconSort("sort-member", sortTypeClazz);
+            changeIconSort("sort-name", sortDefault);
+            changeIconSort("sort-creator", sortDefault);
+            changeIconSort("sort-createDate", sortDefault);
+            break;
+        case 'creator':
+            changeIconSort("sort-creator", sortTypeClazz);
+            changeIconSort("sort-name", sortDefault);
+            changeIconSort("sort-member", sortDefault);
+            changeIconSort("sort-createDate", sortDefault);
+            break;
+        case 'createDate':
+            changeIconSort("sort-createDate", sortTypeClazz);
+            changeIconSort("sort-member", sortDefault);
+            changeIconSort("sort-name", sortDefault);
+            changeIconSort("sort-creator", sortDefault);
             break;
         default:
             changeIconSort("sort-name", sortDefault);
-            changeIconSort("sort-totalMember", sortDefault);
+            changeIconSort("sort-member", sortDefault);
+            changeIconSort("sort-creator", sortDefault);
+            changeIconSort("sort-createDate", sortDefault);
             break;
     }
 }
@@ -156,7 +189,6 @@ function resetSort() {
 /**
  * Searching
  */
-
 function resetSearch() {
     $('#input-search').val('');
 }
@@ -169,6 +201,9 @@ function handKeyUpEventForSearching(event) { // enter key event
     }
 }
 
+/**
+ * reset paging, sort, checkbox, filter, fill data
+ */
 function handleSearch() {
     resetPaging();
     resetSort();
@@ -181,7 +216,6 @@ function handleSearch() {
  * filter
  */
 function changeMinCreateDate(e) {
-    
     minCreateDate = e.target.value;
     console.log(minCreateDate);
     //handleSearch(); // reset after binding value to url
@@ -202,56 +236,80 @@ function resetFilter() {
 /**
  * Save or update
  */
-function save(event) {
+function save() {
     var id = $('input#id').val();
-    if($('#newModalForm').valid() == true){ // check when click submit
-        if (id == null || id == "") {
-            addDataToTable(event);
-        } else {
-            updateDataToTable(event);
-        }
+    if (id == null || id == "") {
+        addDataToTable();
+    } else {
+        updateDataToTable(id);
     }
-    else return;
 }
 /**
  * Add data
  */
-function addDataToTable(event) {
+function addDataToTable() {
     var name = $('input#name').val();
-    event.preventDefault(); // prevent refreshing
-    var department = {
-        name: name
-    };
+    if (!name || name.length < 6 || name.length > 30) {
+        // show error message
+        showNameErrMsg("Group name must be from 6 to 30 characters!");
+        return;
+    }
+    //validate(name);
+
+    // promise
     $.ajax({
-        url: 'http://localhost:8080/api/v1/departments',
-        type: 'POST',
-        contentType: 'application/json',
-        data: JSON.stringify(department),
-        success: function (result) {
-            buildSuccess();
-            handleSearch();
-        },
-        error: function (xhr, status, error) {
-            console.log(xhr.status);
-            console.log(error);
-            return;
+        type: 'GET',
+        url: "http://localhost:8080/api/v1/groups/name/" + name + "/exists",
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader("Authorization", "Basic " + btoa(storage.getItem("USERNAME") + ":" + storage.getItem("PASSWORD")));
         }
-    }); 
-    
+    }).then(data => {
+        if (data) {
+            showNameErrMsg("Group name is exists!");
+            return;
+        } else {
+            var department = {
+                name: name,
+                creatorId: storage.getItem('ID')
+            };
+            return $.ajax({
+                url: 'http://localhost:8080/api/v1/groups',
+                type: 'POST',
+                data: JSON.stringify(department),
+                contentType: "application/json",
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader("Authorization", "Basic " + btoa(storage.getItem("USERNAME") + ":" + storage.getItem("PASSWORD")));
+                }
+            }).then(() => {
+                hideModal();
+                showSuccessAlert();
+                buildSuccess();
+            });
+        }
+    });
 }
 /**
  * Update Data
  */
 function openUpdateModal(id) {
-    $('input#name').attr('readonly', true); // can't change data in name input 
-    $('input#name').rules('remove', "uniqueName");  // remove exist name rule validate
+    //$('input#name').attr('readonly', true); // can't change data in name input 
+    //$('input#name').rules('remove', "uniqueName"); // remove exist name rule validate
     $.ajax({
-        url: 'http://localhost:8080/api/v1/departments/' + id,
+        url: 'http://localhost:8080/api/v1/groups/' + id,
         type: 'GET',
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader("Authorization", "Basic " + btoa(storage.getItem("USERNAME") + ":" + storage.getItem("PASSWORD")));
+        },
         success: function (result) {
+            openModal();
+            resetForm('UPDATE');
+            // binding
             $('input#id').val(result.id);
             $('input#name').val(result.name);
-            openModal();
+            $('input#member').val(result.member);
+            $('input#creator').val(result.creator.fullName);
+            $('input#createDate').val(result.createDate);
+            oldName = result.name;
         },
         error: function (xhr, status, error) {
             console.log(xhr.status);
@@ -261,28 +319,47 @@ function openUpdateModal(id) {
     });
 }
 
-function updateDataToTable() {
-    var id = $('input#id').val();
+function updateDataToTable(id) {
     var name = $('input#name').val();
-    event.preventDefault();
-    // TODO validate
-    var department = {
-        name: name
-    };
+    if (!name || name.length < 6 || name.length > 30) {
+        // show error message
+        showNameErrMsg("Group name must be from 6 to 30 characters!");
+        return;
+    }
+    if (oldName == name) {
+        // success
+        buildSuccess();
+        return;
+    }
 
+    // promise
     $.ajax({
-        url: 'http://localhost:8080/api/v1/departments/' + id,
-        type: 'PUT',
-        contentType: 'application/json',
-        data: JSON.stringify(department),
-        success: function (result) {
-            // success
-            buildSuccess();
-        },
-        error: function (xhr, status, error) {
-            console.log(xhr.status);
-            console.log(error);
+        type: 'GET',
+        url: "http://localhost:8080/api/v1/groups/name/" + name + "/exists",
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader("Authorization", "Basic " + btoa(storage.getItem("USERNAME") + ":" + storage.getItem("PASSWORD")));
+        }
+    }).then(data => {
+        if (data) {
+            showNameErrMsg("Group name is exists!");
             return;
+        } else {
+            var department = {
+                name: name
+            };
+            return $.ajax({
+                url: 'http://localhost:8080/api/v1/groups/' + id,
+                type: 'PUT',
+                data: JSON.stringify(department),
+                contentType: "application/json",
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader("Authorization", "Basic " + btoa(storage.getItem("USERNAME") + ":" + storage.getItem("PASSWORD")));
+                }
+            }).then(() => {
+                hideModal();
+                showSuccessAlert();
+                getDataToTable();
+            });
         }
     });
 }
@@ -332,10 +409,14 @@ function openConfirmDelete(id) {
 
 function deleteDepartments(ids) {
     $.ajax({
-        url: 'http://localhost:8080/api/v1/departments?ids=' + ids,
+        url: 'http://localhost:8080/api/v1/groups?ids=' + ids,
         type: 'DELETE',
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader("Authorization", "Basic " + btoa(storage.getItem("USERNAME") + ":" + storage.getItem("PASSWORD")));
+        },
         success: function (result) {
             buildSuccess();
+            handleSearch();
         },
         error: function (xhr, status, error) {
             console.log(xhr.status);
@@ -347,8 +428,11 @@ function deleteDepartments(ids) {
 
 function deleteDepartment(id) {
     $.ajax({
-        url: 'http://localhost:8080/api/v1/departments/' + id,
+        url: 'http://localhost:8080/api/v1/groups/' + id,
         type: 'DELETE',
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader("Authorization", "Basic " + btoa(storage.getItem("USERNAME") + ":" + storage.getItem("PASSWORD")));
+        },
         success: function (result) {
             buildSuccess();
         },
@@ -364,4 +448,12 @@ function buildSuccess() { // C,U,D success
     hideModal();
     showSuccessAlert();
     getDataToTable();
+}
+
+function validate(input) {
+    if (!input || input.length < 6 || input.length > 30) {
+        // show error message
+        showNameErrMsg("Department name must be from 6 to 30 characters!");
+        return;
+    }
 }

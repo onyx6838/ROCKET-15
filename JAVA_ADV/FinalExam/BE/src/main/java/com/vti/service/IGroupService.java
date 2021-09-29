@@ -1,10 +1,10 @@
 package com.vti.service;
 
-import java.util.List;
-
 import com.vti.entity.Group;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+
+import java.util.List;
 
 public interface IGroupService {
 
@@ -13,6 +13,10 @@ public interface IGroupService {
     Group getGroupByID(int id);
 
     Group getGroupByName(String name);
+
+    void createGroup(Group group);
+
+    void updateGroup(int id, Group group);
 
     void deleteGroup(int id);
 

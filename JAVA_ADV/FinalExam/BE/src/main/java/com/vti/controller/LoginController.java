@@ -18,16 +18,15 @@ import java.security.Principal;
 @CrossOrigin("*")
 public class LoginController {
 
-  @Autowired
-  private IAccountService service;
+    @Autowired
+    private IAccountService service;
 
-  @GetMapping()
-  public ResponseEntity<LoginInfoDto> login(Principal principal) {
-    String username = principal.getName();
-    Account entity = service.getAccountByUsername(username);
-    // convert entity to dto through principal java security
-    LoginInfoDto dto = new LoginInfoDto(entity.getId(), entity.getFullName());
-    return new ResponseEntity<>(dto, HttpStatus.OK);
-  }
-
+    @GetMapping()
+    public ResponseEntity<LoginInfoDto> login(Principal principal) {
+        String username = principal.getName();
+        Account entity = service.getAccountByUsername(username);
+        // convert entity to dto through principal java security
+        LoginInfoDto dto = new LoginInfoDto(entity.getId(), entity.getFullName(), entity.getRole());
+        return new ResponseEntity<>(dto, HttpStatus.OK);
+    }
 }

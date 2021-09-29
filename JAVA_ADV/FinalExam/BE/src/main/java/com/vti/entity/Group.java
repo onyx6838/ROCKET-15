@@ -1,23 +1,17 @@
 package com.vti.entity;
 
+import com.vti.validation.DateRange;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+
+import javax.persistence.*;
+import javax.validation.constraints.Past;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-
-import lombok.*;
-import org.hibernate.annotations.CreationTimestamp;
 
 @Entity
 @Table(name = "`Group`")
@@ -29,27 +23,23 @@ public class Group implements Serializable {
     @Column(name = "GroupID")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private short id;
+    private int id;
 
     @Column(name = "GroupName", length = 50, nullable = false, unique = true)
     private String name;
 
-    @Column(name = "Member")
+    @Column(name = "Member", columnDefinition = "INT default 0")
     private int member;
 
     @OneToMany(mappedBy = "group")
     private List<Account> accounts;
 
     @ManyToOne
-    @JoinColumn(name = "Creator", nullable = false, updatable = false)
+    @JoinColumn(name = "Creator")
     private Account creator;
 
     @Column(name = "CreateDate", updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
     @CreationTimestamp
     private Date createDate;
-
-    public Group(String name) {
-        this.name = name;
-    }
 }
