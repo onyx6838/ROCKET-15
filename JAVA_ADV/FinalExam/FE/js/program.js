@@ -27,6 +27,14 @@ function getDataToTable() {
         url += "&search=" + search;
     }
 
+    if (minCreateDate) {
+        url += "&minDate=" + minCreateDate;
+    }
+
+    if (maxCreateDate) {
+        url += "&maxDate=" + maxCreateDate;
+    }
+
     $.ajax({
         url: url,
         type: 'GET',
@@ -203,15 +211,14 @@ function handKeyUpEventForSearching(event) { // enter key event
 /**
  * filter
  */
- function changeMinCreateDate(e) {
+function changeMinCreateDate(e) {
     minCreateDate = e.target.value;
-    console.log(minCreateDate);
-    //handleSearch(); // reset after binding value to url
+    handleSearch(); // reset after binding value to url
 }
 
 function changeMaxCreateDate(e) {
     maxCreateDate = e.target.value;
-    //handleSearch(); // reset after binding value to url
+    handleSearch(); // reset after binding value to url
 }
 
 function resetFilter() {
@@ -223,11 +230,18 @@ function resetFilter() {
 /**
  * reset paging, sort, checkbox, filter, fill data
  */
+function refreshTable() {
+    resetPaging();
+    resetSort();
+    resetSearch();
+    resetFilter();
+    resetDeleteCheckbox();
+}
+
 function handleSearch() {
     resetPaging();
     resetSort();
     resetDeleteCheckbox();
-    resetFilter();
     getDataToTable();
 }
 
@@ -334,7 +348,7 @@ function updateDataToTable(id) {
     $.ajax({
         type: 'GET',
         url: "http://localhost:8080/api/v1/groups/name/" + name + "/exists",
-        beforeSend: function (xhr) {
+        beforeSend: (xhr) => {
             xhr.setRequestHeader("Authorization", "Basic " + btoa(storage.getItem("USERNAME") + ":" + storage.getItem("PASSWORD")));
         }
     }).then(data => {
@@ -350,13 +364,11 @@ function updateDataToTable(id) {
                 type: 'PUT',
                 data: JSON.stringify(department),
                 contentType: "application/json",
-                beforeSend: function (xhr) {
+                beforeSend: (xhr) => {
                     xhr.setRequestHeader("Authorization", "Basic " + btoa(storage.getItem("USERNAME") + ":" + storage.getItem("PASSWORD")));
                 }
             }).then(() => {
-                hideModal();
-                showSuccessAlert();
-                getDataToTable();
+                buildSuccess();
             });
         }
     });
@@ -414,7 +426,7 @@ function deleteDepartments(ids) {
         },
         success: function (result) {
             buildSuccess();
-            handleSearch();
+            refreshTable();
         },
         error: function (xhr, status, error) {
             console.log(xhr.status);
@@ -442,7 +454,7 @@ function deleteDepartment(id) {
     });
 }
 // C,U,D success
-function buildSuccess() { 
+function buildSuccess() {
     hideModal();
     showSuccessAlert();
     getDataToTable();
@@ -455,29 +467,27 @@ function validate(field_name) {
     };
     var element = '#' + field_name;
     var value = $(element).val();
-    //console.log(value);
     switch (field_name) {
         case 'name':
             if (!value || value.length < 6 || value.length > 30) {
                 valid.message = 'length from 6 to 30';
                 valid.validated = false;
+            } else {
+                var regex = '^[\p{L}+\s+]$';
+                var re = new XRegExp(regex);
+                if (!re.test(value)) {
+                    valid.message = "Not contain special character";
+                    valid.validated = false;
+                }
             }
-            // } else {
-            //     var regexp = '\p{L}+.*\p{L}+';
-            //     var re = new XRegExp(regexp);
-            //     if (re.test(value) == false) {
-            //         valid.message = "Not contain special character";
-            //         valid.validated = false;
-            //     }
-            // }
             break;
         case 'createDate':
             var toDate = new Date().toLocaleDateString('en-CA');
             var fromDate = new Date("2000-12-31");
             var date = new Date(value);
-            console.log("date" + date)
+            //console.log("date" + date)
             if (date <= fromDate || date >= toDate) {
-                valid.message = "between";
+                valid.message = "greater 2000 and < now";
                 valid.validated = false;
             }
             break;

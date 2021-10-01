@@ -1,14 +1,16 @@
 package com.vti.service;
 
 import com.vti.entity.Group;
+import com.vti.form.GroupFilterForm;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.text.ParseException;
 import java.util.List;
 
 public interface IGroupService {
 
-    Page<Group> getAllGroups(Pageable pageable);
+    Page<Group> getAllGroups(Pageable pageable, String search, GroupFilterForm filter);
 
     Group getGroupByID(int id);
 

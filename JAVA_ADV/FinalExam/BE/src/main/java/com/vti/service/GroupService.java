@@ -1,11 +1,15 @@
 package com.vti.service;
 
 import com.vti.entity.Group;
+import com.vti.form.GroupFilterForm;
 import com.vti.repository.IGroupRepository;
+import com.vti.specification.GroupSpecification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
 
 import java.util.List;
 
@@ -15,8 +19,36 @@ public class GroupService implements IGroupService {
     private IGroupRepository groupRepository;
 
     @Override
-    public Page<Group> getAllGroups(Pageable pageable) {
-        return groupRepository.findAll(pageable);
+    public Page<Group> getAllGroups(Pageable pageable, String search, GroupFilterForm filter) {
+        Specification<Group> where = null;
+
+        if (!ObjectUtils.isEmpty(search)) {
+            GroupSpecification nameSpecification = new GroupSpecification("name", "LIKE",
+                    search);
+            GroupSpecification authorSpecification = new GroupSpecification("creator.fullName", "LIKE", search);
+            where = Specification.where(nameSpecification).or(authorSpecification);
+        }
+
+        if (filter != null && filter.getMinDate() != null) {
+            GroupSpecification minDateSpecification = new GroupSpecification("createDate", ">=",
+                    filter.getMinDate());
+            if (where == null) {  // chua co search chi? filter
+                where = Specification.where(minDateSpecification);
+            } else {
+                where = where.and(minDateSpecification);
+            }
+        }
+
+        if (filter != null && filter.getMaxDate() != null) {
+            GroupSpecification maxDateSpecification = new GroupSpecification("createDate", "<=",
+                    filter.getMaxDate());
+            if (where == null) {
+                where = Specification.where(maxDateSpecification);
+            } else {
+                where = where.and(maxDateSpecification);
+            }
+        }
+        return groupRepository.findAll(where, pageable);
     }
 
     @Override

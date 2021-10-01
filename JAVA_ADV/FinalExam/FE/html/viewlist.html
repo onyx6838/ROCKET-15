@@ -11,10 +11,14 @@
         </div>
         <br>
         <br>
-        Min CreateDate: <input type="date" id="minCreateDate" name="minCreateDate"
-            onchange="changeMinCreateDate(event);" /></br>
-        Max CreateDate: <input type="date" id="maxCreateDate" name="maxCreateDate"
-            onchange="changeMaxCreateDate(event);"></br>
+        <div style="display: inline-block;">
+            Min CreateDate: <input type="date" id="minCreateDate" name="minCreateDate"
+                onchange="changeMinCreateDate(event);" /></br>
+            Max CreateDate: <input type="date" id="maxCreateDate" name="maxCreateDate"
+                onchange="changeMaxCreateDate(event);"></br></br>
+            <button type="button" class="btn btn-success add-new" data-toggle="modal"
+                onclick="refreshTable()">Refresh</button>
+        </div>
     </div>
     <div class="col-sm-5 input-group">
         <input type="text" class="form-control" placeholder="Search ... " onkeyup="handKeyUpEventForSearching(event)"
@@ -74,7 +78,7 @@
             <div class="modal-body">
                 <div class="modal-container">
                     <input type="hidden" id="id" name="id">
-                    
+
                     <label for="name"><b>Name</b></label>
                     <input type="text" placeholder="Enter Name" name="name" id="name"></br>
 
@@ -85,7 +89,7 @@
                     <input type="text" name="member" id="member" disabled></br>
 
                     <label for="createDate" id="label-createDate"><b>Date</b></label>
-                    <input type="date" id="createDate" name="createDate"/>
+                    <input type="date" id="createDate" name="createDate" />
                 </div>
             </div>
             <!-- footer -->
@@ -107,3 +111,5 @@
 <!-- JQuery Validation -->
 <!-- <script src="/js/custom_validator.js"></script>
 <script src="/js/validator.js"></script> -->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xregexp/3.2.0/xregexp-all.min.js"></script>

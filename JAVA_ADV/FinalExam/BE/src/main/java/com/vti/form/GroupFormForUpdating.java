@@ -15,4 +15,5 @@ public class GroupFormForUpdating {
 	@Pattern(regexp = "\\p{L}+.*\\p{L}+", message = " not contains special characters",
 			groups = onUpdate.class)
 	private String name;
+
 }

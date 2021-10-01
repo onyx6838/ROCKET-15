@@ -24,7 +24,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and().authorizeRequests()
-                // cors cho security (3rd app)
+                // cors security (3rd app)
                 .antMatchers("/api/v1/groups", "/api/v1/groups/*").hasAnyAuthority("Admin", "Manager")
                 .anyRequest().authenticated()
                 .and()

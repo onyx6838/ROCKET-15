@@ -15,11 +15,13 @@ public enum PositionName {
         return value;
     }
 
+
     public static PositionName of(String value) {
         if (value == null) {
             return null;
         }
-        return Stream.of(PositionName.values()).filter(x -> x.getValue().equals(value)).findFirst().orElseThrow(IllegalArgumentException::new);
+        return Enum.valueOf(PositionName.class, value);
+        //return Stream.of(PositionName.values()).filter(x -> x.getValue().equals(value)).findFirst().orElseThrow(IllegalArgumentException::new);
     }
 
 }

@@ -18,11 +18,11 @@ public class PositionTest {
 			System.out.println(position);
 		}
 
-		System.out.println("\n\n***********CREATE POSITION***********");
-
-		Position positionCreate = new Position();
-		positionCreate.setPositionName(PositionName.PM);
-		repository.createPosition(positionCreate);
+//		System.out.println("\n\n***********CREATE POSITION***********");
+//
+//		Position positionCreate = new Position();
+//		positionCreate.setPositionName(PositionName.PM);
+//		repository.createPosition(positionCreate);
 
 	}
 }

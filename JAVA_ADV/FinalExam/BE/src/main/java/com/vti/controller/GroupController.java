@@ -5,8 +5,10 @@ import com.vti.dto.DetailGroupDto;
 import com.vti.dto.GroupDto;
 import com.vti.entity.Account;
 import com.vti.entity.Group;
+import com.vti.form.GroupFilterForm;
 import com.vti.form.GroupFormForCreating;
 import com.vti.form.GroupFormForUpdating;
+import com.vti.service.GroupService;
 import com.vti.service.IAccountService;
 import com.vti.service.IGroupService;
 import org.modelmapper.ModelMapper;
@@ -18,6 +20,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.text.ParseException;
 import java.util.List;
 
 @RestController
@@ -34,8 +37,10 @@ public class GroupController {
     private IAccountService accountService;
 
     @GetMapping()
-    public ResponseEntity<Page<GroupDto>> getAllDepartments(Pageable pageable) {
-        Page<Group> entitiesPage = groupService.getAllGroups(pageable);
+    public ResponseEntity<Page<GroupDto>> getAllDepartments(Pageable pageable,
+                                                            @RequestParam(required = false) String search,
+                                                            GroupFilterForm filter) {
+        Page<Group> entitiesPage = groupService.getAllGroups(pageable, search, filter);
         Page<GroupDto> dtoPage = entitiesPage
                 .map(entity -> {
                     AccountDto account = modelMapper.map(entity.getCreator(), AccountDto.class);

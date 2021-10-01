@@ -43,6 +43,7 @@ function login() {
 
             // redirect to home page
             window.location.replace("http://127.0.0.1:5501/html/index.html");
+            
         },
         error(jqXHR, textStatus, errorThrown) {
             if (jqXHR.status == 401) {

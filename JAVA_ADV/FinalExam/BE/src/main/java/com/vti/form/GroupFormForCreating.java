@@ -1,7 +1,6 @@
 package com.vti.form;
 
 import com.vti.validation.group.onCreate;
-import com.vti.validation.group.onUpdate;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;

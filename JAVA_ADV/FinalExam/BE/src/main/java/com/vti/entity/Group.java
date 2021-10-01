@@ -1,6 +1,5 @@
 package com.vti.entity;
 
-import com.vti.validation.DateRange;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -8,7 +7,7 @@ import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
-import javax.validation.constraints.Past;
+import javax.validation.constraints.Max;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
