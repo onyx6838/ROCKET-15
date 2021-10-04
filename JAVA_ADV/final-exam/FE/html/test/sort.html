@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+</head>
+
+<body>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th><b>Group Name</b> <i id="sort-name" class="fa fa-sort" onclick="changeSortField('a')"></i></th>
+                <th><b>Member</b> <i id="sort-member" class="fa fa-sort" onclick="changeSortField('b')"></i></th>
+            </tr>
+        </thead>
+    </table>
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<script>
+    var isAsc = false;
+    var sortField = "id";
+    function allArguments() {
+        $.each(arguments[0], (index, value) => {
+            var selector = '#' + value;
+            //document.getElementById(value).classList.remove("fa-sort", "fa-sort-asc", "fa-sort-desc")
+            //document.getElementById(value).classList.add(arguments[1])
+             $(selector).removeClass()
+             $(selector).addClass("fa").addClass(arguments[1]);
+            // var isSortDefault = $(selector).hasClass(sortDefault);
+            // var isSortAsc = $(selector).hasClass(sortAsc);
+
+            // $(selector)
+            //  .toggleClass(!sortDefault, isSortDefault && isSortAsc)
+        });
+    }
+    //allArguments(["sort-name", "sort-member"], "fa-sort-asc");
+    function changeSort() {
+        var sortTypeClazz = isAsc ? "fa-sort-asc" : "fa-sort-desc";
+        var sortDefault = 'fa-sort';
+        switch (sortField) {
+            case 'a':
+                allArguments(["sort-name"], sortTypeClazz);
+                allArguments(["sort-member"], sortDefault);
+                break;
+            case 'b':
+                allArguments(["sort-member"], sortTypeClazz);
+                allArguments(["sort-name"], sortDefault);
+                break;
+        }
+    }
+    function changeSortField(field) {
+        if (field == sortField) {
+            isAsc = !isAsc;
+        } else {
+            sortField = field;
+            isAsc = true;
+        }
+        changeSort();
+    }
+
+    // $(".fa").click(function () {
+    //     var $current = $(this);
+    //     var sortDefault = 'fa-sort';
+    //     var sortAsc = 'fa-sort-asc';
+    //     var sortDesc = 'fa-sort-desc';
+
+    //     var isSortDefault = $current.hasClass(sortDefault);
+    //     var isSortAsc = $current.hasClass(sortAsc);
+
+    //     $current
+    //         .toggleClass(sortDefault, !isSortDefault && !isSortAsc)
+    //         .toggleClass(sortAsc, isSortDefault && !isSortAsc)
+    //         .toggleClass(sortDesc, isSortAsc);
+    // });
+
+
+
+</script>
+
+</html>
