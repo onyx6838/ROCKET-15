@@ -13,10 +13,10 @@ $(function () {
 function logout() {
     storage.removeItem("ID");
     storage.removeItem("FULL_NAME");
-    storage.removeItem("USERNAME");
-    storage.removeItem("PASSWORD");
+    // storage.removeItem("USERNAME");
+    // storage.removeItem("PASSWORD");
     storage.removeItem("ROLE");
-
+    storage.removeItem("TOKEN");
     // redirect to login page
     window.location.replace("http://127.0.0.1:5501/html/login.html");
 }

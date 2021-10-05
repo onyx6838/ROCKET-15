@@ -41,7 +41,7 @@ function getDataToTable() {
         contentType: "application/json",
         dataType: 'json', // datatype return
         beforeSend: function (xhr) {
-            xhr.setRequestHeader("Authorization", "Basic " + btoa(storage.getItem("USERNAME") + ":" + storage.getItem("PASSWORD")));
+            xhr.setRequestHeader("Authorization", "Bearer " + storage.getItem("TOKEN"));
         },
         success: function (data, textStatus, xhr) {
             // reset list employees
@@ -264,7 +264,7 @@ function addDataToTable() {
         type: 'GET',
         url: "http://localhost:8080/api/v1/groups/name/" + name + "/exists",
         beforeSend: function (xhr) {
-            xhr.setRequestHeader("Authorization", "Basic " + btoa(storage.getItem("USERNAME") + ":" + storage.getItem("PASSWORD")));
+            xhr.setRequestHeader("Authorization", "Bearer " + storage.getItem("TOKEN"));
         }
     }).then(data => {
         if (data) {
@@ -281,7 +281,7 @@ function addDataToTable() {
                 data: JSON.stringify(department),
                 contentType: "application/json",
                 beforeSend: function (xhr) {
-                    xhr.setRequestHeader("Authorization", "Basic " + btoa(storage.getItem("USERNAME") + ":" + storage.getItem("PASSWORD")));
+                    xhr.setRequestHeader("Authorization", "Bearer " + storage.getItem("TOKEN"));
                 }
             }).then(() => {
                 hideModal();
@@ -301,7 +301,7 @@ function openUpdateModal(id) {
         url: 'http://localhost:8080/api/v1/groups/' + id,
         type: 'GET',
         beforeSend: function (xhr) {
-            xhr.setRequestHeader("Authorization", "Basic " + btoa(storage.getItem("USERNAME") + ":" + storage.getItem("PASSWORD")));
+            xhr.setRequestHeader("Authorization", "Bearer " + storage.getItem("TOKEN"));
         },
         success: function (result) {
             openModal();
@@ -340,8 +340,8 @@ function updateDataToTable(id) {
     $.ajax({
         type: 'GET',
         url: "http://localhost:8080/api/v1/groups/name/" + name + "/exists",
-        beforeSend: (xhr) => {
-            xhr.setRequestHeader("Authorization", "Basic " + btoa(storage.getItem("USERNAME") + ":" + storage.getItem("PASSWORD")));
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader("Authorization", "Bearer " + storage.getItem("TOKEN"));
         }
     }).then(data => {
         if (data) {
@@ -356,8 +356,8 @@ function updateDataToTable(id) {
                 type: 'PUT',
                 data: JSON.stringify(department),
                 contentType: "application/json",
-                beforeSend: (xhr) => {
-                    xhr.setRequestHeader("Authorization", "Basic " + btoa(storage.getItem("USERNAME") + ":" + storage.getItem("PASSWORD")));
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader("Authorization", "Bearer " + storage.getItem("TOKEN"));
                 }
             }).then(() => {
                 buildSuccess();
@@ -385,7 +385,7 @@ function resetDeleteCheckbox() {
     $('input.cb-child:checkbox').prop('checked', false);
 }
 
-function deleteAllDepartment() {
+function deleteAllGroup() {
     var ids = [];
     var names = [];
 
@@ -395,7 +395,7 @@ function deleteAllDepartment() {
     })
     var result = confirm("Want to delete " + names + "?");
     if (result) {
-        deleteDepartments(ids);
+        deleteGroups(ids);
     }
 }
 
@@ -405,16 +405,16 @@ function openConfirmDelete(id) {
 
     var result = confirm("Want to delete " + name + "?");
     if (result) {
-        deleteDepartment(id);
+        deleteGroup(id);
     }
 }
 
-function deleteDepartments(ids) {
+function deleteGroups(ids) {
     $.ajax({
         url: 'http://localhost:8080/api/v1/groups?ids=' + ids,
         type: 'DELETE',
         beforeSend: function (xhr) {
-            xhr.setRequestHeader("Authorization", "Basic " + btoa(storage.getItem("USERNAME") + ":" + storage.getItem("PASSWORD")));
+            xhr.setRequestHeader("Authorization", "Bearer " + storage.getItem("TOKEN"));
         },
         success: function (result) {
             buildSuccess();
@@ -428,12 +428,12 @@ function deleteDepartments(ids) {
     });
 }
 
-function deleteDepartment(id) {
+function deleteGroup(id) {
     $.ajax({
         url: 'http://localhost:8080/api/v1/groups/' + id,
         type: 'DELETE',
         beforeSend: function (xhr) {
-            xhr.setRequestHeader("Authorization", "Basic " + btoa(storage.getItem("USERNAME") + ":" + storage.getItem("PASSWORD")));
+            xhr.setRequestHeader("Authorization", "Bearer " + storage.getItem("TOKEN"));
         },
         success: function (result) {
             buildSuccess();

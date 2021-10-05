@@ -1,4 +1,4 @@
-package com.vti.dto;
+package com.vti.dto.authentication;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,6 +11,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class LoginInfoDto {
     private int id;
-    private String name;
+    private String fullName;
     private String role;
+    private String jwt;
 }

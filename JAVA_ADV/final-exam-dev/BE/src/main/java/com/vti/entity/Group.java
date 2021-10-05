@@ -7,7 +7,6 @@ import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
-import javax.validation.constraints.Max;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
