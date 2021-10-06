@@ -15,5 +15,5 @@ public class GroupFormForCreating {
             groups = onCreate.class)
     private String name;
 
-    private int creatorId; // chua co login k co ten de hien thi len FE
+    private int creatorId;
 }

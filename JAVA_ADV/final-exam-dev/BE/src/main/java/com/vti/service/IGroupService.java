@@ -2,6 +2,8 @@ package com.vti.service;
 
 import com.vti.entity.Group;
 import com.vti.form.GroupFilterForm;
+import com.vti.form.GroupFormForCreating;
+import com.vti.form.GroupFormForUpdating;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -15,9 +17,9 @@ public interface IGroupService {
 
     Group getGroupByName(String name);
 
-    void createGroup(Group group);
+    void createGroup(GroupFormForCreating form);
 
-    void updateGroup(int id, Group group);
+    void updateGroup(int id, GroupFormForUpdating group);
 
     void deleteGroup(int id);
 

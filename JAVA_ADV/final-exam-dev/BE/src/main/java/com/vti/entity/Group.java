@@ -36,7 +36,7 @@ public class Group implements Serializable {
     @JoinColumn(name = "Creator")
     private Account creator;
 
-    @Column(name = "CreateDate", updatable = false)
+    @Column(name = "CreateDate")
     @Temporal(TemporalType.TIMESTAMP)
     @CreationTimestamp
     private Date createDate;

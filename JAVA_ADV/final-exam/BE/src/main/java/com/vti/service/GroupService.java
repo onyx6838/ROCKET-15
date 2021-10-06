@@ -1,7 +1,9 @@
 package com.vti.service;
 
+import com.vti.entity.Account;
 import com.vti.entity.Group;
 import com.vti.form.GroupFilterForm;
+import com.vti.form.GroupFormForCreating;
 import com.vti.repository.IGroupRepository;
 import com.vti.specification.GroupSpecification;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,9 @@ import java.util.List;
 public class GroupService implements IGroupService {
     @Autowired
     private IGroupRepository groupRepository;
+
+    @Autowired
+    private IAccountService accountService;
 
     @Override
     public Page<Group> getAllGroups(Pageable pageable, String search, GroupFilterForm filter) {
@@ -62,8 +67,12 @@ public class GroupService implements IGroupService {
     }
 
     @Override
-    public void createGroup(Group group) {
-        groupRepository.save(group);
+    public void createGroup(GroupFormForCreating form) {
+        Group gr = new Group();
+        Account account = accountService.findById(form.getCreatorId());
+        gr.setName(form.getName());
+        gr.setCreator(account);
+        groupRepository.save(gr);
     }
 
     @Override

@@ -10,9 +10,9 @@ import javax.validation.constraints.Pattern;
 @Data
 @NoArgsConstructor
 public class GroupFormForCreating {
-    @Length(min = 6, max = 50, groups = onCreate.class)
-    @Pattern(regexp = "\\p{L}+.*\\p{L}+", message = " not contains special characters",
-            groups = onCreate.class)
+//    @Length(min = 6, max = 50, groups = onCreate.class)
+//    @Pattern(regexp = "\\p{L}+.*\\p{L}+", message = " not contains special characters",
+//            groups = onCreate.class)
     private String name;
 
     private int creatorId; // chua co login k co ten de hien thi len FE

@@ -1,10 +1,7 @@
 package com.vti.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.Date;
 
@@ -23,4 +20,14 @@ public class GroupDto {
 
     @JsonFormat(pattern="yyyy-MM-dd")
     private Date createDate;
+
+    @Data
+    @NoArgsConstructor
+    static class AccountDto{
+        private int id;
+
+        private String fullName;
+    }
 }
+
+

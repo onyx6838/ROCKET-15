@@ -1,19 +1,16 @@
 package com.vti.dto.authentication;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
-@AllArgsConstructor
-@Setter
-@Getter
+@Data
 @NoArgsConstructor
-public class LoginInfoDto {
+@SuperBuilder
+public class TokenRefreshResponse {
     private int id;
     private String fullName;
     private String role;
-    private String token; // token
-
+    private String token;
     private String refreshToken;
 }

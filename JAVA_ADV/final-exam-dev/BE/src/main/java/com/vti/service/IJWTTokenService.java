@@ -1,5 +1,7 @@
 package com.vti.service;
 
+import com.vti.dto.authentication.TokenRefreshResponse;
+import com.vti.entity.Account;
 import org.springframework.security.core.Authentication;
 
 import javax.servlet.http.HttpServletRequest;
@@ -11,4 +13,9 @@ public interface IJWTTokenService {
 
     Authentication parseTokenToUserInformation(HttpServletRequest request);
 
+    boolean isValidRefreshToken(String refreshToken);
+
+    String createNewRefreshToken(Account account);
+
+    TokenRefreshResponse refreshToken(String refreshToken);
 }

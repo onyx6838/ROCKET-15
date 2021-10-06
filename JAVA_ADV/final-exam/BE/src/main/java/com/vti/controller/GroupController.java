@@ -68,10 +68,7 @@ public class GroupController {
 
     @PostMapping()
     public ResponseEntity<String> createGroup(@Valid @RequestBody GroupFormForCreating form) {
-        Group group = modelMapper.map(form, Group.class);
-        Account account = accountService.findById(form.getCreatorId());
-        group.setCreator(account);
-        groupService.createGroup(group);
+        groupService.createGroup(form);
         return new ResponseEntity<>("Create successfully!", HttpStatus.CREATED);
     }
 

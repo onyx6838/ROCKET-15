@@ -11,7 +11,7 @@ var search = '';
 var minCreateDate = "";
 var maxCreateDate = "";
 // old name
-var oldName;
+var oldData;
 /**
  * GET API
  */
@@ -161,7 +161,7 @@ function sortUI() {
             changeSortIcon(["sort-name", "sort-member", "sort-creator"], sortDefault);
             break;
         default:
-            changeSortIcon(["sort-name", "sort-member", "sort-creator","sort-createDate"], sortDefault);
+            changeSortIcon(["sort-name", "sort-member", "sort-creator", "sort-createDate"], sortDefault);
             break;
     }
 }
@@ -217,12 +217,12 @@ function resetFilter() {
     minCreateDate = "";
     maxCreateDate = "";
     $('#minCreateDate').val('');
-    $('maxCreateDate').val('');
+    $('#maxCreateDate').val('');
 }
 /**
  * reset paging, sort, checkbox, filter, fill data
  */
-function refreshTable() {
+function resetTable() {
     resetPaging();
     resetSort();
     resetSearch();
@@ -234,6 +234,11 @@ function handleSearch() {
     resetPaging();
     resetSort();
     resetDeleteCheckbox();
+    getDataToTable();
+}
+
+function refreshTable() {
+    resetTable();
     getDataToTable();
 }
 
@@ -271,21 +276,19 @@ function addDataToTable() {
             showNameErrMsg("Group name is exists!");
             return;
         } else {
-            var department = {
+            var group = {
                 name: name,
                 creatorId: storage.getItem('ID')
             };
             return $.ajax({
                 url: 'http://localhost:8080/api/v1/groups',
                 type: 'POST',
-                data: JSON.stringify(department),
+                data: JSON.stringify(group),
                 contentType: "application/json",
                 beforeSend: function (xhr) {
                     xhr.setRequestHeader("Authorization", "Bearer " + storage.getItem("TOKEN"));
                 }
             }).then(() => {
-                hideModal();
-                showSuccessAlert();
                 buildSuccess();
             });
         }
@@ -312,7 +315,7 @@ function openUpdateModal(id) {
             $('input#member').val(result.member);
             $('input#creator').val(result.creator.fullName);
             $('input#createDate').val(result.createDate);
-            oldName = result.name;
+            oldData = result;
         },
         error: function (xhr, status, error) {
             console.log(xhr.status);
@@ -324,14 +327,26 @@ function openUpdateModal(id) {
 
 function updateDataToTable(id) {
     var name = $('input#name').val();
-
+    var member = $('input#member').val();
+    var createDate = $('input#createDate').val();
+    // validate
     var valid = validate('name');
     if (valid.validated == false) {
         showNameErrMsg(valid.message);
         return;
     }
+    var validMember = validate('member');
+    if (validMember.validated == false) {
+        showNameErrMsg(validMember.message);
+        return;
+    }
+    var validDate = validate('createDate');
+    if (validDate.validated == false) {
+        showNameErrMsg(validDate.message);
+        return;
+    }
 
-    if (oldName == name) {
+    if (oldData.name == name && oldData.member == member && oldData.createDate == createDate) {
         buildSuccess();
         return;
     }
@@ -344,17 +359,19 @@ function updateDataToTable(id) {
             xhr.setRequestHeader("Authorization", "Bearer " + storage.getItem("TOKEN"));
         }
     }).then(data => {
-        if (data) {
+        if (data && name != oldData.name) {
             showNameErrMsg("Group name is exists!");
             return;
         } else {
-            var department = {
-                name: name
+            var group = {
+                name: name,
+                member: member,
+                createDate: createDate
             };
             return $.ajax({
                 url: 'http://localhost:8080/api/v1/groups/' + id,
                 type: 'PUT',
-                data: JSON.stringify(department),
+                data: JSON.stringify(group),
                 contentType: "application/json",
                 beforeSend: function (xhr) {
                     xhr.setRequestHeader("Authorization", "Bearer " + storage.getItem("TOKEN"));
@@ -415,17 +432,12 @@ function deleteGroups(ids) {
         type: 'DELETE',
         beforeSend: function (xhr) {
             xhr.setRequestHeader("Authorization", "Bearer " + storage.getItem("TOKEN"));
-        },
-        success: function (result) {
-            buildSuccess();
-            refreshTable();
-        },
-        error: function (xhr, status, error) {
-            console.log(xhr.status);
-            console.log(error);
-            return;
         }
-    });
+    }).done(() => {
+        buildSuccess();
+    }).fail(function (jqXHR, textStatus, errorThrown) {
+        console.log(textStatus + ': ' + errorThrown);
+    })
 }
 
 function deleteGroup(id) {
@@ -434,21 +446,18 @@ function deleteGroup(id) {
         type: 'DELETE',
         beforeSend: function (xhr) {
             xhr.setRequestHeader("Authorization", "Bearer " + storage.getItem("TOKEN"));
-        },
-        success: function (result) {
-            buildSuccess();
-        },
-        error: function (xhr, status, error) {
-            console.log(xhr.status);
-            console.log(error);
-            return;
         }
+    }).done(() => {
+        buildSuccess();
+    }).fail(function (jqXHR, textStatus, errorThrown) {
+        console.log(textStatus + ': ' + errorThrown);
     });
 }
 // C,U,D success
 function buildSuccess() {
     hideModal();
     showSuccessAlert();
+    resetTable();
     getDataToTable();
 }
 // validate
@@ -463,15 +472,16 @@ function validate(field_name) {
         case 'name':
             if (!value || value.length < 6 || value.length > 30) {
                 valid.message = 'length from 6 to 30';
-                valid.validated = false;}
-            // } else {
-            //     var regex = '^[\p{L}+\s+]$';
-            //     var re = new XRegExp(regex);
-            //     if (!re.test(value)) {
-            //         valid.message = "Not contain special character";
-            //         valid.validated = false;
-            //     }
-            // }
+                valid.validated = false;
+            } else {
+                var pattern = new RegExp(/[~`!#$%\^&*+=\-\[\]\\';,/{}|\\":<>\?]/);
+                // var regex = '^[\p{L}+.*\p{L}+]$';
+                // var re = new XRegExp(regex);
+                if (pattern.test(value)) {
+                    valid.message = "Not contain special character";
+                    valid.validated = false;
+                }
+            }
             break;
         case 'createDate':
             var toDate = new Date().toLocaleDateString('en-CA');
