@@ -39,11 +39,46 @@ function login() {
         //storage.setItem("USERNAME", username);
         //storage.setItem("PASSWORD", password);
         storage.setItem("ROLE", data.role);
-        storage.setItem("TOKEN", data.jwt);
+        storage.setItem("TOKEN", data.token);
+        storage.setItem("REFRESH_TOKEN", data.refreshToken);
         window.location.replace("http://127.0.0.1:5501/html/index.html");
     }).fail(function (jqXHR, textStatus, errorThrown) {
         if (jqXHR.status == 401) {
             showNameErrMsg("Login fail!");
+        } else {
+            console.log(jqXHR);
+            console.log(textStatus);
+            console.log(errorThrown);
+        }
+    })
+}
+
+function register() {
+    var username = $('#register-username').val();
+    var firstname = $('#register-firstname').val();
+    var lastname = $('#register-lastname').val();
+    var email = $('#register-email').val();
+    var password = $('#register-password').val();
+
+    // TODO valid
+    $.ajax({
+        url: 'http://localhost:8080/api/v1/accounts',
+        type: 'POST',
+        data: JSON.stringify({
+            userName: username,
+            firstName: firstname,
+            lastName: lastname,
+            email: email,
+            password: password,
+            role: "User"
+        }),
+        contentType: "application/json ; charset=utf-8"
+    }).done(function (data, status, xhr) {
+        alert("We have sent 1 email. Please check email to active account!");
+        window.location.replace("http://127.0.0.1:5501/html/login.html");
+    }).fail(function (jqXHR, textStatus, errorThrown) {
+        if (jqXHR.status == 401 || jqXHR.status == 415 || jqXHR.status == 500) {
+            showNameErrMsg("Regis fail!");
         } else {
             console.log(jqXHR);
             console.log(textStatus);
@@ -63,6 +98,7 @@ function hideNameErrMsg(style) {
 
 function handKeyUpEventForLogin(event) {
     if (event.keyCode === 13) {
-        event.preventDefault();
+        ///event.preventDefault();
+        login();
     }
 }

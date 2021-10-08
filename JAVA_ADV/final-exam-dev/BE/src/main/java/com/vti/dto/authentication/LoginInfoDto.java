@@ -14,6 +14,5 @@ public class LoginInfoDto {
     private String fullName;
     private String role;
     private String token; // token
-
     private String refreshToken;
 }

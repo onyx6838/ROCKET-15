@@ -1,5 +1,9 @@
 package com.vti.service;
 
+import com.vti.entity.Account;
+
 public interface IEmailService {
-    void sendResetPassword(String email, String token);
+    void sendRegistrationUserConfirm(String email);
+
+    void sendResetPassword(Account account, String token);
 }

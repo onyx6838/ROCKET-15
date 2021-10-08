@@ -56,7 +56,7 @@ function getDataToTable() {
             console.log(jqXHR);
             console.log(textStatus);
             console.log(errorThrown);
-            if (jqXHR.status == 403) {
+            if (jqXHR.status == 403 || jqXHR.status == 401) {
                 window.location.href = "http://127.0.0.1:5501/html/forbidden.html";
             }
         }

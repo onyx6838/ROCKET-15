@@ -17,6 +17,7 @@ function logout() {
     // storage.removeItem("PASSWORD");
     storage.removeItem("ROLE");
     storage.removeItem("TOKEN");
+    storage.removeItem("REFRESH_TOKEN");
     // redirect to login page
     window.location.replace("http://127.0.0.1:5501/html/login.html");
 }

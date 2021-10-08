@@ -11,7 +11,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -24,9 +24,12 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Autowired
     private IAccountService accountService;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(accountService).passwordEncoder(new BCryptPasswordEncoder());
+        auth.userDetailsService(accountService).passwordEncoder(passwordEncoder);
     }
 
     @Override
@@ -36,6 +39,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 // cors security (3rd app)
                 .antMatchers("/api/v1/login").anonymous()
                 .antMatchers("/api/v1/accounts/**").permitAll()
+                .antMatchers("/api/v1/files/**").permitAll()
                 .antMatchers("/api/v1/groups/**").hasAnyAuthority("Admin", "Manager")
                 .anyRequest().authenticated()
                 .and().httpBasic()

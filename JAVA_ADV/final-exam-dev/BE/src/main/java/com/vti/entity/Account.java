@@ -1,5 +1,6 @@
 package com.vti.entity;
 
+import com.vti.entity.enumerate.UserStatus;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -56,4 +57,8 @@ public class Account implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     @CreationTimestamp
     private Date createDate;
+
+    @Enumerated(EnumType.ORDINAL)
+    @Column(name = "`Status`", nullable = false)
+    private UserStatus status = UserStatus.NOT_ACTIVE;
 }
