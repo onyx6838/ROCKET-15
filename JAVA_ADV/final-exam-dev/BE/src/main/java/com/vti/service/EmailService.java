@@ -48,6 +48,12 @@ public class EmailService implements IEmailService {
 
     @Override
     public void sendResetPassword(Account account, String token) {
+        String confirmationUrl = "http://127.0.0.1:5501/html/reset-password.html/" + token;
 
+        String subject = "Reset Password";
+        String content = "Click on the link below to reset your password (if not you, please ignore).\n"
+                + confirmationUrl;
+
+        sendEmail(account.getEmail(), subject, content);
     }
 }

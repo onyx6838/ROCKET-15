@@ -41,12 +41,14 @@ public class AccountService implements IAccountService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-//    @Value("${reset-password.token.expired-time}")
-//    private long resetPasswordTokenExpiredTime;
+    @Autowired
+    private IEmailService emailService;
+
+    @Value("${reset-password.token.expired-time}")
+    private long resetPasswordTokenExpiredTime;
 
     @Value("${registration.token.expired-time}")
     private long registrationPasswordTokenExpiredTime;
-
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -66,6 +68,11 @@ public class AccountService implements IAccountService {
     @Override
     public Account findById(int id) {
         return repository.findById(id).get();
+    }
+
+    @Override
+    public boolean existsByEmail(String email) {
+        return repository.existsByEmail(email);
     }
 
     /**
@@ -116,9 +123,24 @@ public class AccountService implements IAccountService {
         // change password
         Account user = resetPasswordToken.getAccount();
         user.setPassword(passwordEncoder.encode(newPassword));
-        repository.save(user);		// ???
+        repository.save(user);        // ???
 
         deleteResetPasswordTokenByAccountId(resetPasswordToken.getId());
+    }
+
+    @Override
+    public void resetPasswordViaEmail(String email) {
+        // find user by email
+        Account account = findAccountByEmail(email);
+
+        // remove token token if exists
+        resetPasswordTokenRepository.deleteByUserId(account.getId());
+
+        // create new reset password token
+        String newToken = createNewResetPasswordToken(account);
+
+        // send email
+        emailService.sendResetPassword(account, newToken);
     }
 
     @Override
@@ -137,5 +159,14 @@ public class AccountService implements IAccountService {
         RegistrationUserToken token = new RegistrationUserToken(newToken, account, registrationPasswordTokenExpiredTime);
 
         registrationAccountTokenRepository.save(token);
+    }
+
+    private String createNewResetPasswordToken(Account account) {
+        // create new token for Resetting password
+        final String newToken = UUID.randomUUID().toString();
+        ResetPasswordToken token = new ResetPasswordToken(newToken, account, resetPasswordTokenExpiredTime);
+
+        resetPasswordTokenRepository.save(token);
+        return newToken;
     }
 }

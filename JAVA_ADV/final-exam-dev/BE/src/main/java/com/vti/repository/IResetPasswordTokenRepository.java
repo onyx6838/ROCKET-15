@@ -7,11 +7,15 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.vti.entity.authentication.ResetPasswordToken;
 
+import java.util.Date;
+
 public interface IResetPasswordTokenRepository extends JpaRepository<ResetPasswordToken, Integer> {
 
     ResetPasswordToken findByToken(String token);
 
     boolean existsByToken(String token);
+
+    boolean existsByTokenAndExpiredDateGreaterThan(String token, Date expiredDate);
 
     @Transactional
     @Modifying

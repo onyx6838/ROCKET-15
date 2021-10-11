@@ -15,6 +15,8 @@ public interface IJWTTokenService {
 
     boolean isValidRefreshToken(String refreshToken);
 
+    boolean isValidResetPasswordToken(String resetPasswordToken);
+
     String createNewRefreshToken(Account account);
 
     TokenRefreshResponse refreshToken(String refreshToken);

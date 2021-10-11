@@ -1,4 +1,4 @@
-package com.vti.validation;
+package com.vti.validation.form.group;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;

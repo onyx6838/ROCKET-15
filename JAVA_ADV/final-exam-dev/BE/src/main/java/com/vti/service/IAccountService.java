@@ -2,7 +2,6 @@ package com.vti.service;
 
 import com.vti.entity.Account;
 import com.vti.entity.authentication.ResetPasswordToken;
-import com.vti.form.GroupFormForUpdating;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 public interface IAccountService extends UserDetailsService {
@@ -23,4 +22,8 @@ public interface IAccountService extends UserDetailsService {
     ResetPasswordToken getResetPasswordToken(String token);
 
     void deleteResetPasswordTokenByAccountId(int accountId);
+
+    boolean existsByEmail(String email);
+
+    void resetPasswordViaEmail(String email);
 }

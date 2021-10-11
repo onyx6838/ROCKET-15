@@ -7,6 +7,7 @@ import com.vti.dto.authentication.TokenRefreshResponse;
 import com.vti.entity.Account;
 import com.vti.entity.authentication.RefreshToken;
 import com.vti.repository.IRefreshTokenRepository;
+import com.vti.repository.IResetPasswordTokenRepository;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.modelmapper.ModelMapper;
@@ -53,6 +54,9 @@ public class JWTTokenService implements IJWTTokenService {
 
     @Autowired
     private IRefreshTokenRepository refreshTokenRepository;
+
+    @Autowired
+    private IResetPasswordTokenRepository resetPasswordTokenRepository;
 
     @Override
     public void addJWTTokenToHeader(HttpServletResponse response, String username) throws IOException {
@@ -115,6 +119,11 @@ public class JWTTokenService implements IJWTTokenService {
     @Override
     public boolean isValidRefreshToken(String refreshToken) {
         return refreshTokenRepository.existsByTokenAndExpiredDateGreaterThan(refreshToken, new Date());
+    }
+
+    @Override
+    public boolean isValidResetPasswordToken(String resetPasswordToken) {
+        return resetPasswordTokenRepository.existsByTokenAndExpiredDateGreaterThan(resetPasswordToken, new Date());
     }
 
     @Override

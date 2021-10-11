@@ -4,11 +4,13 @@ import com.vti.dto.authentication.RegistrationAccountDto;
 import com.vti.dto.authentication.TokenRefreshRequest;
 import com.vti.dto.authentication.TokenRefreshResponse;
 import com.vti.entity.Account;
-import com.vti.form.GroupFormForUpdating;
 import com.vti.service.IAccountService;
 import com.vti.service.IJWTTokenService;
+import com.vti.validation.form.account.ResetPasswordTokenValid;
+import com.vti.validation.form.account.UserEmailExists;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -61,14 +63,23 @@ public class AccountController {
         return new ResponseEntity<>("Active success!", HttpStatus.OK);
     }
 
-    // confirm
-    @GetMapping("/userRegistrationConfirmRequest")
-    // validate: email exists, email not active
-    public ResponseEntity<?> sendConfirmRegistrationViaEmail(@RequestParam String email) {
+    @GetMapping("/resetPasswordRequest")
+    public ResponseEntity<?> requestResetPasswordViaEmail(
+            @UserEmailExists @Param(value = "email") String email) {
 
-        accountService.sendConfirmAccountRegistrationViaEmail(email);
 
-        return new ResponseEntity<>("We have sent 1 email. Please check email to active account!", HttpStatus.OK);
+        return new ResponseEntity<>("We have sent 1 email. Please check email to reset account!", HttpStatus.OK);
+    }
+
+    @GetMapping("/resetPassword")
+    public ResponseEntity<?> resetPasswordViaEmail(
+            @ResetPasswordTokenValid @Param(value = "token") String token,
+            @Param(value = "newPassword") String newPassword) {
+
+        // reset password
+        //service.resetPassword(token, newPassword);
+
+        return new ResponseEntity<>("Reset password success!", HttpStatus.OK);
     }
 
 }
