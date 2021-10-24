@@ -1,0 +1,53 @@
+.App {
+    font-family: sans-serif;
+    text-align: center;
+}
+
+button {
+    margin: 0 8px;
+}
+
+
+.row {
+    margin-top: 16px;
+    color: #fff;
+    font-size: 20px;
+    font-weight: bold;
+  }
+
+.horizontal .row {
+    display: flex;
+}
+
+.col {
+    padding: 30px;
+    flex-grow: 1;
+}
+
+.horizontal .left {
+    background-color: red;
+}
+
+.horizontal .center {
+    background-color: green;
+}
+
+.horizontal .right {
+    background-color: blue;
+}
+
+.vertical .left {
+    background-color: red;
+}
+
+.vertical .center {
+    background-color: green;
+}
+
+.vertical .right {
+    background-color: blue;
+}
+
+footer {
+    padding: 30px;
+}
