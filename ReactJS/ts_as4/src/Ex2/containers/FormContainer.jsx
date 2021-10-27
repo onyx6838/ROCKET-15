@@ -23,18 +23,9 @@ class FormContainer extends Component {
             genderOptions: ["Male", "Female", "Others"],
             skillOptions: ["Programming", "Development", "Design", "Testing"]
         };
-        this.handleTextArea = this.handleTextArea.bind(this);
-        this.handleAge = this.handleAge.bind(this);
-        this.handleFullName = this.handleFullName.bind(this);
-        this.handleFormSubmit = this.handleFormSubmit.bind(this);
-        this.handleClearForm = this.handleClearForm.bind(this);
-        this.handleCheckBox = this.handleCheckBox.bind(this);
-        this.handleInput = this.handleInput.bind(this);
     }
 
-    /* This lifecycle hook gets executed when the component mounts */
-
-    handleFullName(e) {
+    handleFullName = (e) => {
         let value = e.target.value;
         this.setState(
             prevState => ({
@@ -47,7 +38,7 @@ class FormContainer extends Component {
         );
     }
 
-    handleAge(e) {
+    handleAge = (e) => {
         let value = e.target.value;
         this.setState(
             prevState => ({
@@ -60,7 +51,7 @@ class FormContainer extends Component {
         );
     }
 
-    handleInput(e) {
+    handleInput = (e) => {
         let value = e.target.value;
         let name = e.target.name;
         this.setState(
@@ -74,7 +65,7 @@ class FormContainer extends Component {
         );
     }
 
-    handleTextArea(e) {
+    handleTextArea = (e) => {
         console.log("Inside handleTextArea");
         let value = e.target.value;
         this.setState(
@@ -88,7 +79,7 @@ class FormContainer extends Component {
         );
     }
 
-    handleCheckBox(e) {
+    handleCheckBox = (e) => {
         const newSelection = e.target.value;
         let newSelectionArray;
 
@@ -105,13 +96,13 @@ class FormContainer extends Component {
         }));
     }
 
-    handleFormSubmit(e) {
+    handleFormSubmit = (e) => {
         e.preventDefault();
         let userData = this.state.newUser;
         alert(JSON.stringify(userData));
     }
 
-    handleClearForm(e) {
+    handleClearForm = (e) => {
         e.preventDefault();
         this.setState({
             newUser: {
