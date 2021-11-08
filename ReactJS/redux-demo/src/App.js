@@ -1,4 +1,5 @@
 import './App.css';
+import ButtonIncrement from './ButtonIncrement';
 import Counter from './Counter';
 import store from './store';
 
@@ -21,6 +22,7 @@ function App() {
         <div>
           {/* <p className="count">{store.getState().value}</p> */}
           <Counter />
+          <ButtonIncrement />
           <button onClick={cong}>Cong</button>
           <button onClick={tru}>Tru</button>
         </div>
