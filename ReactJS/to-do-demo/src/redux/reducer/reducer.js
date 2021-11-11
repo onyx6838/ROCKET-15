@@ -1,8 +1,9 @@
-import { ADD_TODO, REMOVE_TODO, EDIT_TODO, MARK_TODO_COMPLETED } from './actionTypes'
+import { ADD_TODO, REMOVE_TODO, EDIT_TODO, MARK_TODO_COMPLETED, FILTER_TODO } from '../actionTypes'
+import { VISIBILITY_FILTERS } from '../../constants'
 
-const initTodos = [];
+const initialState = [];
 
-const reducer = (state = initTodos, action) => {
+const reducer = (state = initialState, action) => {
     switch (action.type) {
         case ADD_TODO:
             return [...state, {
@@ -25,6 +26,16 @@ const reducer = (state = initTodos, action) => {
                     text: action.text
                 }
             })
+        case FILTER_TODO:
+            switch (action.filter) {
+                case VISIBILITY_FILTERS.COMPLETED:
+                    return state.filter(todo => todo.status === "completed")
+                case VISIBILITY_FILTERS.PENDING:
+                    return state.filter(todo => todo.status === "pending")
+                case VISIBILITY_FILTERS.ALL:
+                default:
+                    return state;
+            }
         default:
             return state;
     }

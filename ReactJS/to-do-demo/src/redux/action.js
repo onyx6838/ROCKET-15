@@ -1,10 +1,17 @@
-import { ADD_TODO, REMOVE_TODO, EDIT_TODO, MARK_TODO_COMPLETED } from './actionTypes'
+import { ADD_TODO, REMOVE_TODO, EDIT_TODO, FILTER_TODO, MARK_TODO_COMPLETED } from './actionTypes'
 
 export const addTodo = (text) => {
     return ({
         type: ADD_TODO,
         text: text
     })
+}
+
+export const filterTodo = (filter) => {
+    return {
+        type: FILTER_TODO,
+        filter: filter
+    }
 }
 
 export const markTodoCompleted = (id) => {

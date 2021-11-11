@@ -1,45 +1,23 @@
-import React, { useState } from 'react'
+import React from 'react'
 import TodoList from './TodoList';
 import TodoForm from './TodoForm';
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
+import { filterTodo } from '../redux/action'
+import { VISIBILITY_FILTERS } from "../constants";
 
 function Todo() {
-    const [todos, setTodos] = useState([]);
-    const todos2 = useSelector(state => { console.log(state); return state })
-
-    const addTodo = todo => {
-        if (!todo.text) return;
-        const newTodos = [todo, ...todos];
-        setTodos(newTodos)
-    }
-
-    const setCompletedTodo = id => {
-        let updatedTodos = todos.map(todo => {
-            if (todo.id === id) todo.status = "completed";
-            return todo;
-        });
-        setTodos(updatedTodos);
-    }
-
-    const getCompletedTodo = () => {
-        let completedTodos = todos.filter(todo => todo.status === "completed");
-        setTodos(completedTodos);
-    }
-
-    const removeTodo = id => {
-        let removedTodos = todos.filter(todo => todo.id !== id);
-        setTodos(removedTodos);
-    }
+    const todos2 = useSelector(state => { return state })
+    const dispatch = useDispatch();
 
     return (
         <div>
-            <TodoForm onSubmit={addTodo} />
+            <TodoForm />
             <div>
-                <button onClick={getCompletedTodo}>Completed</button>
-                <button>Pending</button>
-                <button>All</button>
+                <button onClick={() => dispatch(filterTodo(VISIBILITY_FILTERS.COMPLETED))}>Completed</button>
+                <button onClick={() => dispatch(filterTodo(VISIBILITY_FILTERS.PENDING))}>Pending</button>
+                <button onClick={() => dispatch(filterTodo(VISIBILITY_FILTERS.ALL))}>All</button>
             </div>
-            <TodoList todos={todos2} completeTodo={setCompletedTodo} removeTodo={removeTodo} />
+            <TodoList todos={todos2}/>
         </div>
     )
 }
