@@ -9,7 +9,6 @@ import { getTodosByFilter } from '../redux/selectors';
 function Todo() {
     const { reducer, filterReducer } = useSelector(state => state)
     const todosFilter = getTodosByFilter(reducer, filterReducer)
-    console.log(todosFilter);
     const dispatch = useDispatch();
 
     return (
@@ -23,7 +22,7 @@ function Todo() {
                 <button className='btn btn-warning mr-2'
                     onClick={() => dispatch(filterTodo(VISIBILITY_FILTERS.ALL))}>All</button>
             </div>
-            <TodoList todos={reducer} />
+            <TodoList todos={todosFilter} />
         </div>
     )
 }
