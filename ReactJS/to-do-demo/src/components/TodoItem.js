@@ -12,24 +12,32 @@ const TodoItem = ({ todo }) => {
         setEditing(false);
     }
 
+    const toggleCompleted = () => {
+        dispatch(markTodoCompleted(todo.id, !todo.completed))
+    }
+
     return (
-        <div >
-            {
-                editing ? <input type="text"
-                    defaultValue={todo.text}
-                    onChange={(e) => setNewText(e.target.value)} />
-                    : <span>{todo.text}</span>
-            }
-            <input type="checkbox" name="cbx-completed"
-                onClick={() => dispatch(markTodoCompleted(todo.id))} /> |
-            <span style={{ color: "red", cursor: "pointer" }}
-                onClick={() => dispatch(removeTodo(todo.id))}>x</span>
-            {
-                editing ? <span style={{ color: "yellow", cursor: "pointer" }} onClick={saveTodo}> | Save</span> :
-                    <span style={{ color: "blue", cursor: "pointer" }}
-                        onClick={() => setEditing(true)} > | edit</span>
-            }
-        </div>
+        <li className='list-group-item'>
+            <div className='d-flex justify-content-between'>
+                <span className='d-flex align-items-center'>
+                    <input type="checkbox" className='mr-3' onClick={toggleCompleted} />{todo.text}
+                </span>
+                <span>
+                    {editing && <input type="text" defaultValue={todo.text} onChange={(e) => setNewText(e.target.value)} />}
+                </span>
+                {
+                    editing ?
+                        <button className='btn btn-success mr-1' onClick={saveTodo}>Save</button> :
+                        <>
+                            <button className='btn btn-danger mr-1'
+                                onClick={() => dispatch(removeTodo(todo.id))}>Delete</button>
+                            <button className='btn btn-success mr-1'
+                                onClick={() => setEditing(true)} >Edit</button>
+                        </>
+
+                }
+            </div>
+        </li>
     )
 }
 

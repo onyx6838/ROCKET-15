@@ -4,20 +4,26 @@ import TodoForm from './TodoForm';
 import { useSelector, useDispatch } from 'react-redux'
 import { filterTodo } from '../redux/action'
 import { VISIBILITY_FILTERS } from "../constants";
+import { getTodosByFilter } from '../redux/selectors';
 
 function Todo() {
-    const todos2 = useSelector(state => { return state })
+    const { reducer, filterReducer } = useSelector(state => state)
+    const todosFilter = getTodosByFilter(reducer, filterReducer)
+    console.log(todosFilter);
     const dispatch = useDispatch();
 
     return (
         <div>
             <TodoForm />
-            <div>
-                <button onClick={() => dispatch(filterTodo(VISIBILITY_FILTERS.COMPLETED))}>Completed</button>
-                <button onClick={() => dispatch(filterTodo(VISIBILITY_FILTERS.PENDING))}>Pending</button>
-                <button onClick={() => dispatch(filterTodo(VISIBILITY_FILTERS.ALL))}>All</button>
+            <div className="form-group">
+                <button className='btn btn-primary mr-2'
+                    onClick={() => dispatch(filterTodo(VISIBILITY_FILTERS.COMPLETED))}>Completed</button>
+                <button className='btn btn-success mr-2'
+                    onClick={() => dispatch(filterTodo(VISIBILITY_FILTERS.PENDING))}>Pending</button>
+                <button className='btn btn-warning mr-2'
+                    onClick={() => dispatch(filterTodo(VISIBILITY_FILTERS.ALL))}>All</button>
             </div>
-            <TodoList todos={todos2}/>
+            <TodoList todos={reducer} />
         </div>
     )
 }

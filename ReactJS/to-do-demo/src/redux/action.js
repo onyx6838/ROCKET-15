@@ -14,10 +14,11 @@ export const filterTodo = (filter) => {
     }
 }
 
-export const markTodoCompleted = (id) => {
+export const markTodoCompleted = (id, completed) => {
     return {
         type: MARK_TODO_COMPLETED,
-        id: id
+        id: id,
+        completed: completed
     }
 }
 

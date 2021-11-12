@@ -8,9 +8,9 @@ function TodoList({ todos }) {
     });
 
     return (
-        <div>
+        <ul className='list-group'>
             {rows}
-        </div>
+        </ul>
     )
 }
 
