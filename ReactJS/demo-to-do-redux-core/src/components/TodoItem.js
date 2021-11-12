@@ -20,8 +20,7 @@ const TodoItem = ({ todo }) => {
         <li className='list-group-item'>
             <div className='d-flex justify-content-between'>
                 <span className='d-flex align-items-center'>
-                    <input type="checkbox" className='mr-3'
-                        defaultChecked={todo.completed}
+                    <input type="checkbox" className='mr-3' defaultChecked={todo.completed}
                         onChange={toggleCompleted} />{todo.text}
                 </span>
                 <span>
@@ -36,7 +35,7 @@ const TodoItem = ({ todo }) => {
                             <button className='btn btn-danger mr-1'
                                 onClick={() => dispatch(removeTodo(todo.id))}>Delete</button>
                             <button className='btn btn-success mr-1'
-                                onClick={() => setEditing(true)} >Edit</button>
+                                onClick={() => setEditing(true)}>Edit</button>
                         </>
                 }
             </div>
