@@ -13,9 +13,12 @@ const reducer = (state = initialState, action) => {
         case REMOVE_TODO:
             return state.filter(todo => todo.id !== action.id);
         case MARK_TODO_COMPLETED:
-            const index = state.findIndex(todo => todo.id === action.id)
-            state[index].completed = action.completed
-            return state;
+            return state.map(todo => {
+                if (todo.id === action.id) {
+                    todo.completed = action.completed
+                }
+                return todo;
+            })
         case EDIT_TODO:
             return state.map(todo => {
                 if (todo.id !== action.id) return todo;
