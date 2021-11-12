@@ -20,10 +20,14 @@ const TodoItem = ({ todo }) => {
         <li className='list-group-item'>
             <div className='d-flex justify-content-between'>
                 <span className='d-flex align-items-center'>
-                    <input type="checkbox" className='mr-3' onClick={toggleCompleted} />{todo.text}
+                    <input type="checkbox" className='mr-3'
+                        defaultChecked={todo.completed}
+                        onClick={toggleCompleted} />{todo.text}
                 </span>
                 <span>
-                    {editing && <input type="text" defaultValue={todo.text} onChange={(e) => setNewText(e.target.value)} />}
+                    {editing &&
+                        <input type="text"
+                            defaultValue={todo.text} onChange={(e) => setNewText(e.target.value)} />}
                 </span>
                 {
                     editing ?

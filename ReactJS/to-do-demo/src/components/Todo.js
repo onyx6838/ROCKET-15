@@ -12,7 +12,7 @@ function Todo() {
     const dispatch = useDispatch();
 
     return (
-        <div>
+        <>
             <TodoForm />
             <div className="form-group">
                 <button className='btn btn-primary mr-2'
@@ -23,7 +23,7 @@ function Todo() {
                     onClick={() => dispatch(filterTodo(VISIBILITY_FILTERS.ALL))}>All</button>
             </div>
             <TodoList todos={todosFilter} />
-        </div>
+        </>
     )
 }
 
