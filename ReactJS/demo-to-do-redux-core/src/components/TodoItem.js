@@ -4,7 +4,7 @@ import { editTodo, markTodoCompleted, removeTodo } from '../redux/action';
 
 const TodoItem = ({ todo }) => {
     const [editing, setEditing] = useState(false);
-    const [newText, setNewText] = useState('');
+    const [newText, setNewText] = useState(todo.text);
     const dispatch = useDispatch();
 
     const saveTodo = () => {
