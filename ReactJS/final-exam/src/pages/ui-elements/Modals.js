@@ -54,7 +54,7 @@ const DefaultModal = () => {
     let modals = {};
 
     colors.forEach((color, index) => {
-      modals = Object.assign({}, modals, {[index]: false})
+      modals = Object.assign({}, modals, { [index]: false })
     });
 
     return modals;
@@ -64,7 +64,7 @@ const DefaultModal = () => {
 
   const toggle = index => {
     // Toggle selected element
-    setOpenModals(openModals => Object.assign({}, openModals, {[index]: !openModals[index]}));
+    setOpenModals(openModals => Object.assign({}, openModals, { [index]: !openModals[index] }));
   }
 
   return (
@@ -126,7 +126,7 @@ const ColoredModal = () => {
     let modals = {};
 
     colors.forEach((color, index) => {
-      modals = Object.assign({}, modals, {[index]: false})
+      modals = Object.assign({}, modals, { [index]: false })
     });
 
     return modals;
@@ -136,7 +136,7 @@ const ColoredModal = () => {
 
   const toggle = index => {
     // Toggle selected element
-    setOpenModals(openModals => Object.assign({}, openModals, {[index]: !openModals[index]}));
+    setOpenModals(openModals => Object.assign({}, openModals, { [index]: !openModals[index] }));
   }
 
   return (
@@ -196,7 +196,7 @@ const CenteredModal = () => {
     let modals = {};
 
     colors.forEach((color, index) => {
-      modals = Object.assign({}, modals, {[index]: false})
+      modals = Object.assign({}, modals, { [index]: false })
     });
 
     return modals;
@@ -206,7 +206,7 @@ const CenteredModal = () => {
 
   const toggle = index => {
     // Toggle selected element
-    setOpenModals(openModals => Object.assign({}, openModals, {[index]: !openModals[index]}));
+    setOpenModals(openModals => Object.assign({}, openModals, { [index]: !openModals[index] }));
   }
 
   return (
@@ -271,7 +271,7 @@ const ModalSizes = () => {
     let modals = {};
 
     sizes.forEach((color, index) => {
-      modals = Object.assign({}, modals, {[index]: false})
+      modals = Object.assign({}, modals, { [index]: false })
     });
 
     return modals;
@@ -281,7 +281,7 @@ const ModalSizes = () => {
 
   const toggle = index => {
     // Toggle selected element
-    setOpenModals(openModals => Object.assign({}, openModals, {[index]: !openModals[index]}));
+    setOpenModals(openModals => Object.assign({}, openModals, { [index]: !openModals[index] }));
   }
 
   return (

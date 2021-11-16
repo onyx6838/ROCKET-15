@@ -75,6 +75,11 @@ public class AccountService implements IAccountService {
         return repository.existsByEmail(email);
     }
 
+    @Override
+    public boolean existsByUsername(String userName) {
+        return repository.existsByUsername(userName);
+    }
+
     /**
      * Registration && Reset password
      */

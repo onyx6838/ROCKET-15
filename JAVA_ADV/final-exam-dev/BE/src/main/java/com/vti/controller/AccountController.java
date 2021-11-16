@@ -32,6 +32,25 @@ public class AccountController {
     @Autowired
     private ModelMapper modelMapper;
 
+    @GetMapping("/email/{email}")
+    // validate: check exists, check not expired
+    public ResponseEntity<?> existsUserByEmail(@PathVariable(name = "email") String email) {
+
+        boolean result = accountService.existsByEmail(email);
+
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+
+    @GetMapping("/userName/{userName}")
+    // validate: check exists, check not expired
+    public ResponseEntity<?> existsUserByUserName(@PathVariable(name = "userName") String userName) {
+
+        boolean result = accountService.existsByUsername(userName);
+
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
     // refresh token
     @PostMapping("/token/refresh")
     public ResponseEntity<?> refreshToken(@RequestBody TokenRefreshRequest refreshToken) {

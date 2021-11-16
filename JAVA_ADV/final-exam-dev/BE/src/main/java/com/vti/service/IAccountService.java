@@ -25,5 +25,7 @@ public interface IAccountService extends UserDetailsService {
 
     boolean existsByEmail(String email);
 
+    boolean existsByUsername(String userName);
+
     void resetPasswordViaEmail(String email);
 }
