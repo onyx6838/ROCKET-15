@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { withRouter } from "react-router-dom";
 
 import { Button, Card, CardBody, FormGroup } from "reactstrap";
 import { Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
@@ -9,9 +10,23 @@ import * as Yup from 'yup';
 
 import UserApi from '../../api/UserApi'
 
-const SignUp = () => {
+const SignUp = (props) => {
   const [openModals, setOpenModals] = useState(false);
   const [email, setEmail] = useState('');
+  const [isDisabledResendEmailButton, setDisabledResendEmailButton] = useState(false);
+
+  const resendEmailToActiveAccount = async () => {
+    setDisabledResendEmailButton(true);
+    await UserApi.resendEmailToActiveAccount(email);
+    setDisabledResendEmailButton(false);
+  }
+
+  const handleCloseModel = () => {
+    // open model
+    setOpenModals(false);
+    // redirect login page
+    props.history.push("/auth/sign-in");
+  }
 
   return (
     <React.Fragment>
@@ -61,7 +76,6 @@ const SignUp = () => {
               .email('Invalid email address')
               .test('checkUniqueEmail', 'This email is already registered.', async email => {
                 // call api
-                console.log(email);
                 const isExists = await UserApi.existsByEmail(email);
                 return !isExists;
               }),
@@ -84,6 +98,7 @@ const SignUp = () => {
         }
 
         onSubmit={
+          //async (values, { setFieldError }) => {
           async (values) => {
             try {
               // call api
@@ -99,7 +114,7 @@ const SignUp = () => {
               setEmail(values.email);
             } catch (error) {
               //setFieldError('errorForm', 'There is an error from the server');
-              console.log(error);
+              props.history.push("/auth/500")
             }
           }
         }
@@ -149,6 +164,8 @@ const SignUp = () => {
                     />
                   </FormGroup>
 
+                  {/* <ErrorMessage name="errorForm" component={"div"} className="invalid-feedback" style={{ display: "block" }} /> */}
+
                   <div className="text-center mt-3">
                     <Button type='submit' color="primary" size="lg" disabled={isSubmitting}>
                       Sign up
@@ -162,23 +179,17 @@ const SignUp = () => {
       </Formik>
 
       <Modal isOpen={openModals}>
-        <ModalHeader >
-          You need to confirm your account
-        </ModalHeader>
+        <ModalHeader >You need to confirm your account</ModalHeader>
         <ModalBody className="m-3">
-          <p>
-            We have sent an email to <b>{email}</b>.
-          </p>
-          <p>
-            Please check your email to active account.
-          </p>
+          <p>We have sent an email to <b>{email}</b>.</p>
+          <p>Please check your email to active account.</p>
         </ModalBody>
         <ModalFooter>
-          <Button color="primary">
+          <Button color="primary" onClick={resendEmailToActiveAccount} disabled={isDisabledResendEmailButton}>
             Resend
           </Button>
-          <Button color="primary">
-            Save changes
+          <Button color="primary" onClick={handleCloseModel}>
+            Login
           </Button>
         </ModalFooter>
       </Modal>
@@ -187,4 +198,4 @@ const SignUp = () => {
   )
 };
 
-export default SignUp;
+export default withRouter(SignUp);

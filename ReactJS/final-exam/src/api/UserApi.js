@@ -26,10 +26,34 @@ const resendEmailToActiveAccount = (email) => {
     const requestParams = {
         email: email
     }
-
     return Api.get(`${url}/userRegistrationConfirmRequest`, { params: requestParams });
 };
 
+const requestResetPassword = (email) => {
+    const requestParams = {
+        email: email
+    }
+
+    return Api.get(`${url}/resetPasswordRequest`, { params: requestParams });
+};
+
+const resendEmailToResetPassword = (email) => {
+    const requestParams = {
+        email: email
+    }
+
+    return Api.get(`${url}/resendResetPassword`, { params: requestParams });
+};
+
+const resetPassword = (token, newPassword) => {
+    const requestParams = {
+        token: token,
+        newPassword: newPassword
+    }
+
+    return Api.get(`${url}/resetPassword`, { params: requestParams });
+};
+
 // export
-const api = { existsByEmail, existsByUsername, create, resendEmailToActiveAccount }
+const api = { existsByEmail, existsByUsername, create, resendEmailToActiveAccount, requestResetPassword, resendEmailToResetPassword, resetPassword }
 export default api;

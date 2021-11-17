@@ -82,23 +82,39 @@ public class AccountController {
         return new ResponseEntity<>("Active success!", HttpStatus.OK);
     }
 
+    // resend confirm
+    @GetMapping("/userRegistrationConfirmRequest")
+    // validate: email exists, email not active
+    public ResponseEntity<?> sendConfirmRegistrationViaEmail(@RequestParam String email) {
+        accountService.sendConfirmAccountRegistrationViaEmail(email);
+
+        return new ResponseEntity<>("We have sent an email. Please check email to active account!", HttpStatus.OK);
+    }
+
     @GetMapping("/resetPasswordRequest")
     public ResponseEntity<?> requestResetPasswordViaEmail(
             @UserEmailExists @Param(value = "email") String email) {
-
-
+        accountService.resetPasswordViaEmail(email);
         return new ResponseEntity<>("We have sent 1 email. Please check email to reset account!", HttpStatus.OK);
+    }
+
+    // resend reset password
+    @GetMapping("/resendResetPassword")
+    // validate: email exists, email not active
+    public ResponseEntity<?> resendResetPasswordViaEmail(@RequestParam String email) {
+
+        accountService.resetPasswordViaEmail(email);
+
+        return new ResponseEntity<>("We have sent an email. Please check email to reset password!", HttpStatus.OK);
     }
 
     @GetMapping("/resetPassword")
     public ResponseEntity<?> resetPasswordViaEmail(
             @ResetPasswordTokenValid @Param(value = "token") String token,
             @Param(value = "newPassword") String newPassword) {
-
         // reset password
-        //service.resetPassword(token, newPassword);
+        accountService.resetPassword(token, newPassword);
 
         return new ResponseEntity<>("Reset password success!", HttpStatus.OK);
     }
-
 }

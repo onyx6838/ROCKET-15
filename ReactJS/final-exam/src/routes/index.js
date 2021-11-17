@@ -70,6 +70,7 @@ import Deployment from "../pages/docs/Deployment";
 import StateManagement from "../pages/docs/StateManagement";
 import Plugins from "../pages/docs/Plugins";
 import Changelog from "../pages/docs/Changelog";
+import NewPassword from "../pages/auth/NewPassword";
 
 // Dashboards
 const Default = async(() => import("../pages/dashboards/Default"));
@@ -234,6 +235,11 @@ const authRoutes = {
       path: "/auth/reset-password",
       name: "Reset Password",
       component: ResetPassword
+    },
+    {
+      path: "/auth/new-password/:token",
+      name: "New Password",
+      component: NewPassword
     },
     {
       path: "/auth/404",
