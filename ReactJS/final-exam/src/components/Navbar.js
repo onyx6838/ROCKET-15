@@ -1,5 +1,6 @@
 import React from "react";
-import { connect } from "react-redux";
+import { connect, useSelector } from "react-redux";
+import { selectFullname } from '../redux/selectors/userLoginInfoSelector'
 import { toggleSidebar } from "../redux/actions/sidebarActions";
 
 import {
@@ -135,6 +136,8 @@ const NavbarDropdownItem = ({ icon, title, description, time, spacing }) => (
 );
 
 const NavbarComponent = ({ dispatch }) => {
+  const fullName = selectFullname(useSelector(state => state));
+
   return (
     <Navbar color="white" light expand>
       <span
@@ -274,7 +277,7 @@ const NavbarComponent = ({ dispatch }) => {
                   className="avatar img-fluid rounded-circle mr-1"
                   alt="Chris Wood"
                 />
-                <span className="text-dark">Chris Wood</span>
+                <span className="text-dark">{fullName}</span>
               </DropdownToggle>
             </span>
             <DropdownMenu right>

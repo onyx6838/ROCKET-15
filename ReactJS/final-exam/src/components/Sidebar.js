@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { connect } from "react-redux";
+import { connect, useSelector } from "react-redux";
+import { selectFullname } from '../redux/selectors/userLoginInfoSelector'
 import { NavLink, withRouter } from "react-router-dom";
 
 import { Badge, Collapse } from "reactstrap";
@@ -23,7 +24,7 @@ const initOpenRoutes = (location) => {
     const isOpen = route.open;
     const isHome = route.containsHome && pathName === "/" ? true : false;
 
-    _routes = Object.assign({}, _routes, {[index]: isActive || isOpen || isHome})
+    _routes = Object.assign({}, _routes, { [index]: isActive || isOpen || isHome })
   });
 
   return _routes;
@@ -102,13 +103,15 @@ const Sidebar = ({ location, sidebar, layout }) => {
   const toggle = index => {
     // Collapse all elements
     Object.keys(openRoutes).forEach(
-      item => openRoutes[index] || setOpenRoutes(openRoutes => Object.assign({}, openRoutes, {[item]: false}))
+      item => openRoutes[index] || setOpenRoutes(openRoutes => Object.assign({}, openRoutes, { [item]: false }))
     )
-    
+
     // Toggle selected element
-    setOpenRoutes(openRoutes => Object.assign({}, openRoutes, {[index]: !openRoutes[index]}));
+    setOpenRoutes(openRoutes => Object.assign({}, openRoutes, { [index]: !openRoutes[index] }));
   }
-  
+
+  const fullName = selectFullname(useSelector(state => state));
+
   return (
     <nav
       className={
@@ -177,7 +180,7 @@ const Sidebar = ({ location, sidebar, layout }) => {
                   height="40"
                 />
                 <div className="media-body">
-                  <h5 className="mb-1">Chris Wood</h5>
+                  <h5 className="mb-1">{fullName}</h5>
                   <div>
                     <FontAwesomeIcon
                       icon={faCircle}

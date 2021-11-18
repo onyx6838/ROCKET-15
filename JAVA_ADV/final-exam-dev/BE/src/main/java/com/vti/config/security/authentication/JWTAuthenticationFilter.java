@@ -35,12 +35,11 @@ public class JWTAuthenticationFilter extends AbstractAuthenticationProcessingFil
         String password = request.getParameter("password");
 
         String role = accountService.getAccountByUsername(username).getRole();
-
-        return getAuthenticationManager().authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        username, password,
-                        AuthorityUtils.createAuthorityList(role)
-                ));
+        UsernamePasswordAuthenticationToken s = new UsernamePasswordAuthenticationToken(
+                username, password,
+                AuthorityUtils.createAuthorityList(role)
+        );
+        return getAuthenticationManager().authenticate(s);
     }
 
     @Override

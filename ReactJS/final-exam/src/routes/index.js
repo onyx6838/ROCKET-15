@@ -72,6 +72,9 @@ import Plugins from "../pages/docs/Plugins";
 import Changelog from "../pages/docs/Changelog";
 import NewPassword from "../pages/auth/NewPassword";
 
+// HOC
+import withAuth from '../HOC/withAuth'
+
 // Dashboards
 const Default = async(() => import("../pages/dashboards/Default"));
 const Analytics = async(() => import("../pages/dashboards/Analytics"));
@@ -132,7 +135,7 @@ const dashboardRoutes = {
     {
       path: "/dashboard/default",
       name: "Default",
-      component: Default
+      component: withAuth(Default)
     },
     {
       path: "/dashboard/analytics",

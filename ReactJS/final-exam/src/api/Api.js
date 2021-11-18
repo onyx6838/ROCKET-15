@@ -20,7 +20,11 @@ axiosClient.interceptors.response.use((response) => {
     return response;
 }, (error) => {
     // Handle errors
-    throw error;
+    if (error.response) {
+        throw error.response
+    } else if (error.request) {
+        throw error.request
+    } else throw error;
 });
 
 export default axiosClient;

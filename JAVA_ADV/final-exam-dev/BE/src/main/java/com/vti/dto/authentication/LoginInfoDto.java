@@ -1,5 +1,6 @@
 package com.vti.dto.authentication;
 
+import com.vti.entity.enumerate.UserStatus;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,4 +16,9 @@ public class LoginInfoDto {
     private String role;
     private String token; // token
     private String refreshToken;
+    private String firstName;
+    private String lastName;
+    private UserStatus status;
+    private String username;
+    private String email;
 }
