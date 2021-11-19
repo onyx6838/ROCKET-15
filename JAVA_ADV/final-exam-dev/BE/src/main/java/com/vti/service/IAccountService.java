@@ -1,5 +1,6 @@
 package com.vti.service;
 
+import com.vti.dto.ChangePublicProfileDto;
 import com.vti.entity.Account;
 import com.vti.entity.authentication.ResetPasswordToken;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -12,6 +13,8 @@ public interface IAccountService extends UserDetailsService {
     void createAccount(Account account);
 
     Account findAccountByEmail(String email);
+
+    void changeUserProfile(String username, ChangePublicProfileDto dto);
 
     void activeAccount(String token);
 

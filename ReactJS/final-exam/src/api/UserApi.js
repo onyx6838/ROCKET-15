@@ -58,6 +58,14 @@ const getProfile = () => {
     return Api.get(`${url}/profile`);
 };
 
+const changeProfile = (avatarUrl) => {
+    const body = {
+        avatarUrl: avatarUrl
+    }
+    return Api.put(`${url}/profile`, body);
+};
+
+
 // export
-const api = { existsByEmail, existsByUsername, create, resendEmailToActiveAccount, requestResetPassword, resendEmailToResetPassword, resetPassword, getProfile }
+const api = { existsByEmail, existsByUsername, create, resendEmailToActiveAccount, requestResetPassword, resendEmailToResetPassword, resetPassword, getProfile, changeProfile }
 export default api;

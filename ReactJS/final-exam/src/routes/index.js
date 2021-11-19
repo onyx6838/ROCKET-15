@@ -115,6 +115,8 @@ const Calendar = async(() => import("../pages/calendar/Calendar"));
 const VectorMaps = async(() => import("../pages/maps/VectorMaps"));
 const GoogleMaps = async(() => import("../pages/maps/GoogleMaps"));
 
+const Group = async(() => import("../pages/group/Group"));
+
 // Routes
 const landingRoutes = {
   path: "/",
@@ -161,6 +163,15 @@ const dashboardRoutes = {
     }
   ]
 };
+
+const groupRoutes = {
+  path: "/groups",
+  name: "Groups Management",
+  icon: ListIcon,
+  component: Group,
+  children: null
+};
+
 
 const pageRoutes = {
   path: "/pages",
@@ -588,9 +599,19 @@ const profileRoutes = {
   children: null
 };
 
+// This route is not visisble in the sidebar
+const settingsRoutes = {
+  path: "/settings",
+  name: "Settings",
+  component: withAuth(Settings),
+  children: null
+};
+
+
 // Dashboard specific routes
 export const dashboard = [
   dashboardRoutes,
+  groupRoutes,
   pageRoutes,
   layoutRoutes,
   documentationRoutes,
@@ -605,7 +626,8 @@ export const dashboard = [
   mapRoutes,
   calendarRoutes,
   privateRoutes,
-  profileRoutes
+  profileRoutes,
+  settingsRoutes
 ];
 
 // Landing specific routes
@@ -617,6 +639,7 @@ export const page = [authRoutes];
 // All routes
 export default [
   dashboardRoutes,
+  groupRoutes,
   pageRoutes,
   authRoutes,
   layoutRoutes,

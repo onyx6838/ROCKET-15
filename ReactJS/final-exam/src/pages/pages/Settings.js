@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState, useRef } from "react";
 import {
   Button,
   Card,
@@ -26,6 +26,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUpload } from "@fortawesome/free-solid-svg-icons";
 
 import avatar1 from "../../assets/img/avatars/avatar.jpg";
+
+import UserApi from '../../api/UserApi'
+import FileApi from '../../api/FileApi'
+import { toastr } from "react-redux-toastr";
 
 const Navigation = () => (
   <Card>
@@ -63,70 +67,142 @@ const Navigation = () => (
   </Card>
 );
 
-const PublicInfo = () => (
-  <Card>
-    <CardHeader>
-      <div className="card-actions float-right">
-        <UncontrolledDropdown>
-          <DropdownToggle tag="a">
-            <MoreHorizontal />
-          </DropdownToggle>
-          <DropdownMenu right>
-            <DropdownItem>Action</DropdownItem>
-            <DropdownItem>Another Action</DropdownItem>
-            <DropdownItem>Something else here</DropdownItem>
-          </DropdownMenu>
-        </UncontrolledDropdown>
-      </div>
-      <CardTitle tag="h5" className="mb-0">
-        Public info
-      </CardTitle>
-    </CardHeader>
-    <CardBody>
-      <Form>
-        <Row>
-          <Col md="8">
-            <FormGroup>
-              <Label for="inputUsername">Username</Label>
-              <Input type="text" id="inputUsername" placeholder="Username" />
-            </FormGroup>
-            <FormGroup>
-              <Label for="inputBio">Biography</Label>
-              <Input
-                type="textarea"
-                rows="2"
-                id="inputBio"
-                placeholder="Tell something about yourself"
-              />
-            </FormGroup>
-          </Col>
-          <Col md="4">
-            <div className="text-center">
-              <img
-                alt="Chris Wood"
-                src={avatar1}
-                className="rounded-circle img-responsive mt-2"
-                width="128"
-                height="128"
-              />
-              <div className="mt-2">
-                <Button color="primary">
-                  <FontAwesomeIcon icon={faUpload} /> Upload
-                </Button>
-              </div>
-              <small>
-                For best results, use an image at least 128px by 128px in .jpg
-                format
-              </small>
-            </div>
-          </Col>
-        </Row>
+const PublicInfo = () => {
+  const [userInfo, setUserInfo] = useState({});
 
-        <Button color="primary">Save changes</Button>
-      </Form>
-    </CardBody>
-  </Card>
-);
+  const [previewAvatarUrl, setPreviewAvatarUrl] = useState();
+  const [previewAvatarFile, setPreviewAvatarFile] = useState();
+
+  const [isDisabledSaveButton, setDisabledSaveButton] = useState(false);
+
+  useEffect(() => {
+    const getProfile = async () => {
+      try {
+        const result = await UserApi.getProfile();
+        setUserInfo(result);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    getProfile();
+  }, [])
+
+  const showSucessNotification = (title, message) => {
+    const options = {
+      timeOut: 2500,
+      showCloseButton: false,
+      progressBar: false,
+      position: "top-right"
+    };
+
+    // show notification
+    toastr.success(title, message, options);
+  }
+
+  // avatar file
+  const avatarFileInput = useRef(null)
+
+  const onChangeAvatarInputFile = (e) => {
+    let reader = new FileReader();
+    let file = e.target.files[0];
+    reader.readAsDataURL(file);
+
+    reader.onloadend = () => {
+      setPreviewAvatarUrl(reader.result);
+      setPreviewAvatarFile(file);
+    }
+  };
+
+  const handleSave = async () => {
+    try {
+      setDisabledSaveButton(true);
+      // upload avatar
+      const nameImage = await FileApi.uploadImage(previewAvatarFile);
+      console.log(nameImage);
+      await UserApi.changeProfile(nameImage);
+      setDisabledSaveButton(false);
+      showSucessNotification(
+        "Change Profile",
+        "Change Profile Successfully!"
+      );
+    } catch (error) {
+      setDisabledSaveButton(false);
+      console.log(error);
+    }
+  }
+
+  return (
+    <Card>
+      <CardHeader>
+        <div className="card-actions float-right">
+          <UncontrolledDropdown>
+            <DropdownToggle tag="a">
+              <MoreHorizontal />
+            </DropdownToggle>
+            <DropdownMenu right>
+              <DropdownItem>Action</DropdownItem>
+              <DropdownItem>Another Action</DropdownItem>
+              <DropdownItem>Something else here</DropdownItem>
+            </DropdownMenu>
+          </UncontrolledDropdown>
+        </div>
+        <CardTitle tag="h5" className="mb-0">
+          Public info
+        </CardTitle>
+      </CardHeader>
+      <CardBody>
+        <Form>
+          <Row>
+            <Col md="8">
+              <FormGroup>
+                <Label for="inputUsername">Username</Label>
+                <Input type="text" id="inputUsername" placeholder="Username" />
+              </FormGroup>
+              <FormGroup>
+                <Label for="inputBio">Biography</Label>
+                <Input
+                  type="textarea"
+                  rows="2"
+                  id="inputBio"
+                  placeholder="Tell something about yourself"
+                />
+              </FormGroup>
+            </Col>
+            <Col md="4">
+              <div className="text-center">
+                <img
+                  alt={userInfo.firstName + " " + userInfo.lastName}
+                  src={previewAvatarUrl ?
+                    previewAvatarUrl :
+                    (userInfo.avatarUrl ? `http://127.0.0.1:8887/${userInfo.avatarUrl}` : avatar1)
+                  }
+                  className="rounded-circle img-responsive mt-2"
+                  width="128"
+                  height="128"
+                />
+                <div className="mt-2">
+                  <Button color="primary" onClick={() => avatarFileInput.current.click()}>
+                    <FontAwesomeIcon icon={faUpload} /> Upload
+                  </Button>
+                  <input type="file" id="avatarInput"
+                    ref={avatarFileInput} style={{ display: 'none' }}
+                    onChange={onChangeAvatarInputFile} />
+                </div>
+                <small>
+                  For best results, use an image at least 128px by 128px in .jpg
+                  format
+                </small>
+              </div>
+            </Col>
+          </Row>
+
+          <Button color="primary" disabled={isDisabledSaveButton} onClick={handleSave}>Save changes</Button>
+        </Form>
+      </CardBody>
+    </Card>
+  )
+};
 
 const PrivateInfo = () => (
   <Card>

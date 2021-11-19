@@ -1,6 +1,7 @@
 package com.vti.service;
 
 import com.vti.config.event.OnSendRegistrationUserConfirmViaEmailEvent;
+import com.vti.dto.ChangePublicProfileDto;
 import com.vti.entity.Account;
 import com.vti.entity.authentication.RegistrationUserToken;
 import com.vti.entity.authentication.ResetPasswordToken;
@@ -58,6 +59,14 @@ public class AccountService implements IAccountService {
         }
         return new User(account.getUsername(), account.getPassword(),
                 AuthorityUtils.createAuthorityList(account.getRole()));
+    }
+
+    @Override
+    public void changeUserProfile(String username, ChangePublicProfileDto dto) {
+        Account account = getAccountByUsername(username);
+
+        account.setAvatarUrl(dto.getAvatarUrl());
+        repository.save(account);
     }
 
     @Override

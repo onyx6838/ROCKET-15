@@ -292,7 +292,7 @@ const NavbarComponent = ({ dispatch, props }) => {
                 Analytics
               </DropdownItem>
               <DropdownItem divider />
-              <DropdownItem>Settings & Privacy</DropdownItem>
+              <DropdownItem onClick={() => history.push("/settings")}>Settings & Privacy</DropdownItem>
               <DropdownItem>Help</DropdownItem>
               <DropdownItem>Sign out</DropdownItem>
             </DropdownMenu>

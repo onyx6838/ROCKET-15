@@ -1,5 +1,6 @@
 package com.vti.controller;
 
+import com.vti.dto.ChangePublicProfileDto;
 import com.vti.dto.ProfileDto;
 import com.vti.dto.authentication.RegistrationAccountDto;
 import com.vti.dto.authentication.TokenRefreshRequest;
@@ -49,6 +50,18 @@ public class AccountController {
         ProfileDto profileDto = modelMapper.map(account, ProfileDto.class);
 
         return new ResponseEntity<>(profileDto, HttpStatus.OK);
+    }
+
+    @PutMapping("/profile")
+    // validate: check exists, check not expired
+    public ResponseEntity<?> changeUserProfile(@RequestBody ChangePublicProfileDto dto) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        // get username from token
+        String username = authentication.getName();
+
+        accountService.changeUserProfile(username, dto);
+
+        return new ResponseEntity<>("Change Profile Successfully!", HttpStatus.OK);
     }
 
     @GetMapping("/email/{email}")

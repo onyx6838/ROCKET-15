@@ -31,7 +31,7 @@ public class FileService implements IFileService{
         // TODO save link file to database
 
         // return link uploaded file
-        return path;
+        return nameImage;
     }
 
     @Override

@@ -18,3 +18,6 @@ export const THEME_TOGGLE = "THEME_TOGGLE";
 export const USER_LOGIN_INFO = "USER_LOGIN_INFO";
 export const TOKEN_INFO = "TOKEN_INFO";
 export const REMEMBER_ME_INFO = "REMEMBER_ME_INFO";
+
+// group
+export const GET_LIST_GROUP = "GET_LIST_GROUP";

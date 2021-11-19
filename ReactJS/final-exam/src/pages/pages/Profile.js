@@ -71,7 +71,7 @@ const ProfileDetails = () => {
       </CardHeader>
       <CardBody className="text-center">
         <img
-          src={userInfo.avatarUrl ? `http://127.0.0.1:8887/${userInfo.avatarUrl}` : avatar1}
+          src={userInfo.avatarUrl ? `http://127.0.0.1:8887/${userInfo.avatarUrl}` : avatar2}
           alt={userInfo.firstName + " " + userInfo.lastName}
           className="img-fluid rounded-circle mb-2"
           width="128"
