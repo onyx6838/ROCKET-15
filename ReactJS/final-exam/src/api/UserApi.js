@@ -54,6 +54,10 @@ const resetPassword = (token, newPassword) => {
     return Api.get(`${url}/resetPassword`, { params: requestParams });
 };
 
+const getProfile = () => {
+    return Api.get(`${url}/profile`);
+};
+
 // export
-const api = { existsByEmail, existsByUsername, create, resendEmailToActiveAccount, requestResetPassword, resendEmailToResetPassword, resetPassword }
+const api = { existsByEmail, existsByUsername, create, resendEmailToActiveAccount, requestResetPassword, resendEmailToResetPassword, resetPassword, getProfile }
 export default api;

@@ -40,6 +40,7 @@ import avatar1 from "../assets/img/avatars/avatar.jpg";
 import avatar3 from "../assets/img/avatars/avatar-3.jpg";
 import avatar4 from "../assets/img/avatars/avatar-4.jpg";
 import avatar5 from "../assets/img/avatars/avatar-5.jpg";
+import { useHistory } from "react-router";
 
 const notifications = [
   {
@@ -135,8 +136,9 @@ const NavbarDropdownItem = ({ icon, title, description, time, spacing }) => (
   </ListGroupItem>
 );
 
-const NavbarComponent = ({ dispatch }) => {
+const NavbarComponent = ({ dispatch, props }) => {
   const fullName = selectFullname(useSelector(state => state));
+  const history = useHistory();
 
   return (
     <Navbar color="white" light expand>
@@ -281,7 +283,7 @@ const NavbarComponent = ({ dispatch }) => {
               </DropdownToggle>
             </span>
             <DropdownMenu right>
-              <DropdownItem>
+              <DropdownItem onClick={() => history.push("/profile")}>
                 <User size={18} className="align-middle mr-2" />
                 Profile
               </DropdownItem>

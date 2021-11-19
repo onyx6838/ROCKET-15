@@ -38,6 +38,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 // cors security (3rd app)
                 .antMatchers("/api/v1/login").anonymous()
+                .antMatchers("/api/v1/accounts/profile").authenticated()
                 .antMatchers("/api/v1/accounts/**").permitAll()
                 .antMatchers("/api/v1/files/**").permitAll()
                 .antMatchers("/api/v1/groups/**").hasAnyAuthority("Admin", "Manager")

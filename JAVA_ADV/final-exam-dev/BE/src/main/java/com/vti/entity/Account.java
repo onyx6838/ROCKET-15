@@ -46,6 +46,9 @@ public class Account implements Serializable {
     @Column(name = "Role", length = 50, nullable = false)
     private String role;
 
+    @Column(name = "avatarUrl", length = 600)
+    private String avatarUrl;
+
     @ManyToOne
     @JoinColumn(name = "GroupID")
     private Group group;

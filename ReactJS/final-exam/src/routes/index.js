@@ -580,6 +580,14 @@ const privateRoutes = {
   ]
 };
 
+// This route is not visisble in the sidebar
+const profileRoutes = {
+  path: "/profile",
+  name: "Profile",
+  component: withAuth(Profile),
+  children: null
+};
+
 // Dashboard specific routes
 export const dashboard = [
   dashboardRoutes,
@@ -596,7 +604,8 @@ export const dashboard = [
   notificationsRoutes,
   mapRoutes,
   calendarRoutes,
-  privateRoutes
+  privateRoutes,
+  profileRoutes
 ];
 
 // Landing specific routes

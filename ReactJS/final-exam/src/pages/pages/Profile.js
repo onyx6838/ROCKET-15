@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 import {
@@ -44,117 +44,136 @@ import avatar5 from "../../assets/img/avatars/avatar-5.jpg";
 import unsplash1 from "../../assets/img/photos/unsplash-1.jpg";
 import unsplash2 from "../../assets/img/photos/unsplash-2.jpg";
 
-const ProfileDetails = () => (
-  <Card>
-    <CardHeader>
-      <CardTitle tag="h5" className="mb-0">
-        Profile Details
-      </CardTitle>
-    </CardHeader>
-    <CardBody className="text-center">
-      <img
-        src={avatar4}
-        alt="Stacie Hall"
-        className="img-fluid rounded-circle mb-2"
-        width="128"
-        height="128"
-      />
-      <CardTitle tag="h5" className="mb-0">
-        Stacie Hall
-      </CardTitle>
-      <div className="text-muted mb-2">Lead Developer</div>
+import UserApi from '../../api/UserApi'
 
-      <div>
-        <Button size="sm" color="primary" className="mr-1">
-          Follow
-        </Button>
-        <Button size="sm" color="primary">
-          <MessageSquare width={16} height={16} /> Message
-        </Button>
-      </div>
-    </CardBody>
+const ProfileDetails = () => {
+  const [userInfo, setUserInfo] = useState({});
 
-    <hr className="my-0" />
+  useEffect(() => {
+    const getProfile = async () => {
+      try {
+        const result = await UserApi.getProfile();
+        setUserInfo(result);
+      } catch (error) {
+        console.log(error);
+      }
+    }
 
-    <CardBody>
-      <CardTitle tag="h5">Skills</CardTitle>
-      <Badge color="primary" className="mr-1 my-1">
-        HTML
-      </Badge>
-      <Badge color="primary" className="mr-1 my-1">
-        JavaScript
-      </Badge>
-      <Badge color="primary" className="mr-1 my-1">
-        Sass
-      </Badge>
-      <Badge color="primary" className="mr-1 my-1">
-        Angular
-      </Badge>
-      <Badge color="primary" className="mr-1 my-1">
-        Vue
-      </Badge>
-      <Badge color="primary" className="mr-1 my-1">
-        React
-      </Badge>
-      <Badge color="primary" className="mr-1 my-1">
-        Redux
-      </Badge>
-      <Badge color="primary" className="mr-1 my-1">
-        UI
-      </Badge>
-      <Badge color="primary" className="mr-1 my-1">
-        UX
-      </Badge>
-    </CardBody>
+    getProfile();
+  }, [])
 
-    <hr className="my-0" />
-    <CardBody>
-      <CardTitle tag="h5">About</CardTitle>
-      <ul className="list-unstyled mb-0">
-        <li className="mb-1">
-          <Home width={14} height={14} className="mr-1" /> Lives in{" "}
-          <Link to="/dashboard/default">San Francisco, SA</Link>
-        </li>
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle tag="h5" className="mb-0">
+          Profile Details
+        </CardTitle>
+      </CardHeader>
+      <CardBody className="text-center">
+        <img
+          src={userInfo.avatarUrl ? `http://127.0.0.1:8887/${userInfo.avatarUrl}` : avatar1}
+          alt={userInfo.firstName + " " + userInfo.lastName}
+          className="img-fluid rounded-circle mb-2"
+          width="128"
+          height="128"
+        />
+        <CardTitle tag="h5" className="mb-0">
+          {userInfo.firstName + " " + userInfo.lastName}
+        </CardTitle>
+        <div className="text-muted mb-2">{userInfo.role}</div>
 
-        <li className="mb-1">
-          <Briefcase width={14} height={14} className="mr-1" /> Works at{" "}
-          <Link to="/dashboard/default">GitHub</Link>
-        </li>
-        <li className="mb-1">
-          <MapPin width={14} height={14} className="mr-1" /> From{" "}
-          <Link to="/dashboard/default">Boston</Link>
-        </li>
-      </ul>
-    </CardBody>
-    <hr className="my-0" />
-    <CardBody>
-      <CardTitle tag="h5">Elsewhere</CardTitle>
+        <div>
+          <Button size="sm" color="primary" className="mr-1">
+            Follow
+          </Button>
+          <Button size="sm" color="primary">
+            <MessageSquare width={16} height={16} /> Message
+          </Button>
+        </div>
+      </CardBody>
 
-      <ul className="list-unstyled mb-0">
-        <li className="mb-1">
-          <FontAwesomeIcon icon={faGlobe} fixedWidth className="mr-1" />
-          <Link to="/dashboard/default">staciehall.co</Link>
-        </li>
-        <li className="mb-1">
-          <FontAwesomeIcon icon={faTwitter} fixedWidth className="mr-1" />
-          <Link to="/dashboard/default">Twitter</Link>
-        </li>
-        <li className="mb-1">
-          <FontAwesomeIcon icon={faFacebook} fixedWidth className="mr-1" />
-          <Link to="/dashboard/default">Facebook</Link>
-        </li>
-        <li className="mb-1">
-          <FontAwesomeIcon icon={faInstagram} fixedWidth className="mr-1" />
-          <Link to="/dashboard/default">Instagram</Link>
-        </li>
-        <li className="mb-1">
-          <FontAwesomeIcon icon={faLinkedin} fixedWidth className="mr-1" />
-          <Link to="/dashboard/default">LinkedIn</Link>
-        </li>
-      </ul>
-    </CardBody>
-  </Card>
-);
+      <hr className="my-0" />
+
+      <CardBody>
+        <CardTitle tag="h5">Skills</CardTitle>
+        <Badge color="primary" className="mr-1 my-1">
+          HTML
+        </Badge>
+        <Badge color="primary" className="mr-1 my-1">
+          JavaScript
+        </Badge>
+        <Badge color="primary" className="mr-1 my-1">
+          Sass
+        </Badge>
+        <Badge color="primary" className="mr-1 my-1">
+          Angular
+        </Badge>
+        <Badge color="primary" className="mr-1 my-1">
+          Vue
+        </Badge>
+        <Badge color="primary" className="mr-1 my-1">
+          React
+        </Badge>
+        <Badge color="primary" className="mr-1 my-1">
+          Redux
+        </Badge>
+        <Badge color="primary" className="mr-1 my-1">
+          UI
+        </Badge>
+        <Badge color="primary" className="mr-1 my-1">
+          UX
+        </Badge>
+      </CardBody>
+
+      <hr className="my-0" />
+      <CardBody>
+        <CardTitle tag="h5">About</CardTitle>
+        <ul className="list-unstyled mb-0">
+          <li className="mb-1">
+            <Home width={14} height={14} className="mr-1" /> Lives in{" "}
+            <Link to="/dashboard/default">San Francisco, SA</Link>
+          </li>
+
+          <li className="mb-1">
+            <Briefcase width={14} height={14} className="mr-1" /> Works at{" "}
+            <Link to="/dashboard/default">GitHub</Link>
+          </li>
+          <li className="mb-1">
+            <MapPin width={14} height={14} className="mr-1" /> From{" "}
+            <Link to="/dashboard/default">Boston</Link>
+          </li>
+        </ul>
+      </CardBody>
+      <hr className="my-0" />
+      <CardBody>
+        <CardTitle tag="h5">Elsewhere</CardTitle>
+
+        <ul className="list-unstyled mb-0">
+          <li className="mb-1">
+            <FontAwesomeIcon icon={faGlobe} fixedWidth className="mr-1" />
+            <Link to="/dashboard/default">staciehall.co</Link>
+          </li>
+          <li className="mb-1">
+            <FontAwesomeIcon icon={faTwitter} fixedWidth className="mr-1" />
+            <Link to="/dashboard/default">Twitter</Link>
+          </li>
+          <li className="mb-1">
+            <FontAwesomeIcon icon={faFacebook} fixedWidth className="mr-1" />
+            <Link to="/dashboard/default">Facebook</Link>
+          </li>
+          <li className="mb-1">
+            <FontAwesomeIcon icon={faInstagram} fixedWidth className="mr-1" />
+            <Link to="/dashboard/default">Instagram</Link>
+          </li>
+          <li className="mb-1">
+            <FontAwesomeIcon icon={faLinkedin} fixedWidth className="mr-1" />
+            <Link to="/dashboard/default">LinkedIn</Link>
+          </li>
+        </ul>
+      </CardBody>
+    </Card>
+  )
+};
 
 const Activities = () => (
   <Card>

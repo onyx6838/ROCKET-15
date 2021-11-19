@@ -1,5 +1,6 @@
 package com.vti.controller;
 
+import com.vti.dto.ProfileDto;
 import com.vti.dto.authentication.RegistrationAccountDto;
 import com.vti.dto.authentication.TokenRefreshRequest;
 import com.vti.dto.authentication.TokenRefreshResponse;
@@ -13,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,6 +34,22 @@ public class AccountController {
 
     @Autowired
     private ModelMapper modelMapper;
+
+    @GetMapping("/profile")
+    // validate: check exists, check not expired
+    public ResponseEntity<?> getUserProfile() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        // get username from token
+        String username = authentication.getName();
+
+        // get user info
+        Account account = accountService.getAccountByUsername(username);
+
+        // convert user entity to user dto
+        ProfileDto profileDto = modelMapper.map(account, ProfileDto.class);
+
+        return new ResponseEntity<>(profileDto, HttpStatus.OK);
+    }
 
     @GetMapping("/email/{email}")
     // validate: check exists, check not expired
