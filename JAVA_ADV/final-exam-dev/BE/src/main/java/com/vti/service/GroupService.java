@@ -35,6 +35,26 @@ public class GroupService implements IGroupService {
             where = Specification.where(nameSpecification).or(authorSpecification);
         }
 
+        if (filter != null && filter.getMinTotalMember() != 0) {
+            GroupSpecification minMemberSpecification = new GroupSpecification("member", ">=",
+                    filter.getMinTotalMember());
+            if (where == null) {  // chua co search chi? filter
+                where = Specification.where(minMemberSpecification);
+            } else {
+                where = where.and(minMemberSpecification);
+            }
+        }
+
+        if (filter != null && filter.getMaxTotalMember() != 0) {
+            GroupSpecification maxMemberSpecification = new GroupSpecification("member", "<=",
+                    filter.getMaxTotalMember());
+            if (where == null) {
+                where = Specification.where(maxMemberSpecification);
+            } else {
+                where = where.and(maxMemberSpecification);
+            }
+        }
+
         if (filter != null && filter.getMinDate() != null) {
             GroupSpecification minDateSpecification = new GroupSpecification("createDate", ">=",
                     filter.getMinDate());

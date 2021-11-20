@@ -50,6 +50,7 @@ const isAuth = () => {
 }
 
 const setUserInfo = (user) => {
+    setItem("id", user.id);
     setItem("firstname", user.firstName);
     setItem("lastname", user.lastName);
     setItem("username", user.username);
@@ -60,6 +61,7 @@ const setUserInfo = (user) => {
 
 const getUserInfo = () => {
     return {
+        "id": getItem("id"),
         "firstname": getItem("firstname"),
         "lastname": getItem("lastname"),
         "username": getItem("username"),
@@ -70,6 +72,7 @@ const getUserInfo = () => {
 }
 
 const removeUserInfo = () => {
+    removeItem("id");
     removeItem("firstname");
     removeItem("lastname");
     removeItem("username");

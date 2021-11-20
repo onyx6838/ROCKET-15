@@ -168,7 +168,7 @@ const groupRoutes = {
   path: "/groups",
   name: "Groups Management",
   icon: ListIcon,
-  component: Group,
+  component: withAuth(Group),
   children: null
 };
 

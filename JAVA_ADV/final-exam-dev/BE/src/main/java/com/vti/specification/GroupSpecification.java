@@ -36,6 +36,8 @@ public class GroupSpecification implements Specification<Group> {
         if (operator.equalsIgnoreCase(">=")) {
             if (value instanceof Date) {
                 return builder.greaterThanOrEqualTo(root.get(field), (Date) value);
+            } else {
+                return builder.greaterThanOrEqualTo(root.get(field), value.toString());
             }
         }
 
@@ -44,6 +46,8 @@ public class GroupSpecification implements Specification<Group> {
                 Date today = (Date) value;
                 Date tomorrow = new Date(today.getTime() + (1000 * 60 * 60 * 24));    // lay ngay hom sau va less
                 return builder.lessThanOrEqualTo(root.get(field), tomorrow);
+            } else {
+                return builder.lessThanOrEqualTo(root.get(field), value.toString());
             }
         }
 

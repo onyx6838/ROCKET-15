@@ -15,4 +15,7 @@ public class GroupFilterForm {
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date maxDate;
 
+	private int minTotalMember;
+
+	private int maxTotalMember;
 }
