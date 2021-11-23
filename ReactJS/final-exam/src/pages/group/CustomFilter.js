@@ -10,7 +10,9 @@ import { selectMaxTotalMember, selectMinTotalMember } from "../../redux/selector
 const CustomFilter = (props) => {
 
     return (
-        <Formik enableReinitialize
+        <Formik
+            enableReinitialize
+            key={Date.parse(new Date())}
             initialValues={
                 {
                     minTotalMember: props.minTotalMember ? props.minTotalMember : "",
@@ -43,13 +45,15 @@ const CustomFilter = (props) => {
                                 Total Member:
                             </Col>
                             <Col lg='2'>
-                                <FastField bsSize="lg" type="number" name="minTotalMember" placeholder="Enter min"
+                                <FastField bsSize="lg" type="number" name="minTotalMember"
+                                    placeholder="Enter min"
                                     component={ReactstrapInput}
                                 />
                             </Col>
                             {"-"}
                             <Col lg='2'>
-                                <FastField bsSize="lg" type="number" name="maxTotalMember" min="1" placeholder="Enter max"
+                                <FastField bsSize="lg" type="number" name="maxTotalMember"
+                                    placeholder="Enter max"
                                     component={ReactstrapInput}
                                 />
                             </Col>

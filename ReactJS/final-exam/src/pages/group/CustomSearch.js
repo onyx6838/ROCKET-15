@@ -1,33 +1,53 @@
+import { FastField, Form, Formik } from "formik";
 import React from "react";
-import { useState } from "react";
-import { Button, Input, InputGroup, InputGroupAddon } from "reactstrap";
+import { connect } from "react-redux";
+import { Button, Col, InputGroupAddon, Row } from "reactstrap";
+import { ReactstrapInput } from "reactstrap-formik";
+import { selectSearch } from "../../redux/selectors/groupSelectors";
 
 const CustomSearch = (props) => {
-
-    const [value, setValue] = useState("");
-
-    const handleSearchEvent = () => {
-        props.onSearch(value);
-    };
-
-    const handleEnterKeyEvent = (e) => {
-        if (e.key === 'Enter') {
-            handleSearchEvent();
-        }
-    }
     return (
-        <InputGroup className="mb-3">
-            <Input
-                placeholder="Search for..."
-                onChange={(e) => setValue(e.target.value)}
-                onKeyDown={handleEnterKeyEvent}
-            />
+        <Formik
+            key={Date.parse(new Date())}
+            enableReinitialize
+            initialValues={
+                {
+                    search: props.search ? props.search : ""
+                }
+            }
 
-            <InputGroupAddon addonType="append" color="primary" onClick={handleSearchEvent}>
-                <Button>Search!</Button>
-            </InputGroupAddon>
-        </InputGroup>
+            onSubmit={
+                values => {
+                    props.onSearch(values.search);
+                }
+            }
+        >
+            <Form>
+                <Row style={{ alignItems: "center" }}>
+                    <Col xs="auto">
+                        <FastField
+                            bsSize="lg"
+                            type="text"
+                            name="search"
+                            placeholder="Search for..."
+                            component={ReactstrapInput}
+                        />
+                    </Col>
+                    <Col xs="auto">
+                        <InputGroupAddon addonType="append" color="primary">
+                            <Button type="submit">Search!</Button>
+                        </InputGroupAddon>
+                    </Col>
+                </Row>
+            </Form>
+        </Formik>
     );
 };
 
-export default CustomSearch;
+const mapGlobalStateToProps = state => {
+    return {
+        search: selectSearch(state)
+    };
+};
+
+export default connect(mapGlobalStateToProps)(CustomSearch);

@@ -1,46 +1,44 @@
 import React, { useEffect, useState } from "react";
-import BootstrapTable from "react-bootstrap-table-next";
-import { Card, CardBody, Col, Container, Row } from "reactstrap";
-import CustomSearch from './CustomSearch';
-import * as Icon from 'react-feather'
-
-import paginationFactory from "react-bootstrap-table2-paginator";
-import filterFactory, { customFilter } from 'react-bootstrap-table2-filter';
 import { connect } from "react-redux";
+import { selectListGroup, selectPage, selectSize, selectSortField, selectSortType, selectTotalElement } from '../../redux/selectors/groupSelectors';
+import { getListGroupAction } from '../../redux/actions/groupActions';
 
 import ToolkitProvider from 'react-bootstrap-table2-toolkit';
 
-import { selectListGroup, selectPage, selectSize, selectTotalElement } from '../../redux/selectors/groupSelectors';
-import { getListGroupsAction } from '../../redux/actions/groupActions';
-
-import GroupApi from '../../api/GroupApi'
 import CustomFilter from "./CustomFilter";
 
+import paginationFactory from "react-bootstrap-table2-paginator";
+import filterFactory, { customFilter } from 'react-bootstrap-table2-filter';
+import CustomSearch from './CustomSearch';
+import * as Icon from 'react-feather'
+import BootstrapTable from "react-bootstrap-table-next";
+import { Button, Card, CardBody, Col, Container, Row } from "reactstrap";
+import { Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
+import { ReactstrapInput } from "reactstrap-formik";
+import { toastr } from "react-redux-toastr";
+import { FastField, Form, Formik } from "formik";
+
+import * as Yup from 'yup';
+import GroupApi from '../../api/GroupApi';
+
 const Group = (props) => {
-  const getListGroups = props.getListGroupsAction;
+  const getListGroups = props.getListGroupAction;
   const size = props.size;
 
   const [isVisibleFilter, setVisibleFilter] = useState(false);
-
-  useEffect(() => {
-    const getAllGroups = async () => {
-      const result = await GroupApi.getAll();
-      const groups = result.content;
-      const totalSize = result.totalElements;
-      getListGroups(groups, 1, totalSize);
-    }
-    getAllGroups();
-
-  }, [getListGroups, size]);
+  const [isOpenModalCreate, setOpenModalCreate] = useState(false);
 
   let onTotalMemberFilter;
 
-  const onFilterChange = (minTotalMember, maxTotalMember) => {
-    onTotalMemberFilter({ // get from filter callback
-      minTotalMember,
-      maxTotalMember
-    });
-  }
+  useEffect(() => {
+    getListGroups(1, size);
+  }, [getListGroups, size]);
+
+  const actionFormatter = (cell, row, rowIndex) => {
+    return (
+      <Icon.Edit2 className="align-middle mr-1" size={18} onClick={() => updateGroup(row.id)}/>
+    );
+  };
 
   const tableColumns = [
     {
@@ -67,85 +65,355 @@ const Group = (props) => {
       dataField: "creator.fullName",
       text: "Creator",
       sort: true
+    },
+    {
+      dataField: "actions",
+      text: "",
+      align: () => {
+        return 'center';
+      },
+      headerStyle: () => {
+        return { width: '80px' };
+      },
+      formatter: actionFormatter
     }
   ];
 
-  const handleTableChange = async (type, { page, sizePerPage, sortField, sortOrder, searchText, filters }) => {
-    if (sortField === null || sortField === undefined || sortOrder == null || sortOrder === undefined) {
-      sortField = 'id'
-      sortOrder = 'desc'
-    }
-    //filter
-    const filter = filters.member && filters.member.filterVal ? filters.member.filterVal : null;
+  const onFilterChange = (minTotalMember, maxTotalMember) => {
+    onTotalMemberFilter({ // get from filter callback
+      minTotalMember,
+      maxTotalMember
+    });
+  }
+
+  const handleTableChange = (type, { page, sizePerPage, sortField, sortOrder, searchText, filters }) => {
+    const filter = filters && filters.member && filters.member.filterVal ? filters.member.filterVal : null;
     const minTotalMember = filter && filter.minTotalMember ? filter.minTotalMember : null;
     const maxTotalMember = filter && filter.maxTotalMember ? filter.maxTotalMember : null;
-    const result = await GroupApi.getAll(page, size, sortField, sortOrder, searchText, minTotalMember, maxTotalMember);
-    const groups = result.content;
-    const totalsize = result.totalElements;
-    getListGroups(groups, page, totalsize, minTotalMember, maxTotalMember);
+    getListGroups(page, sizePerPage, sortField, sortOrder, searchText, minTotalMember, maxTotalMember);
+  }
+
+  const refreshForm = () => {
+    handleTableChange(
+      null,
+      {
+        page: 1,
+        sizePerPage: size,
+        sortField: null,
+        sortOrder: null,
+        searchText: "",
+        filters: {
+          member: null
+        }
+      }
+    );
+  }
+
+  const showSuccessNotification = (title, message) => {
+    const options = {
+      timeOut: 2500,
+      showCloseButton: false,
+      progressBar: false,
+      position: "top-right"
+    };
+
+    // show notification
+    toastr.success(title, message, options);
+  }
+
+  
+  const [isOpenModalUpdate, setOpenModalUpdate] = useState(false);
+  const [updateGroupInfo, setUpdateGroupInfo] = useState();
+
+  const updateGroup = async (groupId) => {
+    const groupInfo = await GroupApi.getByID(groupId);
+    setUpdateGroupInfo(groupInfo);
+    setOpenModalUpdate(true);
   }
 
   return (
     <Container fluid className="p-0">
       <h1 className="h3 mb-3">Group Page</h1>
-      <Row>
-        <Col>
-          <Card>
-            <CardBody>
-              <ToolkitProvider
-                keyField="name"
-                data={props.groups}
-                columns={tableColumns}
-                search
-              >
-                {
-                  toolkitprops => (
-                    <>
-                      {/* Filter */}
-                      <Row>
-                        <Col>
-                          {isVisibleFilter && <CustomFilter onFilterChange={onFilterChange}/>}
-                        </Col>
-                      </Row>
-                      {/* search */}
-                      <Row>
-                        <Col lg="3">
-                          <CustomSearch {...toolkitprops.searchProps} />
-                        </Col>
-                        <Col lg="9">
-                          <div className="float-right pull-right">
-                            <Icon.Filter size="24" className="align-middle mr-2"
-                              onClick={() => setVisibleFilter(!isVisibleFilter)} />
-                          </div>
-                        </Col>
-                      </Row>
-                      <BootstrapTable
-                        {...toolkitprops.baseProps}
-                        bootstrap4
-                        striped
-                        hover
-                        bordered
-                        remote
-                        pagination={paginationFactory({
-                          page: props.page,
-                          totalSize: props.totalElement,
-                          sizePerPage: props.size,
-                          nextPageText: '>',
-                          prePageText: '<',
-                          withFirstAndLast: false,
-                          hideSizePerPage: true
-                        })}
-                        filter={filterFactory()}
-                        onTableChange={handleTableChange}
-                      />
-                    </>
-                  )
-                }
-              </ToolkitProvider>
-            </CardBody>
-          </Card>
-        </Col>
-      </Row>
+      <Card>
+        <CardBody>
+          <ToolkitProvider
+            keyField="name"
+            data={props.groups}
+            columns={tableColumns}
+            search
+          >
+            {
+              toolkitprops => (
+                <>
+                  {/* Filter */}
+                  <Row>
+                    <Col>
+                      {isVisibleFilter && <CustomFilter onFilterChange={onFilterChange} />}
+                    </Col>
+                  </Row>
+                  {/* search */}
+                  <Row style={{ alignItems: "flex-end" }}>
+                    <Col lg="9">
+                      <CustomSearch {...toolkitprops.searchProps} />
+                    </Col>
+                    <Col lg="3" style={{ paddingBottom: 20 }}>
+                      <div className="float-right pull-right">
+                        <Icon.Filter size="24" className="align-middle mr-2"
+                          onClick={() => setVisibleFilter(!isVisibleFilter)} />
+                        <Icon.RefreshCcw size="24" className="align-middle mr-2"
+                          onClick={() => refreshForm()} />
+                        <Icon.PlusCircle size="24" className="align-middle mr-2" onClick={() => setOpenModalCreate(true)} />
+                      </div>
+                    </Col>
+                  </Row>
+                  <BootstrapTable
+                    {...toolkitprops.baseProps}
+                    bootstrap4
+                    striped
+                    hover
+                    bordered
+                    remote
+                    sort={{
+                      dataField: props.sortField,
+                      order: props.sortType
+                    }}
+                    pagination={paginationFactory({
+                      page: props.page,
+                      totalSize: props.totalElement,
+                      sizePerPage: props.size,
+                      nextPageText: '>',
+                      prePageText: '<',
+                      withFirstAndLast: false,
+                      alwaysShowAllBtns: true,
+                      hideSizePerPage: true
+                    })}
+                    filter={filterFactory()}
+                    onTableChange={handleTableChange}
+                  />
+                </>
+              )
+            }
+          </ToolkitProvider>
+        </CardBody>
+      </Card>
+
+      <Modal
+        isOpen={isOpenModalCreate}
+      >
+        <Formik
+          initialValues={
+            {
+              name: ''
+            }
+          }
+          validationSchema={
+            Yup.object({
+              name: Yup.string()
+                .required('Required')
+                .max(50, 'Must be between 6 to 50 characters')
+                .min(6, 'Must be between 6 to 50 characters')
+                .test('checkUniqueName', 'This name is already exists.', async name => {
+                  // call api
+                  const isExists = await GroupApi.existsByName(name);
+                  return !isExists;
+                })
+            })
+          }
+          onSubmit={
+            async (values) => {
+              try {
+                // call api
+                await GroupApi.create(values.name);
+                setOpenModalCreate(false);
+                // show notification
+                showSuccessNotification(
+                  "Create Group",
+                  "Create Group Successfully!");
+                // reload group page
+                refreshForm();
+
+              } catch (error) {
+                console.log(error);
+                setOpenModalCreate(false);
+              }
+            }
+          }
+          validateOnChange={false}
+          validateOnBlur={false}
+        >
+          {({ isSubmitting }) => (
+            <Form>
+              {/* header */}
+              <ModalHeader>
+                Create Group
+              </ModalHeader>
+
+              {/* body */}
+              <ModalBody className="m-3">
+
+                {/* GroupName */}
+                <Row style={{ alignItems: "center" }}>
+                  <Col xs="auto">
+                    Group Name:
+                  </Col>
+                  <Col>
+                    <FastField
+                      //label="Group Name"
+                      bsSize="lg"
+                      type="text"
+                      name="name"
+                      placeholder="Enter Group Name"
+                      component={ReactstrapInput}
+                    />
+                  </Col>
+                </Row>
+              </ModalBody>
+
+              {/* footer */}
+              <ModalFooter>
+                {/* resend */}
+                <Button
+                  color="primary"
+                  style={{ marginLeft: 10 }}
+                  disabled={isSubmitting}
+                  type="submit"
+                >
+                  Save
+                </Button>
+
+                {/* close button */}
+                <Button
+                  color="primary"
+                  onClick={() => setOpenModalCreate(false)}
+                >
+                  Cancel
+                </Button>
+              </ModalFooter>
+            </Form>
+          )}
+        </Formik>
+      </Modal>
+
+      <Modal
+        isOpen={isOpenModalUpdate}
+      >
+        <Formik
+          initialValues={
+            {
+              name: updateGroupInfo ? updateGroupInfo.name : '',
+              totalMember: updateGroupInfo ? updateGroupInfo.member : ''
+            }
+          }
+          validationSchema={
+            Yup.object({
+              name: Yup.string()
+                .required('Required')
+                .max(50, 'Must be between 6 to 50 characters')
+                .min(6, 'Must be between 6 to 50 characters')
+                .test('checkUniqueName', 'This name is already exists.', async name => {
+                  if (name === updateGroupInfo.name) {
+                    return true;
+                  }
+
+                  // call api
+                  const isExists = await GroupApi.existsByName(name);
+                  return !isExists;
+                }),
+              totalMember: Yup.number()
+                .min(0, "Must be a positive integer")
+                .integer("Must be a positive integer"),
+            })
+          }
+          onSubmit={
+            async (values) => {
+              try {
+                // call api
+                await GroupApi.update(updateGroupInfo.id, values.name, values.totalMember, updateGroupInfo.createDate);
+                setOpenModalUpdate(false);
+                // show notification
+                showSuccessNotification(
+                  "Update Group",
+                  "Update Group Successfully!");
+                // reload group page
+                refreshForm();
+
+              } catch (error) {
+                console.log(error);
+                setOpenModalUpdate(false);
+              }
+            }
+          }
+          validateOnChange={false}
+          validateOnBlur={false}
+        >
+          {({ isSubmitting }) => (
+            <Form>
+              {/* header */}
+              <ModalHeader>
+                Update Group
+              </ModalHeader>
+
+              {/* body */}
+              <ModalBody className="m-3">
+
+                {/* GroupName */}
+                <Row style={{ alignItems: "center" }}>
+                  <Col xs="auto">
+                    Group Name:
+                  </Col>
+                  <Col>
+                    <FastField
+                      //label="Group Name"
+                      bsSize="lg"
+                      type="text"
+                      name="name"
+                      placeholder="Enter Group Name"
+                      component={ReactstrapInput}
+                    />
+                  </Col>
+                </Row>
+                {/* Total Member */}
+                <Row style={{ alignItems: "center" }}>
+                  <Col xs="auto">
+                    Total Member:
+                    </Col>
+                  <Col>
+                    <FastField
+                      bsSize="lg"
+                      type="number"
+                      name="totalMember"
+                      placeholder="Enter Total Member"
+                      component={ReactstrapInput}
+                    />
+                  </Col>
+                </Row>
+              </ModalBody>
+
+              {/* footer */}
+              <ModalFooter>
+                {/* resend */}
+                <Button
+                  color="primary"
+                  style={{ marginLeft: 10 }}
+                  disabled={isSubmitting}
+                  type="submit"
+                >
+                  Save
+                </Button>
+
+                {/* close button */}
+                <Button
+                  color="primary"
+                  onClick={() => setOpenModalUpdate(false)}
+                >
+                  Cancel
+                </Button>
+              </ModalFooter>
+            </Form>
+          )}
+        </Formik>
+      </Modal>
+
     </Container>
   )
 };
@@ -155,8 +423,10 @@ const mapGlobalStateToProps = state => {
     groups: selectListGroup(state),
     page: selectPage(state),
     size: selectSize(state),
-    totalElement: selectTotalElement(state)
+    totalElement: selectTotalElement(state),
+    sortField: selectSortField(state),
+    sortType: selectSortType(state)
   };
 };
 
-export default connect(mapGlobalStateToProps, { getListGroupsAction })(Group);
+export default connect(mapGlobalStateToProps, { getListGroupAction })(Group);

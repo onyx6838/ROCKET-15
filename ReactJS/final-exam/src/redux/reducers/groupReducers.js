@@ -4,9 +4,14 @@ const initialState = {
     groups: [],
     page: 1,
     size: 3,
-    totalSize: 0,
-    minTotalMember: null,
-    maxTotalMember: null
+    totalElement: 0,
+    // filtering
+    minTotalMember: undefined,
+    maxTotalMember: undefined,
+    // searching
+    search: undefined,
+    sortField: null,
+    sortType: null
 };
 
 export default function reducer(state = initialState, actions) {
@@ -16,9 +21,12 @@ export default function reducer(state = initialState, actions) {
                 ...state,
                 groups: actions.payload.groups,
                 page: actions.payload.page,
-                totalSize: actions.payload.totalSize,
+                totalElement: actions.payload.totalElement,
                 minTotalMember: actions.payload.minTotalMember,
-                maxTotalMember: actions.payload.maxTotalMember
+                maxTotalMember: actions.payload.maxTotalMember,
+                search: actions.payload.search,
+                sortField: actions.payload.sortField,
+                sortType: actions.payload.sortType,
             };
         default:
             return state;

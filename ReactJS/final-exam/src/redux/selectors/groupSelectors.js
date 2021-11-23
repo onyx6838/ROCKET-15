@@ -12,8 +12,8 @@ const selectPageSelector =
 const selectSizeSelector =
     createSelector(groupSelector, state => state.size);
 
-const selectTotalSizeSelector =
-    createSelector(groupSelector, state => state.totalSize);
+const selectTotalElementSelector =
+    createSelector(groupSelector, state => state.totalElement);
 
 const selectMinTotalMemberSelector = createSelector(
     groupSelector,
@@ -22,6 +22,18 @@ const selectMinTotalMemberSelector = createSelector(
 const selectMaxTotalMemberSelector = createSelector(
     groupSelector,
     state => state.maxTotalMember);
+
+const selectSortFieldSelector = createSelector(
+    groupSelector,
+    state => state.sortField);
+
+const selectSortTypeSelector = createSelector(
+    groupSelector,
+    state => state.sortType);
+
+const selectSearchSelector = createSelector(
+    groupSelector,
+    state => state.search);
 
 /** function **/
 export const selectListGroup = (state) => {
@@ -37,7 +49,15 @@ export const selectSize = (state) => {
 }
 
 export const selectTotalElement = (state) => {
-    return selectTotalSizeSelector(state);
+    return selectTotalElementSelector(state);
+}
+
+export const selectSortField = (state) => {
+    return selectSortFieldSelector(state);
+}
+
+export const selectSortType = (state) => {
+    return selectSortTypeSelector(state);
 }
 
 export const selectMinTotalMember = (state) => {
@@ -46,4 +66,7 @@ export const selectMinTotalMember = (state) => {
 
 export const selectMaxTotalMember = (state) => {
     return selectMaxTotalMemberSelector(state);
+}
+export const selectSearch = (state) => {
+    return selectSearchSelector(state);
 }

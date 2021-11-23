@@ -77,6 +77,7 @@
     "reactstrap": "8.6.0",
     "reactstrap-formik": "^1.0.9",
     "redux": "4.0.5",
+    "redux-thunk": "^2.4.0",
     "smartwizard": "5.1.1",
     "yup": "^0.32.11"
   },

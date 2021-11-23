@@ -3,21 +3,29 @@ import Api from './Api';
 
 const url = "/groups";
 
-const getAll = (page = 1, size = 3, sortField = "id", sortType = "desc", search = '', minTotalMember, maxTotalMember) => {
+const getAll = (page = 1, size = 3, sortField, sortType, search = '', minTotalMember, maxTotalMember) => {
+
+    // default parameters
+    if (sortField === null || sortField === undefined || sortType === null || sortType === undefined) {
+        sortField = "id";
+        sortType = "desc";
+    }
+
     const parameters = {
-        page, size, sort: `${sortField},${sortType}`
+        page,
+        size,
+        sort: `${sortField},${sortType}`,
+        search,
+        minTotalMember,
+        maxTotalMember
     }
 
-    if (search) {
-        parameters.search = search
+    if (minTotalMember) {
+        parameters.minTotalMember = minTotalMember;
     }
 
-    if (minTotalMember !== null && minTotalMember !== undefined) {
-        parameters.minTotalMember =  minTotalMember;
-    }
-
-    if (maxTotalMember !== null && maxTotalMember !== undefined) {
-        parameters.maxTotalMember =  maxTotalMember;
+    if (maxTotalMember) {
+        parameters.maxTotalMember = maxTotalMember;
     }
 
     return Api.get(`${url}`, { params: parameters });
@@ -30,12 +38,25 @@ const existsByName = (name) => {
 const create = (name) => {
     const body = {
         name,
-        creatorId: storage.getUserInfo()
+        creatorId: Number.parseInt(storage.getUserInfo().id)
     };
 
     return Api.post(url, body);
 };
 
+const getByID = (id) => {
+    return Api.get(`${url}/${id}`);
+};
+
+const update = (id, name, totalMember, createDate) => {
+    const body = {
+        name,
+        member: totalMember,
+        createDate
+    }
+    return Api.put(`${url}/${id}`, body);
+};
+
 // export
-const api = { getAll, existsByName, create }
+const api = { getAll, existsByName, create, getByID, update }
 export default api;
