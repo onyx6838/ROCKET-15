@@ -57,6 +57,10 @@ const update = (id, name, totalMember, createDate) => {
     return Api.put(`${url}/${id}`, body);
 };
 
+const deleteByIds = (ids) => {
+    return Api.delete(`${url}?ids=${ids.toString()}`);
+};
+
 // export
-const api = { getAll, existsByName, create, getByID, update }
+const api = { getAll, existsByName, create, getByID, update , deleteByIds}
 export default api;

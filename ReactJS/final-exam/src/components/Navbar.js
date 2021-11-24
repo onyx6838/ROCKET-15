@@ -1,5 +1,5 @@
 import React from "react";
-import { connect, useSelector } from "react-redux";
+import { connect, useDispatch } from "react-redux";
 import { selectFullname } from '../redux/selectors/userLoginInfoSelector'
 import { toggleSidebar } from "../redux/actions/sidebarActions";
 
@@ -136,8 +136,8 @@ const NavbarDropdownItem = ({ icon, title, description, time, spacing }) => (
   </ListGroupItem>
 );
 
-const NavbarComponent = ({ dispatch, props }) => {
-  const fullName = selectFullname(useSelector(state => state));
+const NavbarComponent = (props) => {
+  const dispatch = useDispatch();
   const history = useHistory();
 
   return (
@@ -279,7 +279,7 @@ const NavbarComponent = ({ dispatch, props }) => {
                   className="avatar img-fluid rounded-circle mr-1"
                   alt="Chris Wood"
                 />
-                <span className="text-dark">{fullName}</span>
+                <span className="text-dark">{props.fullName}</span>
               </DropdownToggle>
             </span>
             <DropdownMenu right>
@@ -303,6 +303,11 @@ const NavbarComponent = ({ dispatch, props }) => {
   );
 };
 
-export default connect(store => ({
-  app: store.app
-}))(NavbarComponent);
+const mapGlobalStateToProps = state => {
+  return {
+    app: state.app,
+    fullName: selectFullname(state)
+  };
+};
+
+export default connect(mapGlobalStateToProps)(NavbarComponent);

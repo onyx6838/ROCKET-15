@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
-import { selectListGroup, selectPage, selectSize, selectSortField, selectSortType, selectTotalElement } from '../../redux/selectors/groupSelectors';
-import { getListGroupAction } from '../../redux/actions/groupActions';
+import { selectListGroup, selectPage, selectSelectedRows, selectSize, selectSortField, selectSortType, selectTotalElement } from '../../redux/selectors/groupSelectors';
+import { getListGroupAction, updateSelectedRowsAction } from '../../redux/actions/groupActions';
 
 import ToolkitProvider from 'react-bootstrap-table2-toolkit';
 
@@ -36,7 +36,7 @@ const Group = (props) => {
 
   const actionFormatter = (cell, row, rowIndex) => {
     return (
-      <Icon.Edit2 className="align-middle mr-1" size={18} onClick={() => updateGroup(row.id)}/>
+      <Icon.Edit2 className="align-middle mr-1" size={18} onClick={() => updateGroup(row.id)} />
     );
   };
 
@@ -102,11 +102,11 @@ const Group = (props) => {
         sortField: null,
         sortOrder: null,
         searchText: "",
-        filters: {
-          member: null
-        }
+        filters: null
       }
     );
+    // refresh selected rows
+    props.updateSelectedRowsAction([]);
   }
 
   const showSuccessNotification = (title, message) => {
@@ -121,7 +121,19 @@ const Group = (props) => {
     toastr.success(title, message, options);
   }
 
-  
+  const showWrongNotification = (title, message) => {
+    const options = {
+      timeOut: 2500,
+      showCloseButton: false,
+      progressBar: false,
+      position: "top-right"
+    };
+
+    // show notification
+    toastr.error(title, message, options);
+  }
+
+
   const [isOpenModalUpdate, setOpenModalUpdate] = useState(false);
   const [updateGroupInfo, setUpdateGroupInfo] = useState();
 
@@ -131,13 +143,53 @@ const Group = (props) => {
     setOpenModalUpdate(true);
   }
 
+  // delete 
+  const deleteGroups = async () => {
+    if (props.selectedRows === null || props.selectedRows === undefined || props.selectedRows.length === 0) {
+      showWrongNotification(
+        "Delete Group",
+        "You have not selected group!"
+      );
+    } else {
+      await GroupApi.deleteByIds(props.selectedRows);
+      // show notification
+      showSuccessNotification(
+        "Delete Group",
+        "Delete Group Successfully!");
+      // reload group page
+      refreshForm();
+    }
+  }
+
+
+  const handleOnSelect = (row, isSelect) => {
+    let selected = props.selectedRows;
+    if (isSelect) {
+      selected = [...selected, row.id]
+    } else {
+      selected = selected.filter(x => x !== row.id)
+    }
+    props.updateSelectedRowsAction(selected);
+  }
+
+  const handleOnSelectAll = (isSelect, rows) => {
+    const ids = rows.map(r => r.id);
+    let selected = [];
+
+    if (isSelect) {
+      selected = ids;
+    }
+
+    props.updateSelectedRowsAction(selected);
+  }
+
   return (
     <Container fluid className="p-0">
       <h1 className="h3 mb-3">Group Page</h1>
       <Card>
         <CardBody>
           <ToolkitProvider
-            keyField="name"
+            keyField="id"
             data={props.groups}
             columns={tableColumns}
             search
@@ -163,6 +215,7 @@ const Group = (props) => {
                         <Icon.RefreshCcw size="24" className="align-middle mr-2"
                           onClick={() => refreshForm()} />
                         <Icon.PlusCircle size="24" className="align-middle mr-2" onClick={() => setOpenModalCreate(true)} />
+                        <Icon.Trash2 size="24" className="align-middle mr-2" onClick={deleteGroups} />
                       </div>
                     </Col>
                   </Row>
@@ -187,6 +240,13 @@ const Group = (props) => {
                       alwaysShowAllBtns: true,
                       hideSizePerPage: true
                     })}
+                    selectRow={{
+                      mode: 'checkbox',
+                      clickToSelect: true,
+                      selected: props.selectedRows,
+                      onSelect: handleOnSelect,
+                      onSelectAll: handleOnSelectAll
+                    }}
                     filter={filterFactory()}
                     onTableChange={handleTableChange}
                   />
@@ -376,7 +436,7 @@ const Group = (props) => {
                 <Row style={{ alignItems: "center" }}>
                   <Col xs="auto">
                     Total Member:
-                    </Col>
+                  </Col>
                   <Col>
                     <FastField
                       bsSize="lg"
@@ -425,8 +485,9 @@ const mapGlobalStateToProps = state => {
     size: selectSize(state),
     totalElement: selectTotalElement(state),
     sortField: selectSortField(state),
-    sortType: selectSortType(state)
+    sortType: selectSortType(state),
+    selectedRows: selectSelectedRows(state)
   };
 };
 
-export default connect(mapGlobalStateToProps, { getListGroupAction })(Group);
+export default connect(mapGlobalStateToProps, { getListGroupAction, updateSelectedRowsAction })(Group);

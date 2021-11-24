@@ -57,6 +57,7 @@ const setUserInfo = (user) => {
     setItem("email", user.email);
     setItem("role", user.role);
     setItem("status", user.status);
+    setItem("fullname", user.fullName);
 }
 
 const getUserInfo = () => {
@@ -68,6 +69,7 @@ const getUserInfo = () => {
         "email": getItem("email"),
         "role": getItem("role"),
         "status": getItem("status"),
+        "fullname":getItem("fullname")
     };
 }
 
@@ -79,6 +81,7 @@ const removeUserInfo = () => {
     removeItem("email");
     removeItem("role");
     removeItem("status");
+    removeItem("fullname");
 };
 
 // export

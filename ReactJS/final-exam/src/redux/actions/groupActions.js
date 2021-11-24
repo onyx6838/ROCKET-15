@@ -23,10 +23,16 @@ export const getListGroupAction = (page, size, sortField, sortType, search, minT
             const json = await GroupApi.getAll(page, size, sortField, sortType, search, minTotalMember, maxTotalMember);
             const groups = json.content;
             const totalElement = json.totalElements;
-            console.log(groups);
             dispatch(listGroupAction(groups, page, totalElement, sortField, sortType, search, minTotalMember, maxTotalMember));
         } catch (error) {
             console.log(error);
         }
     }
 }
+
+export const updateSelectedRowsAction = (selectedRows) => {
+    return {
+      type: types.GET_LIST_GROUP_SELECTED_ROWS,
+      payload: selectedRows
+    };
+  }

@@ -11,7 +11,9 @@ const initialState = {
     // searching
     search: undefined,
     sortField: null,
-    sortType: null
+    sortType: null,
+    //selected rows
+    selectedRows: []
 };
 
 export default function reducer(state = initialState, actions) {
@@ -27,6 +29,11 @@ export default function reducer(state = initialState, actions) {
                 search: actions.payload.search,
                 sortField: actions.payload.sortField,
                 sortType: actions.payload.sortType,
+            };
+        case types.GET_LIST_GROUP_SELECTED_ROWS:
+            return {
+                ...state,
+                selectedRows: actions.payload
             };
         default:
             return state;

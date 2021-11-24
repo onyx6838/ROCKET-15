@@ -35,6 +35,9 @@ const selectSearchSelector = createSelector(
     groupSelector,
     state => state.search);
 
+const selectSelectedRowsSelector = createSelector(
+    groupSelector,
+    state => state.selectedRows);
 /** function **/
 export const selectListGroup = (state) => {
     return selectGroupSelector(state);
@@ -69,4 +72,8 @@ export const selectMaxTotalMember = (state) => {
 }
 export const selectSearch = (state) => {
     return selectSearchSelector(state);
+}
+
+export const selectSelectedRows = (state) => {
+    return selectSelectedRowsSelector(state);
 }

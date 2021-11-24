@@ -13,7 +13,7 @@ const selectUserInfoSelector =
     createSelector(userLoginInfoSelector, state => state.userInfo);
 
 const selectFullnameSelector =
-    createSelector(selectUserInfoSelector, state => state.firstname + " " + state.lastname);
+    createSelector(selectUserInfoSelector, state => state.fullname);
 
 /** function **/
 export const selectToken = (state) => {
