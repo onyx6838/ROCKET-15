@@ -15,8 +15,8 @@ const CustomFilter = (props) => {
             key={Date.parse(new Date())}
             initialValues={
                 {
-                    minTotalMember: props.minTotalMember ? props.minTotalMember : "",
-                    maxTotalMember: props.maxTotalMember ? props.maxTotalMember : ""
+                    minTotalMember: props.minTotalMember ? props.minTotalMember : '',
+                    maxTotalMember: props.maxTotalMember ? props.maxTotalMember : ''
                 }
             }
             validationSchema={

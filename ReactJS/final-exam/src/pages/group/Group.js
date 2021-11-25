@@ -102,7 +102,10 @@ const Group = (props) => {
         sortField: null,
         sortOrder: null,
         searchText: "",
-        filters: null
+        filters: {
+          minTotalMember: null,
+          maxTotalMember: null
+        }
       }
     );
     // refresh selected rows
@@ -133,7 +136,6 @@ const Group = (props) => {
     toastr.error(title, message, options);
   }
 
-
   const [isOpenModalUpdate, setOpenModalUpdate] = useState(false);
   const [updateGroupInfo, setUpdateGroupInfo] = useState();
 
@@ -160,7 +162,6 @@ const Group = (props) => {
       refreshForm();
     }
   }
-
 
   const handleOnSelect = (row, isSelect) => {
     let selected = props.selectedRows;
