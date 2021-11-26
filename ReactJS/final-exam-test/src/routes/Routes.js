@@ -30,18 +30,18 @@ const childRoutes = (Layout, routes) =>
         />
       ))
     ) : (
-      // Route item without children
-      <Route
-        key={index}
-        path={path}
-        exact
-        render={props => (
-          <Layout>
-            <Component {...props} />
-          </Layout>
-        )}
-      />
-    )
+        // Route item without children
+        <Route
+          key={index}
+          path={path}
+          exact
+          render={props => (
+            <Layout>
+              <Component {...props} />
+            </Layout>
+          )}
+        />
+      )
   );
 
 const Routes = () => (

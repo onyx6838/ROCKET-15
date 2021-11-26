@@ -29,6 +29,7 @@ import {
   User,
   UserPlus
 } from "react-feather";
+import { selectFullname } from "../redux/selectors/userLoginInfoSelector";
 
 import usFlag from "../assets/img/flags/us.png";
 import esFlag from "../assets/img/flags/es.png";
@@ -39,6 +40,7 @@ import avatar1 from "../assets/img/avatars/avatar.jpg";
 import avatar3 from "../assets/img/avatars/avatar-3.jpg";
 import avatar4 from "../assets/img/avatars/avatar-4.jpg";
 import avatar5 from "../assets/img/avatars/avatar-5.jpg";
+import { useHistory } from "react-router-dom";
 
 const notifications = [
   {
@@ -134,13 +136,16 @@ const NavbarDropdownItem = ({ icon, title, description, time, spacing }) => (
   </ListGroupItem>
 );
 
-const NavbarComponent = ({ dispatch }) => {
+const NavbarComponent = (props) => {
+
+  const history = useHistory();
+
   return (
     <Navbar color="white" light expand>
       <span
         className="sidebar-toggle d-flex mr-2"
         onClick={() => {
-          dispatch(toggleSidebar());
+          props.toggleSidebar();
         }}
       >
         <i className="hamburger align-self-center" />
@@ -274,11 +279,11 @@ const NavbarComponent = ({ dispatch }) => {
                   className="avatar img-fluid rounded-circle mr-1"
                   alt="Chris Wood"
                 />
-                <span className="text-dark">Chris Wood</span>
+                <span className="text-dark">{props.fullname}</span>
               </DropdownToggle>
             </span>
             <DropdownMenu right>
-              <DropdownItem>
+              <DropdownItem onClick={() => history.push("/profile")}>
                 <User size={18} className="align-middle mr-2" />
                 Profile
               </DropdownItem>
@@ -287,7 +292,7 @@ const NavbarComponent = ({ dispatch }) => {
                 Analytics
               </DropdownItem>
               <DropdownItem divider />
-              <DropdownItem>Settings & Privacy</DropdownItem>
+              <DropdownItem onClick={() => history.push("/settings")}>Settings & Privacy</DropdownItem>
               <DropdownItem>Help</DropdownItem>
               <DropdownItem>Sign out</DropdownItem>
             </DropdownMenu>
@@ -298,6 +303,11 @@ const NavbarComponent = ({ dispatch }) => {
   );
 };
 
-export default connect(store => ({
-  app: store.app
-}))(NavbarComponent);
+const mapGlobalStateToProps = state => {
+  return {
+    app: state.app,
+    fullname: selectFullname(state)
+  };
+};
+
+export default connect(mapGlobalStateToProps, { toggleSidebar })(NavbarComponent);

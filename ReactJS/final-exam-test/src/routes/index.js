@@ -70,6 +70,10 @@ import Deployment from "../pages/docs/Deployment";
 import StateManagement from "../pages/docs/StateManagement";
 import Plugins from "../pages/docs/Plugins";
 import Changelog from "../pages/docs/Changelog";
+import NewPassword from "../pages/auth/NewPassword";
+
+// auth
+import withAuth from "../HOC/withAuth";
 
 // Dashboards
 const Default = async(() => import("../pages/dashboards/Default"));
@@ -77,6 +81,9 @@ const Analytics = async(() => import("../pages/dashboards/Analytics"));
 const Ecommerce = async(() => import("../pages/dashboards/Ecommerce"));
 const Crypto = async(() => import("../pages/dashboards/Crypto"));
 const Social = async(() => import("../pages/dashboards/Social"));
+
+// group
+const Group = async(() => import("../pages/group/Group"));
 
 // Forms
 const Layouts = async(() => import("../pages/forms/Layouts"));
@@ -131,7 +138,7 @@ const dashboardRoutes = {
     {
       path: "/dashboard/default",
       name: "Default",
-      component: Default
+      component: withAuth(Default)
     },
     {
       path: "/dashboard/analytics",
@@ -156,6 +163,14 @@ const dashboardRoutes = {
       badgeText: "New"
     }
   ]
+};
+
+const groupRoutes = {
+  path: "/groups",
+  name: "Groups",
+  icon: ListIcon,
+  component: Group,
+  children: null
 };
 
 const pageRoutes = {
@@ -234,6 +249,11 @@ const authRoutes = {
       path: "/auth/reset-password",
       name: "Reset Password",
       component: ResetPassword
+    },
+    {
+      path: "/auth/new-password/:token",
+      name: "New Password",
+      component: NewPassword
     },
     {
       path: "/auth/404",
@@ -571,9 +591,24 @@ const privateRoutes = {
   ]
 };
 
+const profileRoutes = {
+  path: "/profile",
+  name: "Profile",
+  component: withAuth(Profile),
+  children: null
+};
+
+const settingsRoutes = {
+  path: "/settings",
+  name: "Settings",
+  component: withAuth(Settings),
+  children: null
+};
+
 // Dashboard specific routes
 export const dashboard = [
   dashboardRoutes,
+  groupRoutes,
   pageRoutes,
   layoutRoutes,
   documentationRoutes,
@@ -587,7 +622,9 @@ export const dashboard = [
   notificationsRoutes,
   mapRoutes,
   calendarRoutes,
-  privateRoutes
+  privateRoutes,
+  profileRoutes,
+  settingsRoutes
 ];
 
 // Landing specific routes
@@ -599,6 +636,7 @@ export const page = [authRoutes];
 // All routes
 export default [
   dashboardRoutes,
+  groupRoutes,
   pageRoutes,
   authRoutes,
   layoutRoutes,
