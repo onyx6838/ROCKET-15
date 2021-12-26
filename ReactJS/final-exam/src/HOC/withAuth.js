@@ -22,4 +22,3 @@ function withAuth(AuthenticatedComponent) {
 }
 
 export default withAuth;
-

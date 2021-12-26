@@ -17,7 +17,7 @@ const create = (username, email, password, firstname, lastname) => {
         password: password,
         firstName: firstname,
         lastName: lastname,
-        role: "User"
+        role: "Admin"
     }
     return Api.post(url, body);
 };
