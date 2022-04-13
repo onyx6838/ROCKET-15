@@ -31,7 +31,7 @@ public class LogUtils {
             content.append("StackTrace Class " + exception.getStackTrace()[i].getClassName());
         }
 
-        IOManager.writeFile("D:\\1. VTI\\RK15 - GIT\\JAVA\\TS_AS7\\resources\\Log.txt", true, content.toString());
+        IOManager.writeFile("D:\\Self\\Learn\\ROCKET-15\\JAVA\\TS_AS7\\resources\\Log.txt", true, content.toString());
     }
 
     public static void readLog() throws Exception {

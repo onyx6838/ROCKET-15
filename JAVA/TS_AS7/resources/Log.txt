@@ -1,0 +1,2 @@
+Log date 2022-04-13Message: Incorrect filename : D:\Self\Learn\ROCKET-15\JAVA\TS_AS7\resources\Log.txt
+Reason: Not Contain fileNameStackTrace File Exercise5.javaStackTrace Method Ques2StackTrace Class com.vti.backend.Exercise5StackTrace File Program5.javaStackTrace Method mainStackTrace Class com.vti.frontend.Program5
