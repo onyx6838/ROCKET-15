@@ -2,10 +2,10 @@
 CREATE view ques1 
 AS
 SELECT a.accountid,
-			 a.email,
-			 a.username,
-			 a.fullname,
-			 d.departmentname
+	 a.email,
+	 a.username,
+	 a.fullname,
+	 d.departmentname
 FROM   `account` a
 			 JOIN department d ON a.departmentid = d.departmentid
 WHERE  d.departmentname = N'Sale'; 
