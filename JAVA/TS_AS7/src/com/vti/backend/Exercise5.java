@@ -1,7 +1,13 @@
 package com.vti.backend;
 
+import com.vti.config.exception.MyException;
 import com.vti.entity.ex5.Student;
+import com.vti.utils.FileUtils;
 import com.vti.utils.IOManager;
+import com.vti.utils.LogUtils;
+
+import java.io.File;
+import java.util.Scanner;
 
 
 public class Exercise5 {
@@ -22,7 +28,18 @@ public class Exercise5 {
         System.out.println(IOManager.readFile("D:\\1. VTI\\RK15 - GIT\\JAVA\\TS_AS7\\resources\\Student.txt"));
     }
 
-    public void Ques2() {
-
+    public String Ques2(String fileName) throws Exception {
+        try (Scanner file = new Scanner(new File(fileName))) {
+            if (file.hasNextLine()) {
+                return file.nextLine();
+            }
+            if(!fileName.contains("wrongName.txt")) {
+                throw new MyException(
+                        "Incorrect filename : " + fileName, new Throwable("Not Contain fileName"));
+            }
+        } catch (MyException err) {
+            LogUtils.writeLog(err);
+        }
+        return null;
     }
 }

@@ -25,7 +25,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
   protected void configure(HttpSecurity http) throws Exception {
     http.cors().and().authorizeRequests()
         .antMatchers("api/v1/departments").hasAnyAuthority("Admin", "Manager")
-        .anyRequest().authenticated()
+        .anyRequest().permitAll()
         .and()
         .httpBasic()
         .and()
